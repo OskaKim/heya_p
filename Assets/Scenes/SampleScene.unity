@@ -248,7 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e702cd70dec2fdf44919751ff2fcd3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 603348215}
+  iputTouchTilemapCollider: {fileID: 2051100170}
+  inputTouchTilemap: {fileID: 2051100169}
+  changeTouchTile: {fileID: 603348215}
 --- !u!4 &481493571
 Transform:
   m_ObjectHideFlags: 0
@@ -257,7 +259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481493569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.111681014, y: -0.12500234, z: -7.0595474}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -315,7 +317,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 2.5
   m_Depth: -1
   m_CullingMask:
@@ -841,6 +843,7 @@ GameObject:
   - component: {fileID: 2051100167}
   - component: {fileID: 2051100169}
   - component: {fileID: 2051100168}
+  - component: {fileID: 2051100170}
   m_Layer: 0
   m_Name: floor
   m_TagString: Untagged
@@ -5400,3 +5403,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &2051100170
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051100166}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
