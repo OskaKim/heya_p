@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0fc7ffbc52aa341903acb63b534ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapTouchHandler: {fileID: 481493570}
   tilemap: {fileID: 603348215}
   tile1: {fileID: 11400000, guid: 619690042595cef4f991bb127a89054a, type: 2}
   tile2: {fileID: 11400000, guid: 11b008cd1e6bd224e9dddc220766b742, type: 2}
