@@ -29,6 +29,7 @@ public class TilemapTouchHandler : MonoBehaviour
     {
         var worldPosition = ray.GetPoint(-ray.origin.z / ray.direction.z);
         var gridPosition = inputTouchTilemap.WorldToCell(worldPosition);
+        Debug.Log(gridPosition);
         onTouchTilemap.OnNext(gridPosition);
     });
 }
