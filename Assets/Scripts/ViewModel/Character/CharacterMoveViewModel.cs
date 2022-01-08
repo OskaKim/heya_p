@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
@@ -20,7 +23,7 @@ public class CharacterMoveViewModel : MonoBehaviour
         });
 
         // todo : 임시
-        CalcPathTo(new Vector3Int(0, 0, 0));
+        CalcPathTo(new Vector3Int(5, 5, 0));
 
         this.UpdateAsObservable().Subscribe(_ =>
         {
@@ -31,12 +34,9 @@ public class CharacterMoveViewModel : MonoBehaviour
     {
         // todo : 모델에 목적지를 묻고 받는 로직
         model.PathList.Clear();
-        model.PathList.Enqueue(new Vector3Int(0, 0, 0));
-        model.PathList.Enqueue(new Vector3Int(1, 0, 0));
-        model.PathList.Enqueue(new Vector3Int(2, 0, 0));
-        model.PathList.Enqueue(new Vector3Int(2, 1, 0));
-        model.PathList.Enqueue(new Vector3Int(2, 2, 0));
-        model.PathList.Enqueue(new Vector3Int(2, 1, 0));
+        foreach(var p in PathFinderManager.StartPathFinding(GetCurrentGridPos(), gridDestination)){
+            model.PathList.Enqueue(p);
+        }
     }
 
     private Vector3Int GetCurrentGridPos()
