@@ -23,11 +23,16 @@ public class CharacterMoveViewModel : MonoBehaviour
             Debug.Log($"위치갱신:{curPos}");
         });
 
+        var x = UnityEngine.Random.Range(-5, 5);
+        var y = UnityEngine.Random.Range(-5, 5);
+        CalcPathTo(new Vector3Int(x, y, 0));
+
         this.UpdateAsObservable().Subscribe(_ =>
         {
             UpdateMoveToNextPosTick();
         });
     }
+
     private void CalcPathTo(Vector3Int gridDestination)
     {
         model.PathList.Clear();
@@ -56,14 +61,19 @@ public class CharacterMoveViewModel : MonoBehaviour
     private void UpdateMoveToNextPosTick()
     {
         var nextPos = model.GetWorldPosFrom(GetNextGridPos());
-        var speed = 0.1f * Time.deltaTime;
+        var speed = 1.0f * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, nextPos, speed);
 
         if (isGoalNextGridPos())
         {
             var next = GetNextGridPos();
             Debug.Log($"goal, next was {next}");
-            model.Goal();
+            if (model.Goal())
+            {
+                var x = UnityEngine.Random.Range(-5, 5);
+                var y = UnityEngine.Random.Range(-5, 5);
+                CalcPathTo(new Vector3Int(x, y, 0));
+            }
         }
     }
 }

@@ -11,8 +11,9 @@ public class CharacterMoveModel : MonoBehaviour
 {
     private Grid grid;
 
-    private void Awake() {
-        grid = GameObject.FindObjectOfType<Grid>();    
+    private void Awake()
+    {
+        grid = GameObject.FindObjectOfType<Grid>();
     }
 
     public UniRx.ReactiveProperty<Vector3Int> GridPos
@@ -44,8 +45,10 @@ public class CharacterMoveModel : MonoBehaviour
         return grid.WorldToCell(worldPos);
     }
 
-    public void Goal()
+    public bool Goal()
     {
-        if(PathList.Count > 0) PathList.Dequeue();
+        if (PathList.Count > 0) PathList.Dequeue();
+
+        return PathList.Count == 0;
     }
 }

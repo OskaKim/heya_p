@@ -41,7 +41,10 @@ namespace Utility
             if (startPos == destinationPos) return null;
 
             var currentCloseNode = new Node(startPos, null, 0);
-            while (currentCloseNode != null)
+
+            // NOTE: 최대 연산 수
+            int maxCount = 100;
+            while (currentCloseNode != null || --maxCount <= 0)
             {
                 currentCloseNode = FindNearPathFrom(currentCloseNode, destinationPos);
             }
@@ -77,13 +80,9 @@ namespace Utility
 
             foreach (var currentPos in nearTiles)
             {
-                // TODO : 장애물 처리
-                // TEST : 장애물을 코드로 임시 배치
-                if (currentPos == new Vector3Int(1, 1, 0) ||
-                currentPos == new Vector3Int(2, 2, 0))
-                {
-                    continue;
-                }
+                // TODO : FurnitureInstallInfoHolder를 직접 사용 하지 않도록 수정. delegates등
+                // NOTE: 장애물이 존재
+                if(FurnitureInstallInfoHolder.IsAnyFurniture(currentPos)) continue;
 
                 var parent = currentCloseNode;
                 // NOTE : 시작 노드에서 해당 노드까지의 실제 소요 경비값
