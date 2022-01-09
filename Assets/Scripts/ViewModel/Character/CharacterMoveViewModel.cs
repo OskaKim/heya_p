@@ -61,7 +61,7 @@ public class CharacterMoveViewModel : MonoBehaviour
     private void UpdateMoveToNextPosTick()
     {
         var nextPos = model.GetWorldPosFrom(GetNextGridPos());
-        var speed = 0.1f * Time.deltaTime;
+        var speed = 1.0f * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, nextPos, speed);
 
         if (isGoalNextGridPos())

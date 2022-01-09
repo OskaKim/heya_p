@@ -28,8 +28,9 @@ public class GameStarter : MonoBehaviour
         furnitureTilemap.SetTile(new Vector3Int(1, 4, 0), furnitures[1]);
         furnitureTilemap.SetTile(new Vector3Int(-1, -1, 0), furnitures[0]);
 
-        furnitureInstallInfoHolder.InstallVectorInfo.Add(2, new Vector3Int(2, 0, 0));
-        furnitureInstallInfoHolder.InstallVectorInfo.Add(1, new Vector3Int(1, 4, 0));
-        furnitureInstallInfoHolder.InstallVectorInfo.Add(0, new Vector3Int(-1, -1, 0));
+        // todo : static을 통한 접근이 아니도록
+        FurnitureInstallInfoHolder.InstallVectorInfo.Add(2, new Vector3Int(2, 0, 0));
+        FurnitureInstallInfoHolder.InstallVectorInfo.Add(1, new Vector3Int(1, 4, 0));
+        FurnitureInstallInfoHolder.InstallVectorInfo.Add(0, new Vector3Int(-1, -1, 0));
     }
 }
