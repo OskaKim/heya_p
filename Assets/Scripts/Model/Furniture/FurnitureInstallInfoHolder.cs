@@ -5,7 +5,7 @@ using UnityEngine;
 
 // todo
 // 프로토타입을 위해 임시 대응 상태
-public class FurnitureInstallInfoHolder : MonoBehaviour
+public class FurnitureInstallInfoHolder
 {
     public Dictionary<int, Vector3Int> InstallVectorInfo
     {

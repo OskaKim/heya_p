@@ -17,6 +17,8 @@ public class GameStarter : MonoBehaviour
     FurnitureInstallInfoHolder furnitureInstallInfoHolder;
     private void Start()
     {
+        furnitureInstallInfoHolder = new FurnitureInstallInfoHolder();
+
         var worldPos = grid.CellToWorld(characterInitializePosition);
         GameObject.Instantiate(characterPrefab, worldPos, Quaternion.identity);
 
