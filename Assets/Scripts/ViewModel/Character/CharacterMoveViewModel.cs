@@ -23,14 +23,16 @@ public class CharacterMoveViewModel : MonoBehaviour
             Debug.Log($"위치갱신:{curPos}");
         });
 
-        var x = UnityEngine.Random.Range(-5, 5);
-        var y = UnityEngine.Random.Range(-5, 5);
-        CalcPathTo(new Vector3Int(x, y, 0));
+        // todo : 지우기
+        // 길 찾기 예시
+        // var x = UnityEngine.Random.Range(-5, 5);
+        // var y = UnityEngine.Random.Range(-5, 5);
+        // CalcPathTo(new Vector3Int(x, y, 0));
 
-        this.UpdateAsObservable().Subscribe(_ =>
-        {
-            UpdateMoveToNextPosTick();
-        });
+        // this.UpdateAsObservable().Subscribe(_ =>
+        // {
+        //     UpdateMoveToNextPosTick();
+        // });
     }
 
     private void CalcPathTo(Vector3Int gridDestination)
