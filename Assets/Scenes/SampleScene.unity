@@ -152,7 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &165640437
 MonoBehaviour:
@@ -170,6 +170,7 @@ MonoBehaviour:
   grid: {fileID: 1288693682}
   characterPrefab: {fileID: 8923944683928314299, guid: e73e93bb5273dd747a2196e32be17eec, type: 3}
   furnitureTilemap: {fileID: 603348215}
+  floorTilemap: {fileID: 2051100169}
   furnitures:
   - {fileID: 11400000, guid: 619690042595cef4f991bb127a89054a, type: 2}
   - {fileID: 11400000, guid: 11b008cd1e6bd224e9dddc220766b742, type: 2}
@@ -282,54 +283,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204031306}
   m_CullTransparentMesh: 1
---- !u!1 &415999126
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 415999128}
-  - component: {fileID: 415999127}
-  m_Layer: 0
-  m_Name: TEST-TouchFurniture
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &415999127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415999126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d0fc7ffbc52aa341903acb63b534ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemapTouchHandler: {fileID: 481493570}
-  tilemap: {fileID: 603348215}
-  tile1: {fileID: 11400000, guid: 619690042595cef4f991bb127a89054a, type: 2}
-  tile2: {fileID: 11400000, guid: 11b008cd1e6bd224e9dddc220766b742, type: 2}
-  tile3: {fileID: 11400000, guid: 3a8783fe704775942ad244f7f20ab814, type: 2}
---- !u!4 &415999128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415999126}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9707662, y: -2.6076696, z: -6.7655344}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &481493569
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,6 +536,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!1839735485 &1247916001 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 2385568380500919003, guid: 073f93c52eb75ef4c9d2955b055d4248, type: 3}
+  m_PrefabInstance: {fileID: 5304293010936684076}
+  m_PrefabAsset: {fileID: 0}
 --- !u!156049354 &1288693682 stripped
 Grid:
   m_CorrespondingSourceObject: {fileID: 5304293009665833374, guid: 073f93c52eb75ef4c9d2955b055d4248, type: 3}
@@ -682,7 +640,7 @@ RectTransform:
   m_Children:
   - {fileID: 204031307}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -701,6 +659,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc11b973bff1ba4fab73a0aafbf8639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapTouchHandler: {fileID: 481493570}
+  floorTilemap: {fileID: 2051100169}
+  furnitureTilemap: {fileID: 603348215}
+  furniturePrevieTilemap: {fileID: 1247916001}
+  tempTileBase: {fileID: 11400000, guid: 3a8783fe704775942ad244f7f20ab814, type: 2}
   ScrollViewContentRoot: {fileID: 1159228034}
   ScrollViewContentPrefab: {fileID: 969516556352781956, guid: c7653de3cc56b7c4e96a6313565a74de, type: 3}
 --- !u!1 &1655801081
@@ -784,7 +747,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1697220083
 GameObject:
@@ -1061,7 +1024,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5304293010936684076
 PrefabInstance:

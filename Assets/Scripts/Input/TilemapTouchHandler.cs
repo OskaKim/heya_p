@@ -13,11 +13,10 @@ public class TilemapTouchHandler : MonoBehaviour
     [SerializeField] private TilemapCollider2D iputTouchTilemapCollider;
     [SerializeField] private Tilemap inputTouchTilemap;
 
-    private Subject<Vector3Int> onTouchTilemap = new Subject<Vector3Int>();
-    public IObservable<Vector3Int> OnTouchTilemap { get => onTouchTilemap; }
+    private Subject<Vector3Int> onStayTilemap = new Subject<Vector3Int>();
+    public IObservable<Vector3Int> OnStayTimemap { get => onStayTilemap; }
     private void Start() =>
     this.UpdateAsObservable()
-    .Where(_ => Input.GetMouseButtonDown(0))
     .Select(_ => Camera.main.ScreenPointToRay(Input.mousePosition))
     .Where(ray =>
     {
@@ -30,6 +29,6 @@ public class TilemapTouchHandler : MonoBehaviour
         var worldPosition = ray.GetPoint(-ray.origin.z / ray.direction.z);
         var gridPosition = inputTouchTilemap.WorldToCell(worldPosition);
         Debug.Log(gridPosition);
-        onTouchTilemap.OnNext(gridPosition);
+        onStayTilemap.OnNext(gridPosition);
     });
 }
