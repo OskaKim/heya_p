@@ -12,6 +12,7 @@ public class GameStarter : MonoBehaviour
     [SerializeField] Grid grid;
     [SerializeField] GameObject characterPrefab;
     [SerializeField] Tilemap furnitureTilemap;
+    [SerializeField] Tilemap floorTilemap;
     [SerializeField] TileBase[] furnitures;
 
     FurnitureInstallInfoHolder furnitureInstallInfoHolder;
