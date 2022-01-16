@@ -2,8 +2,6 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
-using System.Collections;
-using System.Collections.Generic;
 
 public class UIInstallFurnitureView : MonoBehaviour
 {
@@ -14,9 +12,9 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Transform ScrollViewContentRoot;
     [SerializeField] private Transform ScrollViewContentPrefab;
 
-    private List<Vector3Int> furnitureInstallRanges = new List<Vector3Int>();
-    private Vector3Int furnitureInstallPos;
     private bool isInstallMode = false;
+    private InstallFurnitureViewModel installFurnitureViewModel;
+
     private void Start()
     {
         foreach (var resourceSprite in Resources.LoadAll<Sprite>("Furniture"))
@@ -31,64 +29,27 @@ public class UIInstallFurnitureView : MonoBehaviour
         }
         var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
         tilemapTouchHandler.OnStayTimemap.Subscribe(installPos => OnStayTile(installPos));
+        SetupInstallFurnitureViewModel();
     }
 
+    private void SetupInstallFurnitureViewModel()
+    {
+        InstallFurnitureViewModel.Params modelParams;
+        modelParams.furnitureTilemap = furnitureTilemap;
+        modelParams.floorTilemap = floorTilemap;
+        modelParams.previewTilemap = furniturePrevieTilemap;
+        modelParams.selectedTile = tempTileBase;
+
+        installFurnitureViewModel = new InstallFurnitureViewModel(modelParams);
+    }
     private void OnStayTile(Vector3Int previewInstallPos)
     {
         if (!isInstallMode) return;
-        if (furnitureInstallPos == previewInstallPos) return;
+        if (installFurnitureViewModel.FurnitureInstallPos == previewInstallPos) return;
 
-        ClearInstallPreview();
-        DrawPreviewInstallRange(previewInstallPos);
-        DrawPreviewInstallFurniture(previewInstallPos);
-    }
-    private void ClearInstallPreview()
-    {
-        if (furnitureInstallRanges.Count > 0)
-        {
-            foreach (var installRange in furnitureInstallRanges)
-            {
-                floorTilemap.SetColor(installRange, Color.white);
-            }
-            furnitureInstallRanges.Clear();
-        }
-
-        furniturePrevieTilemap.SetTile(furnitureInstallPos, null);
-    }
-    private void DrawPreviewInstallRange(Vector3Int previewPos)
-    {
-        // todo : 각 가구에 대응하는 위치를 적용 시켜야 함
-        // todo : 외부에서 각 가구의 배치시 범위를 지정
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y - 1, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y + 1, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y - 1, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y + 1, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y - 1, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y, 0));
-        furnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y + 1, 0));
-
-        foreach (var installRange in furnitureInstallRanges)
-        {
-            floorTilemap.SetTileFlags(installRange, TileFlags.None);
-            floorTilemap.SetColor(installRange, IsTileExistFurnitureAlready(installRange) ? Color.red : Color.green);
-        }
-    }
-    private void DrawPreviewInstallFurniture(Vector3Int previewPos)
-    {
-        furnitureInstallPos = previewPos;
-        furniturePrevieTilemap.SetTileFlags(furnitureInstallPos, TileFlags.None);
-        furniturePrevieTilemap.SetTile(furnitureInstallPos, tempTileBase);
-    }
-    private bool IsTileExistFurnitureAlready(Vector3Int tile)
-    {
-        return furnitureTilemap.GetTile(tile) != null;
-    }
-
-    private void InstallFurniture()
-    {
-        furnitureTilemap.SetTile(furnitureInstallPos, tempTileBase);
+        installFurnitureViewModel.ClearInstallPreview();
+        installFurnitureViewModel.DrawPreviewInstallRange(previewInstallPos);
+        installFurnitureViewModel.DrawPreviewInstallFurniture(previewInstallPos);
     }
     // todo : 입력은 전용 클래스에서 관리할 예정
     private void Update()
@@ -96,8 +57,8 @@ public class UIInstallFurnitureView : MonoBehaviour
         // todo : 임시
         if (isInstallMode && Input.GetMouseButtonDown(0))
         {
-            ClearInstallPreview();
-            InstallFurniture();
+            installFurnitureViewModel.ClearInstallPreview();
+            installFurnitureViewModel.InstallFurniture();
             isInstallMode = false;
         }
 
