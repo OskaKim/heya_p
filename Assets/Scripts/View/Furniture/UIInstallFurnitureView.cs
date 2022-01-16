@@ -11,8 +11,8 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Tilemap furnitureTilemap;
     [SerializeField] private Tilemap furniturePrevieTilemap;
     [SerializeField] private TileBase tempTileBase;
-    [SerializeField] Transform ScrollViewContentRoot;
-    [SerializeField] Transform ScrollViewContentPrefab;
+    [SerializeField] private Transform ScrollViewContentRoot;
+    [SerializeField] private Transform ScrollViewContentPrefab;
 
     private List<Vector3Int> furnitureInstallRanges = new List<Vector3Int>();
     private Vector3Int furnitureInstallPos;
