@@ -1,136 +1,143 @@
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UniRx;
+// TODO : 캐릭터 이동 구현은 보류 되었으므로 길찾기도 불필요 해짐
+// 완전히 안 쓰게 된다면 삭제 예정
 
-namespace Utility
-{
-    public class PathUtility
-    {
-        public static Queue<Vector3Int> GetPath(Vector3Int startPos, Vector3Int destinationPos)
-        {
-            PathFinder pathFinder = new PathFinder();
-            return pathFinder.FindPath(startPos, destinationPos);
-        }
-    }
+// using System.Collections.Generic;
+// using UnityEngine;
+// using System.Linq;
+// using UniRx;
 
-    // NOTE : 패스 파인더. PathUtility 통해 사용됨
-    public class PathFinder
-    {
-        private class Node
-        {
-            public Vector3Int pos;
-            public Node parent;
-            public int f;
-            public Node(Vector3Int pos, Node parent, int f)
-            {
-                this.pos = pos;
-                this.parent = parent;
-                this.f = f;
-            }
-        }
-        private readonly List<Vector3Int> path = new List<Vector3Int>();
-        //NOTE : 최단 경로를 분석하기 위한 상태값들이 계속 갱신
-        private readonly List<Node> openList = new List<Node>();
-        //NOTE : 처리가 완료된 노드를 담아둠
-        private readonly Queue<Node> closeList = new Queue<Node>();
-        private Node destinationNode = null;
+// namespace Utility
+// {
+//     public class PathUtility
+//     {
+//         public static Queue<Vector3Int> GetPath(Vector3Int startPos, Vector3Int destinationPos, FurnitureInstallModel furnitureInstallModel)
+//         {
+//             PathFinder pathFinder = new PathFinder(furnitureInstallModel);
+//             return pathFinder.FindPath(startPos, destinationPos);
+//         }
+//     }
 
-        public Queue<Vector3Int> FindPath(Vector3Int startPos, Vector3Int destinationPos)
-        {
-            if (startPos == destinationPos) return null;
+//     // NOTE : 패스 파인더. PathUtility 통해 사용됨
+//     public class PathFinder
+//     {
+//         private class Node
+//         {
+//             public Vector3Int pos;
+//             public Node parent;
+//             public int f;
+//             public Node(Vector3Int pos, Node parent, int f)
+//             {
+//                 this.pos = pos;
+//                 this.parent = parent;
+//                 this.f = f;
+//             }
+//         }
+//         private readonly List<Vector3Int> path = new List<Vector3Int>();
+//         //NOTE : 최단 경로를 분석하기 위한 상태값들이 계속 갱신
+//         private readonly List<Node> openList = new List<Node>();
+//         //NOTE : 처리가 완료된 노드를 담아둠
+//         private readonly Queue<Node> closeList = new Queue<Node>();
+//         private Node destinationNode = null;
+//         private FurnitureInstallModel furnitureInstallModel = null;
+//         public PathFinder(FurnitureInstallModel furnitureInstallModel)
+//         {
+//             this.furnitureInstallModel = furnitureInstallModel;
+//         }
 
-            var currentCloseNode = new Node(startPos, null, 0);
+//         public Queue<Vector3Int> FindPath(Vector3Int startPos, Vector3Int destinationPos)
+//         {
+//             if (startPos == destinationPos) return null;
 
-            // NOTE: 최대 연산 수
-            int maxCount = 100;
-            while (currentCloseNode != null || --maxCount <= 0)
-            {
-                currentCloseNode = FindNearPathFrom(currentCloseNode, destinationPos);
-            }
+//             var currentCloseNode = new Node(startPos, null, 0);
 
-            Queue<Vector3Int> path = new Queue<Vector3Int>();
-            AddToPath(path, destinationNode);
-            return path;
-        }
+//             // NOTE: 최대 연산 수
+//             int maxCount = 100;
+//             while (currentCloseNode != null || --maxCount <= 0)
+//             {
+//                 currentCloseNode = FindNearPathFrom(currentCloseNode, destinationPos);
+//             }
 
-        private void AddToPath(Queue<Vector3Int> path, Node node)
-        {
-            if (node == null) return;
+//             Queue<Vector3Int> path = new Queue<Vector3Int>();
+//             AddToPath(path, destinationNode);
+//             return path;
+//         }
 
-            if (node.parent != null)
-            {
-                AddToPath(path, node.parent);
-            }
+//         private void AddToPath(Queue<Vector3Int> path, Node node)
+//         {
+//             if (node == null) return;
 
-            path.Enqueue(node.pos);
-        }
+//             if (node.parent != null)
+//             {
+//                 AddToPath(path, node.parent);
+//             }
 
-        private Node FindNearPathFrom(Node currentCloseNode, Vector3Int destinationPos)
-        {
-            closeList.Enqueue(currentCloseNode);
+//             path.Enqueue(node.pos);
+//         }
 
-            var pos = currentCloseNode.pos;
-            List<Vector3Int> nearTiles = new List<Vector3Int>(4){
-            new Vector3Int(pos.x,pos.y-1,0),
-            new Vector3Int(pos.x-1,pos.y,0),
-            new Vector3Int(pos.x+1,pos.y,0),
-            new Vector3Int(pos.x,pos.y+1,0)
-        };
+//         private Node FindNearPathFrom(Node currentCloseNode, Vector3Int destinationPos)
+//         {
+//             closeList.Enqueue(currentCloseNode);
 
-            foreach (var currentPos in nearTiles)
-            {
-                // TODO : FurnitureInstallInfoHolder를 직접 사용 하지 않도록 수정. delegates등
-                // NOTE: 장애물이 존재
-                if(FurnitureInstallInfoHolder.IsAnyFurniture(currentPos)) continue;
+//             var pos = currentCloseNode.pos;
+//             List<Vector3Int> nearTiles = new List<Vector3Int>(4){
+//             new Vector3Int(pos.x,pos.y-1,0),
+//             new Vector3Int(pos.x-1,pos.y,0),
+//             new Vector3Int(pos.x+1,pos.y,0),
+//             new Vector3Int(pos.x,pos.y+1,0)
+//         };
 
-                var parent = currentCloseNode;
-                // NOTE : 시작 노드에서 해당 노드까지의 실제 소요 경비값
-                var g = parent.f + 1;
-                // NOTE : 휴리스틱 수정 값.해당 노드에서 최종 목적지까지의 추정 값(거리)
-                var h = Mathf.Abs(destinationPos.x - currentPos.x) + Mathf.Abs(destinationPos.y - currentPos.y);
-                var f = g + h;
-                // NOTE : close list에 있을 경우엔 open list에 추가 안함
-                if (closeList.Any(x => x.pos == currentPos)) continue;
+//             foreach (var currentPos in nearTiles)
+//             {
+//                 // NOTE: 장애물이 존재
+//                 if (furnitureInstallModel.IsAnyFurniture(currentPos)) continue;
 
-                var sameNodeInOpenList = openList.FirstOrDefault(x => x.pos == currentPos);
-                if (sameNodeInOpenList != null)
-                {
-                    // NOTE : 동일 노드가 open list에 있을 경우, f치가 더 낮은 경우에 한해 값 갱신
-                    if (sameNodeInOpenList.f > f)
-                    {
-                        sameNodeInOpenList.f = f;
-                        sameNodeInOpenList.parent = parent;
-                    }
-                    continue;
-                }
-                openList.Add(new Node(currentPos, parent, f));
-            }
+//                 var parent = currentCloseNode;
+//                 // NOTE : 시작 노드에서 해당 노드까지의 실제 소요 경비값
+//                 var g = parent.f + 1;
+//                 // NOTE : 휴리스틱 수정 값.해당 노드에서 최종 목적지까지의 추정 값(거리)
+//                 var h = Mathf.Abs(destinationPos.x - currentPos.x) + Mathf.Abs(destinationPos.y - currentPos.y);
+//                 var f = g + h;
+//                 // NOTE : close list에 있을 경우엔 open list에 추가 안함
+//                 if (closeList.Any(x => x.pos == currentPos)) continue;
 
-            if (openList.Count == 0)
-            {
-                // NOTE : 경로 탐색 실패
-                Debug.Log("failed to find path");
-                return null;
-            }
+//                 var sameNodeInOpenList = openList.FirstOrDefault(x => x.pos == currentPos);
+//                 if (sameNodeInOpenList != null)
+//                 {
+//                     // NOTE : 동일 노드가 open list에 있을 경우, f치가 더 낮은 경우에 한해 값 갱신
+//                     if (sameNodeInOpenList.f > f)
+//                     {
+//                         sameNodeInOpenList.f = f;
+//                         sameNodeInOpenList.parent = parent;
+//                     }
+//                     continue;
+//                 }
+//                 openList.Add(new Node(currentPos, parent, f));
+//             }
 
-            var nextCloseNode = openList[0];
-            openList.ForEach(x =>
-            {
-                if (nextCloseNode.f > x.f)
-                {
-                    nextCloseNode = x;
-                }
-            });
-            if (nextCloseNode.pos == destinationPos)
-            {
-                destinationNode = nextCloseNode;
-                return null;
-            }
+//             if (openList.Count == 0)
+//             {
+//                 // NOTE : 경로 탐색 실패
+//                 Debug.Log("failed to find path");
+//                 return null;
+//             }
 
-            openList.Remove(nextCloseNode);
+//             var nextCloseNode = openList[0];
+//             openList.ForEach(x =>
+//             {
+//                 if (nextCloseNode.f > x.f)
+//                 {
+//                     nextCloseNode = x;
+//                 }
+//             });
+//             if (nextCloseNode.pos == destinationPos)
+//             {
+//                 destinationNode = nextCloseNode;
+//                 return null;
+//             }
 
-            return nextCloseNode;
-        }
-    }
-}
+//             openList.Remove(nextCloseNode);
+
+//             return nextCloseNode;
+//         }
+//     }
+// }
