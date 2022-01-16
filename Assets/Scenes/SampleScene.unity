@@ -152,7 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &165640437
 MonoBehaviour:
@@ -169,12 +169,6 @@ MonoBehaviour:
   characterInitializePosition: {x: 0, y: 0, z: 0}
   grid: {fileID: 1288693682}
   characterPrefab: {fileID: 8923944683928314299, guid: e73e93bb5273dd747a2196e32be17eec, type: 3}
-  furnitureTilemap: {fileID: 603348215}
-  floorTilemap: {fileID: 2051100169}
-  furnitures:
-  - {fileID: 11400000, guid: 619690042595cef4f991bb127a89054a, type: 2}
-  - {fileID: 11400000, guid: 11b008cd1e6bd224e9dddc220766b742, type: 2}
-  - {fileID: 11400000, guid: 3a8783fe704775942ad244f7f20ab814, type: 2}
 --- !u!1 &204031306
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,51 +277,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204031306}
   m_CullTransparentMesh: 1
---- !u!1 &481493569
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 481493571}
-  - component: {fileID: 481493570}
-  m_Layer: 0
-  m_Name: TilemapTouchHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &481493570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481493569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e702cd70dec2fdf44919751ff2fcd3d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iputTouchTilemapCollider: {fileID: 2051100170}
-  inputTouchTilemap: {fileID: 2051100169}
---- !u!4 &481493571
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481493569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &597634788
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +589,7 @@ RectTransform:
   m_Children:
   - {fileID: 204031307}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -659,7 +608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc11b973bff1ba4fab73a0aafbf8639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapTouchHandler: {fileID: 481493570}
   floorTilemap: {fileID: 2051100169}
   furnitureTilemap: {fileID: 603348215}
   furniturePrevieTilemap: {fileID: 1247916001}
@@ -747,7 +695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1697220083
 GameObject:
@@ -955,11 +903,6 @@ Tilemap:
   m_CorrespondingSourceObject: {fileID: 5304293010026434597, guid: 073f93c52eb75ef4c9d2955b055d4248, type: 3}
   m_PrefabInstance: {fileID: 5304293010936684076}
   m_PrefabAsset: {fileID: 0}
---- !u!19719996 &2051100170 stripped
-TilemapCollider2D:
-  m_CorrespondingSourceObject: {fileID: 5304293010026434598, guid: 073f93c52eb75ef4c9d2955b055d4248, type: 3}
-  m_PrefabInstance: {fileID: 5304293010936684076}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2051823597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5304293010936684076
 PrefabInstance:

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class UIInstallFurnitureView : MonoBehaviour
 {
-    [SerializeField] private TilemapTouchHandler tilemapTouchHandler;
     [SerializeField] private Tilemap floorTilemap;
     [SerializeField] private Tilemap furnitureTilemap;
     [SerializeField] private Tilemap furniturePrevieTilemap;
@@ -30,7 +29,7 @@ public class UIInstallFurnitureView : MonoBehaviour
             var contentAspectRatioFitter = content.GetComponent<AspectRatioFitter>();
             contentAspectRatioFitter.aspectRatio = ratio;
         }
-
+        var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
         tilemapTouchHandler.OnStayTimemap.Subscribe(installPos => OnStayTile(installPos));
     }
 
