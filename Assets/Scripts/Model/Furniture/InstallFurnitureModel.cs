@@ -6,5 +6,12 @@ using System.Collections.Generic;
 
 public class InstallFurnitureModel
 {
-    // todo
+    public ReactiveProperty<int> SelectedFurniture { get; set; } = new ReactiveProperty<int>();
+
+    public List<DataBase.FurnitureData> FurnitureDataBase
+    {
+        get {
+            return DataBase.Database.FurnitureDatabase;
+        }
+    }
 }

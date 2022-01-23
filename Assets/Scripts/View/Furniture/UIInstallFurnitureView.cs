@@ -11,24 +11,13 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Tilemap furnitureTilemap;
     [SerializeField] private Tilemap furniturePrevieTilemap;
     [SerializeField] private TileBase tempTileBase;
-    [SerializeField] private Transform ScrollViewContentRoot;
-    [SerializeField] private Transform ScrollViewContentPrefab;
 
+    // todo : 전용 모델에 이동
     public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
-    public Vector3Int FurnitureInstallPos { get; private set; }
+    private Vector3Int furnitureInstallPos;
     private bool isInstallMode = false;
     private void Start()
     {
-        foreach (var resourceSprite in Resources.LoadAll<Sprite>("Furniture"))
-        {
-            var content = Transform.Instantiate(ScrollViewContentPrefab, ScrollViewContentRoot);
-            var contentImageComponent = content.GetComponent<Image>();
-            contentImageComponent.sprite = resourceSprite;
-            var size = resourceSprite.bounds.size;
-            var ratio = size.x / size.y;
-            var contentAspectRatioFitter = content.GetComponent<AspectRatioFitter>();
-            contentAspectRatioFitter.aspectRatio = ratio;
-        }
         var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
         tilemapTouchHandler.OnStayTimemap.Subscribe(installPos => OnStayTile(installPos));
     }
@@ -36,7 +25,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     private void OnStayTile(Vector3Int previewInstallPos)
     {
         if (!isInstallMode) return;
-        if (FurnitureInstallPos == previewInstallPos) return;
+        if (furnitureInstallPos == previewInstallPos) return;
 
         ClearInstallPreview();
         DrawPreviewInstallRange(previewInstallPos);
@@ -67,7 +56,7 @@ public class UIInstallFurnitureView : MonoBehaviour
                 floorTilemap.SetColor(installRange, Color.white);
             }
 
-            furniturePrevieTilemap.SetTile(FurnitureInstallPos, null);
+            furniturePrevieTilemap.SetTile(furnitureInstallPos, null);
     }
     public void DrawPreviewInstallRange(Vector3Int previewPos)
     {
@@ -93,7 +82,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     }
     public void DrawPreviewInstallFurniture(Vector3Int previewPos)
     {
-        FurnitureInstallPos = previewPos;
+        furnitureInstallPos = previewPos;
         furniturePrevieTilemap.SetTileFlags(previewPos, TileFlags.None);
         furniturePrevieTilemap.SetTile(previewPos, tempTileBase);
     }
@@ -103,6 +92,6 @@ public class UIInstallFurnitureView : MonoBehaviour
     }
     public void InstallFurniture()
     {
-        furnitureTilemap.SetTile(FurnitureInstallPos, tempTileBase);
+        furnitureTilemap.SetTile(furnitureInstallPos, tempTileBase);
     }
 }
