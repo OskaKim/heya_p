@@ -2,6 +2,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System;
 using System.Collections.Generic;
 
 // todo : 동작에 대한 부분을 model로 분리
@@ -15,7 +16,10 @@ public class UIInstallFurnitureView : MonoBehaviour
     // todo : 전용 모델에 이동
     public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
     private Vector3Int furnitureInstallPos;
-    private bool isInstallMode = false;
+
+    public Action OnInstallFinish;
+
+    public bool IsInstallMode { get; set; }
     private void Start()
     {
         var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
@@ -24,7 +28,7 @@ public class UIInstallFurnitureView : MonoBehaviour
 
     private void OnStayTile(Vector3Int previewInstallPos)
     {
-        if (!isInstallMode) return;
+        if (!IsInstallMode) return;
         if (furnitureInstallPos == previewInstallPos) return;
 
         ClearInstallPreview();
@@ -35,28 +39,22 @@ public class UIInstallFurnitureView : MonoBehaviour
     private void Update()
     {
         // todo : 임시
-        if (isInstallMode && Input.GetMouseButtonDown(0))
+        if (IsInstallMode && Input.GetMouseButtonDown(0))
         {
             ClearInstallPreview();
             InstallFurniture();
-            isInstallMode = false;
-        }
-
-        // todo : 임시
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            isInstallMode = !isInstallMode;
+            OnInstallFinish?.Invoke();
         }
     }
-    
+
     public void ClearInstallPreview()
     {
-            foreach (var installRange in FurnitureInstallRanges)
-            {
-                floorTilemap.SetColor(installRange, Color.white);
-            }
+        foreach (var installRange in FurnitureInstallRanges)
+        {
+            floorTilemap.SetColor(installRange, Color.white);
+        }
 
-            furniturePrevieTilemap.SetTile(furnitureInstallPos, null);
+        furniturePrevieTilemap.SetTile(furnitureInstallPos, null);
     }
     public void DrawPreviewInstallRange(Vector3Int previewPos)
     {
