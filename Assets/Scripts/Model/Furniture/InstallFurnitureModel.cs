@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
-public class InstallFurnitureViewModel
+public class InstallFurnitureModel
 {
     public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
     public Vector3Int FurnitureInstallPos { get; private set; }
@@ -17,7 +17,7 @@ public class InstallFurnitureViewModel
 
     private Params modelParams;
 
-    public InstallFurnitureViewModel(Params modelParams)
+    public InstallFurnitureModel(Params modelParams)
     {
         this.modelParams = modelParams;
     }

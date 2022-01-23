@@ -13,7 +13,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Transform ScrollViewContentPrefab;
 
     private bool isInstallMode = false;
-    private InstallFurnitureViewModel installFurnitureViewModel;
+    private InstallFurnitureModel installFurnitureViewModel;
 
     private void Start()
     {
@@ -34,13 +34,13 @@ public class UIInstallFurnitureView : MonoBehaviour
 
     private void SetupInstallFurnitureViewModel()
     {
-        InstallFurnitureViewModel.Params modelParams;
+        InstallFurnitureModel.Params modelParams;
         modelParams.furnitureTilemap = furnitureTilemap;
         modelParams.floorTilemap = floorTilemap;
         modelParams.previewTilemap = furniturePrevieTilemap;
         modelParams.selectedTile = tempTileBase;
 
-        installFurnitureViewModel = new InstallFurnitureViewModel(modelParams);
+        installFurnitureViewModel = new InstallFurnitureModel(modelParams);
     }
     private void OnStayTile(Vector3Int previewInstallPos)
     {
