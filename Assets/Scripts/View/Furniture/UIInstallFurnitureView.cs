@@ -2,7 +2,9 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
+// todo : 동작에 대한 부분을 model로 분리
 public class UIInstallFurnitureView : MonoBehaviour
 {
     [SerializeField] private Tilemap floorTilemap;
@@ -12,9 +14,9 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Transform ScrollViewContentRoot;
     [SerializeField] private Transform ScrollViewContentPrefab;
 
+    public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
+    public Vector3Int FurnitureInstallPos { get; private set; }
     private bool isInstallMode = false;
-    private InstallFurnitureModel installFurnitureViewModel;
-
     private void Start()
     {
         foreach (var resourceSprite in Resources.LoadAll<Sprite>("Furniture"))
@@ -29,27 +31,16 @@ public class UIInstallFurnitureView : MonoBehaviour
         }
         var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
         tilemapTouchHandler.OnStayTimemap.Subscribe(installPos => OnStayTile(installPos));
-        SetupInstallFurnitureViewModel();
     }
 
-    private void SetupInstallFurnitureViewModel()
-    {
-        InstallFurnitureModel.Params modelParams;
-        modelParams.furnitureTilemap = furnitureTilemap;
-        modelParams.floorTilemap = floorTilemap;
-        modelParams.previewTilemap = furniturePrevieTilemap;
-        modelParams.selectedTile = tempTileBase;
-
-        installFurnitureViewModel = new InstallFurnitureModel(modelParams);
-    }
     private void OnStayTile(Vector3Int previewInstallPos)
     {
         if (!isInstallMode) return;
-        if (installFurnitureViewModel.FurnitureInstallPos == previewInstallPos) return;
+        if (FurnitureInstallPos == previewInstallPos) return;
 
-        installFurnitureViewModel.ClearInstallPreview();
-        installFurnitureViewModel.DrawPreviewInstallRange(previewInstallPos);
-        installFurnitureViewModel.DrawPreviewInstallFurniture(previewInstallPos);
+        ClearInstallPreview();
+        DrawPreviewInstallRange(previewInstallPos);
+        DrawPreviewInstallFurniture(previewInstallPos);
     }
     // todo : 입력은 전용 클래스에서 관리할 예정
     private void Update()
@@ -57,8 +48,8 @@ public class UIInstallFurnitureView : MonoBehaviour
         // todo : 임시
         if (isInstallMode && Input.GetMouseButtonDown(0))
         {
-            installFurnitureViewModel.ClearInstallPreview();
-            installFurnitureViewModel.InstallFurniture();
+            ClearInstallPreview();
+            InstallFurniture();
             isInstallMode = false;
         }
 
@@ -67,5 +58,51 @@ public class UIInstallFurnitureView : MonoBehaviour
         {
             isInstallMode = !isInstallMode;
         }
+    }
+    
+    public void ClearInstallPreview()
+    {
+            foreach (var installRange in FurnitureInstallRanges)
+            {
+                floorTilemap.SetColor(installRange, Color.white);
+            }
+
+            furniturePrevieTilemap.SetTile(FurnitureInstallPos, null);
+    }
+    public void DrawPreviewInstallRange(Vector3Int previewPos)
+    {
+        FurnitureInstallRanges.Clear();
+
+        // todo : 각 가구에 대응하는 위치를 적용 시켜야 함
+        // todo : 외부에서 각 가구의 배치시 범위를 지정
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y - 1, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x - 1, previewPos.y + 1, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y - 1, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x, previewPos.y + 1, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y - 1, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y, 0));
+        FurnitureInstallRanges.Add(new Vector3Int(previewPos.x + 1, previewPos.y + 1, 0));
+
+        foreach (var installRange in FurnitureInstallRanges)
+        {
+            floorTilemap.SetTileFlags(installRange, TileFlags.None);
+            floorTilemap.SetColor(installRange, IsTileExistFurnitureAlready(installRange) ? Color.red : Color.green);
+        }
+    }
+    public void DrawPreviewInstallFurniture(Vector3Int previewPos)
+    {
+        FurnitureInstallPos = previewPos;
+        furniturePrevieTilemap.SetTileFlags(previewPos, TileFlags.None);
+        furniturePrevieTilemap.SetTile(previewPos, tempTileBase);
+    }
+    private bool IsTileExistFurnitureAlready(Vector3Int gridPos)
+    {
+        return furnitureTilemap.GetTile(gridPos) != null;
+    }
+    public void InstallFurniture()
+    {
+        furnitureTilemap.SetTile(FurnitureInstallPos, tempTileBase);
     }
 }
