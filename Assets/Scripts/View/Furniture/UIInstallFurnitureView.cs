@@ -11,7 +11,8 @@ public class UIInstallFurnitureView : MonoBehaviour
     [SerializeField] private Tilemap floorTilemap;
     [SerializeField] private Tilemap furnitureTilemap;
     [SerializeField] private Tilemap furniturePrevieTilemap;
-    [SerializeField] private TileBase tempTileBase;
+
+    public TileBase SelectedFurniture { get; set; }
 
     // todo : 전용 모델에 이동
     public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
@@ -19,7 +20,6 @@ public class UIInstallFurnitureView : MonoBehaviour
 
     public Action OnInstallFinish;
 
-    public bool IsInstallMode { get; set; }
     private void Start()
     {
         var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(floorTilemap);
@@ -28,7 +28,7 @@ public class UIInstallFurnitureView : MonoBehaviour
 
     private void OnStayTile(Vector3Int previewInstallPos)
     {
-        if (!IsInstallMode) return;
+        if (!SelectedFurniture) return;
         if (furnitureInstallPos == previewInstallPos) return;
 
         ClearInstallPreview();
@@ -39,7 +39,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     private void Update()
     {
         // todo : 임시
-        if (IsInstallMode && Input.GetMouseButtonDown(0))
+        if (SelectedFurniture && Input.GetMouseButtonDown(0))
         {
             ClearInstallPreview();
             InstallFurniture();
@@ -82,7 +82,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     {
         furnitureInstallPos = previewPos;
         furniturePrevieTilemap.SetTileFlags(previewPos, TileFlags.None);
-        furniturePrevieTilemap.SetTile(previewPos, tempTileBase);
+        furniturePrevieTilemap.SetTile(previewPos, SelectedFurniture);
     }
     private bool IsTileExistFurnitureAlready(Vector3Int gridPos)
     {
@@ -90,6 +90,7 @@ public class UIInstallFurnitureView : MonoBehaviour
     }
     public void InstallFurniture()
     {
-        furnitureTilemap.SetTile(furnitureInstallPos, tempTileBase);
+        furnitureTilemap.SetTile(furnitureInstallPos, SelectedFurniture);
+        SelectedFurniture = null;
     }
 }
