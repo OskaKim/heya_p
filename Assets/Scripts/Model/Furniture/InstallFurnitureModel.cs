@@ -5,18 +5,19 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
 using DataBase;
+using System.Collections.ObjectModel;
 
 public class InstallFurnitureModel
 {
     public ReactiveProperty<int> SelectedFurniture { get; set; } = new ReactiveProperty<int>(-1);
-    public List<FurnitureData> FurnitureDataBase
+    public ReadOnlyCollection<FurnitureDataEntity> FurnitureDataBase
     {
         get
         {
-            return MasterData.FurnitureDatabase;
+            return MasterDataHolder.FurnitureDatabase;
         }
     }
-    private FurnitureData GetFurnitureData(int id)
+    private FurnitureDataEntity GetFurnitureData(int id)
     {
         return FurnitureDataBase.FirstOrDefault(x => x.id == id);
     }
