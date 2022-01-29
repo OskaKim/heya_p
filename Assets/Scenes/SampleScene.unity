@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 109629345}
   - component: {fileID: 109629346}
   m_Layer: 0
-  m_Name: Database
+  m_Name: MasterDataHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,12 +147,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109629344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 447422138}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &109629346
 MonoBehaviour:
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 109629344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd075a17b1526fd4989a3bda15066a1c, type: 3}
+  m_Script: {fileID: 11500000, guid: d6071959c2058aa498e611bf2bbd7db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &165640435
@@ -335,6 +335,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollViewContentRoot: {fileID: 1159228034}
   ScrollViewContentPrefab: {fileID: 969516556352781956, guid: c7653de3cc56b7c4e96a6313565a74de, type: 3}
+--- !u!1 &447422137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 447422138}
+  m_Layer: 0
+  m_Name: ScriptHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &447422138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447422137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 109629345}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &597634788
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +701,6 @@ MonoBehaviour:
   floorTilemap: {fileID: 2051100169}
   furnitureTilemap: {fileID: 603348215}
   furniturePrevieTilemap: {fileID: 1247916001}
-  tempTileBase: {fileID: 11400000, guid: 3a8783fe704775942ad244f7f20ab814, type: 2}
 --- !u!114 &1448192703
 MonoBehaviour:
   m_ObjectHideFlags: 0
