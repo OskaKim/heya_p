@@ -48,6 +48,8 @@ public class RoomTopPresent : MonoBehaviour
         });
 
     }
+
+    // todo : 내용이 복잡해졌기 때문에 GridInstallController같은 클래스에 모델의 인터페이스를 받아서 처리하도록 하기
     private void FurnitureInstallViewStartView()
     {
         var installTileType = installFurnitureModel.GetInstallTilemapType();
@@ -65,7 +67,8 @@ public class RoomTopPresent : MonoBehaviour
         .Subscribe(pos =>
         {
             var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
-            uiFurnitureInstallView.ClearAndDraw(pos, selectedFurniture);
+            var selectedFurnitureRange = installFurnitureModel.InstallRange.Value;
+            uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureRange, selectedFurniture);
         });
 
         // note : 선택된 타일이 있고, 입력이 있으면 설치
@@ -80,6 +83,7 @@ public class RoomTopPresent : MonoBehaviour
         {
             var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
             var installPos = installFurnitureModel.InstallPos;
+            var selectedFurnitureRange = installFurnitureModel.InstallRange.Value;
             uiFurnitureInstallView.ClearInstallPreview();
             gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
             installFurnitureModel.UnSelectFurniture();
