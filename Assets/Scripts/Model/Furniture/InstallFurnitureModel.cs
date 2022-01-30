@@ -2,27 +2,36 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataBase;
 using System.Collections.ObjectModel;
 
-public class InstallFurnitureModel
+namespace grid
 {
-    public ReactiveProperty<int> SelectedFurniture { get; set; } = new ReactiveProperty<int>(-1);
-    public ReadOnlyCollection<FurnitureDataEntity> FurnitureDataBase
+    public class InstallFurnitureModel
     {
-        get
+        public ReactiveProperty<int> SelectedFurniture { get; set; } = new ReactiveProperty<int>(-1);
+        public ReadOnlyCollection<FurnitureDataEntity> FurnitureDataBase
         {
-            return MasterDataHolder.FurnitureDatabase;
+            get
+            {
+                return MasterDataHolder.FurnitureDatabase;
+            }
         }
-    }
-    private FurnitureDataEntity GetFurnitureData(int id)
-    {
-        return FurnitureDataBase.FirstOrDefault(x => x.id == id);
-    }
-    public TileBase GetFurnitureTile(int id)
-    {
-        return GetFurnitureData(id).tile;
+        private FurnitureDataEntity GetFurnitureData(int id)
+        {
+            return FurnitureDataBase.FirstOrDefault(x => x.id == id);
+        }
+        public TileBase GetFurnitureTile(int id)
+        {
+            return GetFurnitureData(id).tile;
+        }
+
+        public TileMapType GetInstallTilemapType()
+        {
+            return TileMapType.Floor;
+        }
     }
 }

@@ -988,9 +988,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemaps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2051100169}
+  - {fileID: 603348215}
+  - {fileID: 1247916001}
 --- !u!1839735485 &2051100169 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 5304293010026434597, guid: 073f93c52eb75ef4c9d2955b055d4248, type: 3}
