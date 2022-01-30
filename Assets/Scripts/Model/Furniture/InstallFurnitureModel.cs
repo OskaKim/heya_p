@@ -12,7 +12,8 @@ namespace grid
 {
     public class InstallFurnitureModel
     {
-        public ReactiveProperty<int> SelectedFurniture { get; set; } = new ReactiveProperty<int>(-1);
+        public ReactiveProperty<int> SelectedFurniture { get; private set; } = new ReactiveProperty<int>(-1);
+        public ReactiveProperty<Vector3Int> InstallPos { get; private set; } = new ReactiveProperty<Vector3Int>();
         public ReadOnlyCollection<FurnitureDataEntity> FurnitureDataBase
         {
             get
@@ -29,9 +30,27 @@ namespace grid
             return GetFurnitureData(id).tile;
         }
 
+        public TileBase GetSelectedFurnitureTile()
+        {
+            return GetFurnitureTile(SelectedFurniture.Value);
+        }
+        public bool ExistSelectedFurnitureTile()
+        {
+            return GetSelectedFurnitureTile() != null;
+        }
+
         public TileMapType GetInstallTilemapType()
         {
             return TileMapType.Floor;
+        }
+        public void UpdateInstallPos(Vector3Int pos)
+        {
+            if (SelectedFurniture.HasValue && GetFurnitureTile(SelectedFurniture.Value) != null) InstallPos.Value = pos;
+        }
+
+        public void UnSelectFurniture()
+        {
+            SelectedFurniture.Value = -1;
         }
     }
 }

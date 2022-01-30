@@ -50,13 +50,40 @@ public class RoomTopPresent : MonoBehaviour
     }
     private void FurnitureInstallViewStartView()
     {
-        var targetType = installFurnitureModel.GetInstallTilemapType();
-        gridTilemapView.ObserveOnStayTilemap(targetType, uiFurnitureInstallView.ClearAndDraw);
+        var installTileType = installFurnitureModel.GetInstallTilemapType();
 
-        uiFurnitureInstallView.OnInstallFinish = () =>
+        // note : 타일 입력으로부터 model 타일 위치 갱신
+        gridTilemapView.ObserveOnStayTilemap(installTileType, (pos) =>
         {
-            installFurnitureModel.SelectedFurniture.Value = -1;
-        };
+            var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
+            installFurnitureModel.UpdateInstallPos(pos);
+        });
+
+        // note : model 타일 위치 갱신시 ui 업데이트
+        installFurnitureModel.InstallPos
+        .ObserveEveryValueChanged(x => x.Value)
+        .Subscribe(pos =>
+        {
+            var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
+            uiFurnitureInstallView.ClearAndDraw(pos, selectedFurniture);
+        });
+
+        // note : 선택된 타일이 있고, 입력이 있으면 설치
+        Observable.EveryUpdate()
+        .Where(_ =>
+        {
+            var checkInput = Input.GetMouseButtonDown(0);
+            var isExistSelectedFurniture = installFurnitureModel.ExistSelectedFurnitureTile();
+            return checkInput && isExistSelectedFurniture;
+        })
+        .Subscribe(_ =>
+        {
+            var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
+            var installPos = installFurnitureModel.InstallPos;
+            uiFurnitureInstallView.ClearInstallPreview();
+            gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
+            installFurnitureModel.UnSelectFurniture();
+        });
 
         uiFurnitureInstallView.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
         {
@@ -68,25 +95,9 @@ public class RoomTopPresent : MonoBehaviour
             gridTilemapView.SetTile(type, pos, tile);
         };
 
-        uiFurnitureInstallView.GetTilemapTile = (TileMapType type, Vector3Int pos) =>
+        uiFurnitureInstallView.IsTileExistFurnitureAlready = (Vector3Int pos) =>
         {
-            return gridTilemapView.GetTile(type, pos);
+            return gridTilemapView.GetTile(grid.TileMapType.Furniture, pos);
         };
-
-        uiFurnitureInstallView.OnInstallTile = () =>
-        {
-            var isExistSelectedFurniture = installFurnitureModel.GetFurnitureTile(installFurnitureModel.SelectedFurniture.Value);
-            return isExistSelectedFurniture && Input.GetMouseButtonDown(0);
-        };
-
-        // view의 selectedFurniture를 model과 일치시키기
-        // todo : view가 상태를 가지지 않도록 수정
-        installFurnitureModel.SelectedFurniture
-        .ObserveEveryValueChanged(x => x.Value)
-        .Where(x => x >= 0)
-        .Subscribe(selectFurnitureId =>
-        {
-            uiFurnitureInstallView.SelectedFurniture = installFurnitureModel.GetFurnitureTile(selectFurnitureId);
-        });
     }
 }

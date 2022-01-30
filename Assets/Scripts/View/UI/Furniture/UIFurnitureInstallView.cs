@@ -9,39 +9,22 @@ public class UIFurnitureInstallView : MonoBehaviour
 {
     public Action<grid.TileMapType, Vector3Int, Color> OnChangeTilemapColor;
     public Action<grid.TileMapType, Vector3Int, TileBase> OnChangeTiemapTile;
-    public Func<grid.TileMapType, Vector3Int, TileBase> GetTilemapTile;
-    public Func<bool> OnInstallTile;
-
-    // todo : installFurnitureModel에만 상태를 가지도록 하기
-    public TileBase SelectedFurniture { get; set; }
+    public Func<Vector3Int, bool> IsTileExistFurnitureAlready;
 
     // todo : 전용 모델에 이동
     public List<Vector3Int> FurnitureInstallRanges { get; private set; } = new List<Vector3Int>();
     private Vector3Int furnitureInstallPos;
 
-    public Action OnInstallFinish;
-
-    public void ClearAndDraw(Vector3Int previewInstallPos)
+    public void ClearAndDraw(Vector3Int previewInstallPos, TileBase selectedFurniture)
     {
-        if (!SelectedFurniture) return;
         if (furnitureInstallPos == previewInstallPos) return;
 
         ClearInstallPreview();
         DrawPreviewInstallRange(previewInstallPos);
-        DrawPreviewInstallFurniture(previewInstallPos);
+        DrawPreviewInstallFurniture(previewInstallPos, selectedFurniture);
     }
 
-    private void Update()
-    {
-        if (OnInstallTile())
-        {
-            ClearInstallPreview();
-            InstallFurniture();
-            OnInstallFinish?.Invoke();
-            SelectedFurniture = null;
-        }
-    }
-
+    // todo : furnitureInstallRanges를 모델로 옮긴 뒤에 프레젠터에서 타일맵 뷰의 함수를 통해 처리하도록 하기
     public void ClearInstallPreview()
     {
         foreach (var installRange in FurnitureInstallRanges)
@@ -50,7 +33,7 @@ public class UIFurnitureInstallView : MonoBehaviour
         }
         OnChangeTiemapTile?.Invoke(grid.TileMapType.FurniturePreview, furnitureInstallPos, null);
     }
-    public void DrawPreviewInstallRange(Vector3Int previewPos)
+    private void DrawPreviewInstallRange(Vector3Int previewPos)
     {
         FurnitureInstallRanges.Clear();
 
@@ -71,17 +54,9 @@ public class UIFurnitureInstallView : MonoBehaviour
             OnChangeTilemapColor?.Invoke(grid.TileMapType.Floor, installRange, IsTileExistFurnitureAlready(installRange) ? Color.red : Color.green);
         }
     }
-    public void DrawPreviewInstallFurniture(Vector3Int previewPos)
+    private void DrawPreviewInstallFurniture(Vector3Int previewPos, TileBase selectedFurniture)
     {
         furnitureInstallPos = previewPos;
-        OnChangeTiemapTile?.Invoke(grid.TileMapType.FurniturePreview, previewPos, SelectedFurniture);
-    }
-    private bool IsTileExistFurnitureAlready(Vector3Int gridPos)
-    {
-        return GetTilemapTile?.Invoke(grid.TileMapType.Furniture, gridPos) != null;
-    }
-    public void InstallFurniture()
-    {
-        OnChangeTiemapTile?.Invoke(grid.TileMapType.Furniture, furnitureInstallPos, SelectedFurniture);
+        OnChangeTiemapTile?.Invoke(grid.TileMapType.FurniturePreview, previewPos, selectedFurniture);
     }
 }
