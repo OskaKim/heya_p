@@ -4,25 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UniRx;
+using grid;
 
 public class RoomTopPresent : MonoBehaviour
 {
-    // TODO : 외부 데이터나 세이브로부터 로드 되도록 하기
-    [SerializeField] private Vector3Int characterInitializePosition;
-    [SerializeField] private Grid grid;
-    [SerializeField] private GameObject characterPrefab;
     [SerializeField] private UIInstallFurnitureView uiInstallFurnitureView;
     [SerializeField] private UIFurnitureScrollView uiFurnitureScrollView;
+    [SerializeField] private GridCharacterView gridCharacterView;
+    [SerializeField] private GridTilemapView gridTilemapView;
 
     private InstallFurnitureModel installFurnitureModel = new InstallFurnitureModel();
 
     private void Start()
     {
-        var worldPos = grid.CellToWorld(characterInitializePosition);
-        GameObject.Instantiate(characterPrefab, worldPos, Quaternion.identity);
-
+        gridCharacterStartView();
         UiFurnitureScrollViewStartView();
         ObserveInstallFurniture();
+    }
+
+    private void gridCharacterStartView()
+    {
+        gridCharacterView.StartView();
     }
 
     private void UiFurnitureScrollViewStartView()
@@ -51,9 +53,9 @@ public class RoomTopPresent : MonoBehaviour
 
         uiInstallFurnitureView.OnInstallFinish = () =>
         {
-            installFurnitureModel.SelectedFurniture.Value = -1; 
+            installFurnitureModel.SelectedFurniture.Value = -1;
         };
-        
+
         installFurnitureModel.SelectedFurniture
         .ObserveEveryValueChanged(x => x.Value)
         .Where(x => x >= 0)
