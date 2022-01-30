@@ -70,12 +70,19 @@ public class RoomTopPresent : MonoBehaviour
         .ObserveEveryValueChanged(x => x.Value)
         .Subscribe(pos =>
         {
-            uiFurnitureInstallView.ClearInstallPreview(installPosCache, installRangeCache);
-            
+            // note : 이미 표시되고 있는 프리뷰 타일을 지우기
+            foreach (var installRange in installRangeCache)
+            {
+                gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
+            }
+            gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
+
+            // note : 프리뷰 타일 그리기
             var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
             var selectedFurnitureRange = installFurnitureModel.InstallRange.Value;
             uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureRange, selectedFurniture);
 
+            // note : 나중에 지우기 위해 캐시
             installPosCache = pos;
             installRangeCache = new List<Vector3Int>(selectedFurnitureRange);
         });
@@ -90,12 +97,18 @@ public class RoomTopPresent : MonoBehaviour
         })
         .Subscribe(_ =>
         {
+            // note : 이미 표시되고 있는 프리뷰 타일을 지우기
+            foreach (var installRange in installRangeCache)
+            {
+                gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
+            }
+            gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
+
+            // note : 타일 설치
             var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
             var installPos = installFurnitureModel.InstallPos;
-            var selectedFurnitureRange = installFurnitureModel.InstallRange.Value;
-            uiFurnitureInstallView.ClearInstallPreview(installPosCache, installRangeCache);
             gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
-            installFurnitureModel.UnSelectFurniture();
+            installFurnitureModel.InstallFurniture();
         });
 
         uiFurnitureInstallView.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
