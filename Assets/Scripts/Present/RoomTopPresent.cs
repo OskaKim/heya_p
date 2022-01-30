@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,8 +6,8 @@ using grid;
 
 public class RoomTopPresent : MonoBehaviour
 {
-    [SerializeField] private UIInstallFurnitureView uiInstallFurnitureView;
-    [SerializeField] private UIFurnitureScrollView uiFurnitureScrollView;
+    [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
+    [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
     [SerializeField] private GridCharacterView gridCharacterView;
     [SerializeField] private GridTilemapView gridTilemapView;
 
@@ -29,29 +27,29 @@ public class RoomTopPresent : MonoBehaviour
 
     private void UiFurnitureScrollViewStartView()
     {
-        UIFurnitureScrollView.Param param;
+        UIFurnitureScrollViewView.Param param;
 
-        param.furnitureScrollDataList = new List<UIFurnitureScrollView.Param.FurnitureScrollData>();
+        param.furnitureScrollDataList = new List<UIFurnitureScrollViewView.Param.FurnitureScrollData>();
 
         foreach (var originData in installFurnitureModel.FurnitureDataBase)
         {
-            UIFurnitureScrollView.Param.FurnitureScrollData uiScrollData;
+            UIFurnitureScrollViewView.Param.FurnitureScrollData uiScrollData;
             uiScrollData.sprite = originData.sprite;
             uiScrollData.id = originData.id;
             param.furnitureScrollDataList.Add(uiScrollData);
         }
 
-        uiFurnitureScrollView.StartView(param);
+        uiFurnitureScrollViewView.StartView(param);
     }
 
     private void ObserveInstallFurniture()
     {
-        uiFurnitureScrollView.OnSelectFurniture.Subscribe(furnitureId =>
+        uiFurnitureScrollViewView.OnSelectFurniture.Subscribe(furnitureId =>
         {
             installFurnitureModel.SelectedFurniture.Value = furnitureId;
         });
 
-        uiInstallFurnitureView.OnInstallFinish = () =>
+        uiFurnitureInstallView.OnInstallFinish = () =>
         {
             installFurnitureModel.SelectedFurniture.Value = -1;
         };
@@ -61,7 +59,7 @@ public class RoomTopPresent : MonoBehaviour
         .Where(x => x >= 0)
         .Subscribe(selectFurnitureId =>
         {
-            uiInstallFurnitureView.SelectedFurniture = installFurnitureModel.GetFurnitureTile(selectFurnitureId);
+            uiFurnitureInstallView.SelectedFurniture = installFurnitureModel.GetFurnitureTile(selectFurnitureId);
         });
     }
 }

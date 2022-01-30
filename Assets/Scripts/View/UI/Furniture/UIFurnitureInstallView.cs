@@ -1,12 +1,11 @@
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
 
 // todo : 동작에 대한 부분을 model로 분리
-public class UIInstallFurnitureView : MonoBehaviour
+public class UIFurnitureInstallView : MonoBehaviour
 {
     [SerializeField] private Tilemap floorTilemap;
     [SerializeField] private Tilemap furnitureTilemap;
