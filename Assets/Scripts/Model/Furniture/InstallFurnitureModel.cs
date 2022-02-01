@@ -67,9 +67,12 @@ namespace grid
             }
         }
 
-        public void UnSelectFurniture()
+        public void InstallFurniture()
         {
+            // note : 선택 해제
             SelectedFurniture.Value = -1;
+
+            // todo : 데이터로 보존
         }
     }
 }
