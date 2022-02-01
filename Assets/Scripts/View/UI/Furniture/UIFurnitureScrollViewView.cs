@@ -1,12 +1,10 @@
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using System.Linq;
 using System;
 
-public class UIFurnitureScrollView : MonoBehaviour
+public class UIFurnitureScrollViewView : MonoBehaviour
 {
     [SerializeField] private Transform ScrollViewContentRoot;
     [SerializeField] private Transform ScrollViewContentPrefab;

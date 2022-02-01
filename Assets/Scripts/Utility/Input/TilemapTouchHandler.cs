@@ -17,7 +17,7 @@ namespace Utility
         private Subject<Vector3Int> onTouchUpTilemap = new Subject<Vector3Int>();
 
         // NOTE : 마우스 포인터가 타일맵 위에 위치. 어떤 터치 상황이든 호출 됨.
-        public IObservable<Vector3Int> OnStayTimemap { get => onStayTilemap; }
+        public IObservable<Vector3Int> OnStayTilemap { get => onStayTilemap; }
 
         // NOTE : 터치를 한 순간
         public IObservable<Vector3Int> OnTouchDownTilemap { get => onTouchDownTilemap; }
