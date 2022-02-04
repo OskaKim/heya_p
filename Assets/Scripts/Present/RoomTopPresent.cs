@@ -13,32 +13,26 @@ public class RoomTopPresent : BasePresent
     [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
     [SerializeField] private GridCharacterView gridCharacterView;
     [SerializeField] private GridTilemapView gridTilemapView;
-    [SerializeField] private UITimeView uiTimeView;
     #endregion
 
     #region controller
     private GridInstallController gridInstallController;
-    private TimeInfoController timeInfoController;
     #endregion
 
     #region model
     private InstallFurnitureModel installFurnitureModel;
-    private TimeInfoModel timeInfoModel;
     #endregion
 
     protected override void InitializeModels()
     {
         installFurnitureModel = new InstallFurnitureModel();
-        timeInfoModel = new TimeInfoModel();
     }
     protected override void InitializeControllers()
     {
         gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
-        timeInfoController = new TimeInfoController(timeInfoModel, uiTimeView);
     }
     protected override void SetupModels()
     {
-        SetupTimeInfoModel();
     }
     protected override void SetupViews()
     {
@@ -78,15 +72,6 @@ public class RoomTopPresent : BasePresent
     #region controller
     #endregion
 
-    #region model
-
-    private void SetupTimeInfoModel()
-    {
-        Observable.Interval(TimeSpan.FromSeconds(1))
-        .Subscribe(_ =>
-        {
-            timeInfoModel.Tick();
-        });
-    }
+    #region modelㄴ
     #endregion
 }
