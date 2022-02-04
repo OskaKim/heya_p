@@ -9,13 +9,18 @@ namespace DataBase
     public class MasterDataHolder : MonoBehaviour
     {
         public static ReadOnlyCollection<FurnitureDataEntity> FurnitureDatabase { get => furnitureDatabase.AsReadOnly(); }
+        public static TimeInfoDataEntity TimeInfoDatabase { get => timeInfoDatabase; }
         private static List<FurnitureDataEntity> furnitureDatabase;
+        private static TimeInfoDataEntity timeInfoDatabase;
         private GameObject masterDataReaderHolder = null;
 
         private void Awake()
         {
+            Debug.Log("MasterDataHolder Awake");
+            
             masterDataReaderHolder = new GameObject("MasterDataReaderHolder");
             InitializeFurnitureDatabase();
+            InitializeTimeInfoDatabase();
             Destroy(masterDataReaderHolder);
         }
 
@@ -23,6 +28,13 @@ namespace DataBase
         {
             var furnitureMasterDataReader = masterDataReaderHolder.AddComponent<FurnitureMasterDataReader>();
             furnitureMasterDataReader.setup(out furnitureDatabase);
+        }
+        
+        private void InitializeTimeInfoDatabase()
+        {
+            Debug.Log("initialize time info datebase");
+            var timeInfoDataReader = masterDataReaderHolder.AddComponent<TimeInfoDataReader>();
+            timeInfoDataReader.setup(out timeInfoDatabase);
         }
     }
 }

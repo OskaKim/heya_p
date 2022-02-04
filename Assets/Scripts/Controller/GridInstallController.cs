@@ -8,9 +8,9 @@ namespace grid
 
     public class GridInstallController
     {
-        InstallFurnitureModel installFurnitureModel;
-        UIFurnitureInstallView uiFurnitureInstallView;
-        GridTilemapView gridTilemapView;
+        private InstallFurnitureModel installFurnitureModel;
+        private UIFurnitureInstallView uiFurnitureInstallView;
+        private GridTilemapView gridTilemapView;
         public GridInstallController(InstallFurnitureModel installFurnitureModel,
         UIFurnitureInstallView uiFurnitureInstallView,
         GridTilemapView gridTilemapView)
