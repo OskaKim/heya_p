@@ -7,7 +7,6 @@ using System;
 
 public class RoomTopPresent : BasePresent
 {
-    // todo : 인스펙터를 통해 참조할 객체들이 계속 늘어날 수도 있으니 타입별로 Holder를 준비해서 그 Holder를 참조하는 식으로 받기
     #region view
     [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
     [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
@@ -20,12 +19,13 @@ public class RoomTopPresent : BasePresent
     #endregion
 
     #region model
+    [SerializeField]
     private InstallFurnitureModel installFurnitureModel;
     #endregion
 
     protected override void InitializeModels()
     {
-        installFurnitureModel = new InstallFurnitureModel();
+        Debug.Log("present");
     }
     protected override void InitializeControllers()
     {
@@ -67,11 +67,5 @@ public class RoomTopPresent : BasePresent
             installFurnitureModel.SelectedFurniture.Value = furnitureId;
         });
     }
-    #endregion
-
-    #region controller
-    #endregion
-
-    #region modelㄴ
     #endregion
 }
