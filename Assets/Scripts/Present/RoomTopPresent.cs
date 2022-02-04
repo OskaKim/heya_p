@@ -54,7 +54,7 @@ public class RoomTopPresent : BasePresent
 
         foreach (var originData in installFurnitureModel.FurnitureDataBase)
         {
-            UIFurnitureScrollVieㄴwView.Param.FurnitureScrollData uiScrollData;
+            UIFurnitureScrollViewView.Param.FurnitureScrollData uiScrollData;
             uiScrollData.sprite = originData.sprite;
             uiScrollData.id = originData.id;
             param.furnitureScrollDataList.Add(uiScrollData);
