@@ -16,12 +16,12 @@ public class TimeInfoPresent : BasePresent
     #endregion
 
     #region model
+    [SerializeField]
     private TimeInfoModel timeInfoModel;
     #endregion
 
     protected override void InitializeModels()
     {
-        timeInfoModel = new TimeInfoModel();
     }
     protected override void InitializeControllers()
     {
