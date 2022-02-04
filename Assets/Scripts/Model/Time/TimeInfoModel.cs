@@ -15,6 +15,9 @@ namespace timeinfo
         public IObservable<DateTime> OnUpdateGameTime { get => onUpdateGameTime; }
         private DateTime currentGameTime;
 
+        public TimeInfoModel(){
+            Debug.Log("TimeInfoModel");
+        }
         public void Tick()
         {
             var timeInfoDatabase = DataBase.MasterDataHolder.TimeInfoDatabase;

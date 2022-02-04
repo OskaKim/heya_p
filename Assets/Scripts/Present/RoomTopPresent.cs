@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using UniRx;
-using UniRx.Triggers;
 using grid;
 using timeinfo;
-using UnityEngine.Tilemaps;
 using System;
 
-public class RoomTopPresent : MonoBehaviour
+public class RoomTopPresent : BasePresent
 {
     // todo : 인스펙터를 통해 참조할 객체들이 계속 늘어날 수도 있으니 타입별로 Holder를 준비해서 그 Holder를 참조하는 식으로 받기
     #region view
@@ -29,21 +26,27 @@ public class RoomTopPresent : MonoBehaviour
     private TimeInfoModel timeInfoModel;
     #endregion
 
-    private void Awake() {
-        Debug.Log("RoomTopPresent");   
+    protected override void InitializeModels()
+    {
         installFurnitureModel = new InstallFurnitureModel();
-        timeInfoModel = new TimeInfoModel(); 
+        timeInfoModel = new TimeInfoModel();
     }
-    // note : 객체 초기화 순서
-    // database(static) -> 해당 씬의 present -> present 내의 model, controller, view 순서
-    private void Start()
+    protected override void InitializeControllers()
+    {
+        gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
+        timeInfoController = new TimeInfoController(timeInfoModel, uiTimeView);
+    }
+    protected override void SetupModels()
     {
         SetupTimeInfoModel();
-        InitializeController();
+    }
+    protected override void SetupViews()
+    {
+        gridInstallController.Setup();
         gridCharacterStartView();
         UiFurnitureScrollViewStartView();
-        gridInstallController.FurnitureInstallViewStartView();
     }
+
     #region view
     private void gridCharacterStartView()
     {
@@ -73,14 +76,10 @@ public class RoomTopPresent : MonoBehaviour
     #endregion
 
     #region controller
-    private void InitializeController()
-    {
-        gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
-        timeInfoController = new TimeInfoController(timeInfoModel, uiTimeView);
-    }
     #endregion
 
     #region model
+
     private void SetupTimeInfoModel()
     {
         Observable.Interval(TimeSpan.FromSeconds(1))

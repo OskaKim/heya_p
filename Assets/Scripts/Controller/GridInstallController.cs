@@ -25,7 +25,7 @@ namespace grid
         private Vector3Int installPosCache;
         private List<Vector3Int> installRangeCache = new List<Vector3Int>();
 
-        public void FurnitureInstallViewStartView()
+        public void Setup()
         {
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
