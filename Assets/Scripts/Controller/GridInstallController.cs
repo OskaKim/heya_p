@@ -8,9 +8,9 @@ namespace grid
 
     public class GridInstallController
     {
-        InstallFurnitureModel installFurnitureModel;
-        UIFurnitureInstallView uiFurnitureInstallView;
-        GridTilemapView gridTilemapView;
+        private InstallFurnitureModel installFurnitureModel;
+        private UIFurnitureInstallView uiFurnitureInstallView;
+        private GridTilemapView gridTilemapView;
         public GridInstallController(InstallFurnitureModel installFurnitureModel,
         UIFurnitureInstallView uiFurnitureInstallView,
         GridTilemapView gridTilemapView)
@@ -25,7 +25,7 @@ namespace grid
         private Vector3Int installPosCache;
         private List<Vector3Int> installRangeCache = new List<Vector3Int>();
 
-        public void FurnitureInstallViewStartView()
+        public void Setup()
         {
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 

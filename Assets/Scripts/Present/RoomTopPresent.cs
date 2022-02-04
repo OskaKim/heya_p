@@ -1,36 +1,57 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using UniRx;
 using grid;
-using UnityEngine.Tilemaps;
+using timeinfo;
+using System;
 
-public class RoomTopPresent : MonoBehaviour
+public class RoomTopPresent : BasePresent
 {
     // todo : 인스펙터를 통해 참조할 객체들이 계속 늘어날 수도 있으니 타입별로 Holder를 준비해서 그 Holder를 참조하는 식으로 받기
+    #region view
     [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
     [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
     [SerializeField] private GridCharacterView gridCharacterView;
     [SerializeField] private GridTilemapView gridTilemapView;
+    [SerializeField] private UITimeView uiTimeView;
+    #endregion
 
-    private InstallFurnitureModel installFurnitureModel = new InstallFurnitureModel();
+    #region controller
     private GridInstallController gridInstallController;
-    private void Awake()
+    private TimeInfoController timeInfoController;
+    #endregion
+
+    #region model
+    private InstallFurnitureModel installFurnitureModel;
+    private TimeInfoModel timeInfoModel;
+    #endregion
+
+    protected override void InitializeModels()
+    {
+        installFurnitureModel = new InstallFurnitureModel();
+        timeInfoModel = new TimeInfoModel();
+    }
+    protected override void InitializeControllers()
     {
         gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
+        timeInfoController = new TimeInfoController(timeInfoModel, uiTimeView);
     }
-    private void Start()
+    protected override void SetupModels()
     {
+        SetupTimeInfoModel();
+    }
+    protected override void SetupViews()
+    {
+        gridInstallController.Setup();
         gridCharacterStartView();
         UiFurnitureScrollViewStartView();
-        gridInstallController.FurnitureInstallViewStartView();
     }
 
+    #region view
     private void gridCharacterStartView()
     {
         gridCharacterView.StartView();
     }
-
     private void UiFurnitureScrollViewStartView()
     {
         UIFurnitureScrollViewView.Param param;
@@ -52,4 +73,20 @@ public class RoomTopPresent : MonoBehaviour
             installFurnitureModel.SelectedFurniture.Value = furnitureId;
         });
     }
+    #endregion
+
+    #region controller
+    #endregion
+
+    #region model
+
+    private void SetupTimeInfoModel()
+    {
+        Observable.Interval(TimeSpan.FromSeconds(1))
+        .Subscribe(_ =>
+        {
+            timeInfoModel.Tick();
+        });
+    }
+    #endregion
 }
