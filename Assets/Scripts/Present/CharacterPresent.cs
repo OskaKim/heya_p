@@ -8,17 +8,19 @@ using System;
 public class CharacterPresent : BasePresent
 {
     #region view
+    [SerializeField] CharacterAIStatusUIView characterAIStatusUIView;
     #endregion
 
     #region controller
     #endregion
 
     #region model
-    [SerializeField]
-    private CharacterAIModel characterAIModel;
-    [SerializeField]
-    private TimeInfoModel timeInfoModel;
+    [SerializeField] private CharacterAIModel characterAIModel;
+    [SerializeField] private TimeInfoModel timeInfoModel;
     #endregion
+
+    // todo : 캐릭터 뷰 로써 관리하기
+    [SerializeField] private GameObject characterGameObject;
 
     protected override void InitializeControllers()
     {
@@ -38,5 +40,9 @@ public class CharacterPresent : BasePresent
 
     protected override void SetupViews()
     {
+        characterAIStatusUIView.GetCharacterScreenPosition = () =>
+        {
+            return Camera.main.WorldToScreenPoint(characterGameObject.transform.position);
+        };
     }
 }
