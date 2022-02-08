@@ -22,16 +22,21 @@ public class CharacterPresent : BasePresent
 
     protected override void InitializeControllers()
     {
-        throw new NotImplementedException();
     }
 
     protected override void SetupModels()
     {
-        throw new NotImplementedException();
+        // todo : 임시로 상태 추가. 배고픔, 목마름
+        characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
+        characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Parched);
+
+        timeInfoModel.OnUpdateGameTime.Subscribe(_ =>
+        {
+            characterAIModel.UpdateCharacterBehaviour();
+        });
     }
 
     protected override void SetupViews()
     {
-        throw new NotImplementedException();
     }
 }
