@@ -10,7 +10,6 @@ public class RoomTopPresent : BasePresent
     #region view
     [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
     [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
-    [SerializeField] private GridCharacterView gridCharacterView;
     [SerializeField] private GridTilemapView gridTilemapView;
     #endregion
 
@@ -23,10 +22,6 @@ public class RoomTopPresent : BasePresent
     private InstallFurnitureModel installFurnitureModel;
     #endregion
 
-    protected override void InitializeModels()
-    {
-        Debug.Log("present");
-    }
     protected override void InitializeControllers()
     {
         gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
@@ -37,15 +32,10 @@ public class RoomTopPresent : BasePresent
     protected override void SetupViews()
     {
         gridInstallController.Setup();
-        gridCharacterStartView();
         UiFurnitureScrollViewStartView();
     }
 
     #region view
-    private void gridCharacterStartView()
-    {
-        gridCharacterView.StartView();
-    }
     private void UiFurnitureScrollViewStartView()
     {
         UIFurnitureScrollViewView.Param param;

@@ -20,9 +20,6 @@ public class TimeInfoPresent : BasePresent
     private TimeInfoModel timeInfoModel;
     #endregion
 
-    protected override void InitializeModels()
-    {
-    }
     protected override void InitializeControllers()
     {
         timeInfoController = new TimeInfoController(timeInfoModel, uiTimeView);
