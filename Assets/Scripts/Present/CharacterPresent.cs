@@ -25,11 +25,6 @@ public class CharacterPresent : BasePresent
         throw new NotImplementedException();
     }
 
-    protected override void InitializeModels()
-    {
-        throw new NotImplementedException();
-    }
-
     protected override void SetupModels()
     {
         throw new NotImplementedException();

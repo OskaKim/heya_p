@@ -23,10 +23,6 @@ public class RoomTopPresent : BasePresent
     private InstallFurnitureModel installFurnitureModel;
     #endregion
 
-    protected override void InitializeModels()
-    {
-        Debug.Log("present");
-    }
     protected override void InitializeControllers()
     {
         gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
