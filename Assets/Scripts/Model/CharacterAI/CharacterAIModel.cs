@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 interface ICharacterBehaviour
 {
@@ -52,6 +54,8 @@ public class CharacterBehaviourParched : ICharacterBehaviour
 
 public class CharacterAIModel : MonoBehaviour
 {
+    private Subject<string> onUpdateCharacterAIEmotion = new Subject<string>();
+    public IObservable<string> OnUpdateCharacterAIEmotion { get => onUpdateCharacterAIEmotion; }
     Queue<ICharacterBehaviour> characterBehaviours = new Queue<ICharacterBehaviour>();
 
     // NOTE : 필수 불만 요소
@@ -81,16 +85,35 @@ public class CharacterAIModel : MonoBehaviour
 
     public void UpdateCharacterBehaviour()
     {
-        if(characterBehaviours.Count == 0) return;
+        if (characterBehaviours.Count == 0) return;
+
 
         var firstCharacterBehaviour = characterBehaviours.Peek();
         bool isFinished;
+
+        // todo : 임시 대응
+        if (firstCharacterBehaviour is CharacterBehaviourAppetite)
+        {
+            onUpdateCharacterAIEmotion.OnNext("I'm hungry");
+        }
+        // todo : 임시 대응
+        else if (firstCharacterBehaviour is CharacterBehaviourParched)
+        {
+            onUpdateCharacterAIEmotion.OnNext("I'm Thirsty");
+        }
+
         firstCharacterBehaviour.Update(out isFinished);
 
         if (isFinished)
         {
             Debug.Log("행동 종료");
             characterBehaviours.Dequeue();
+
+            // todo : 임시 대응
+            if (characterBehaviours.Count == 0)
+            {
+                onUpdateCharacterAIEmotion.OnNext("I'm good now");
+            }
         }
     }
 }

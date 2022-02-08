@@ -21,7 +21,6 @@ public class CharacterPresent : BasePresent
 
     // todo : 캐릭터 뷰 로써 관리하기
     [SerializeField] private GameObject characterGameObject;
-
     protected override void InitializeControllers()
     {
     }
@@ -35,6 +34,11 @@ public class CharacterPresent : BasePresent
         timeInfoModel.OnUpdateGameTime.Subscribe(_ =>
         {
             characterAIModel.UpdateCharacterBehaviour();
+        });
+
+        characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
+        {
+            characterAIStatusUIView.UpdateAIStatusText(emotionText);
         });
     }
 

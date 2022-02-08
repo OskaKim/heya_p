@@ -16,6 +16,11 @@ public class CharacterAIStatusUIView : MonoBehaviour
         FollowCharacter();
     }
 
+    public void UpdateAIStatusText(string text)
+    {
+        aiStatusText.text = text;
+    }
+
     private void FollowCharacter()
     {
         aiStatusUIHolder.position = GetCharacterScreenPosition();
