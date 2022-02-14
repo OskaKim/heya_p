@@ -30,10 +30,25 @@ namespace grid
             GetTilemap(type).SetTileFlags(pos, TileFlags.None);
             GetTilemap(type).SetTile(pos, tile);
         }
-        public void ObserveOnStayTilemap(TileMapType type, Action<Vector3Int> onStayTilemap)
+        public void ObserveOnStayTilemap(TileMapType type, Action<Vector3Int> action)
         {
             var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));
-            tilemapTouchHandler.OnStayTilemap.Subscribe(pos => onStayTilemap(pos));
+            tilemapTouchHandler.OnStayTilemap.Subscribe(pos => action(pos));
+        }
+        public void ObserveOnTouchDownTilemap(TileMapType type, Action<Vector3Int> action)
+        {
+            var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));
+            tilemapTouchHandler.OnTouchDownTilemap.Subscribe(pos => action(pos));
+        }
+        public void ObserveOnTouchPressTilemap(TileMapType type, Action<Vector3Int> action)
+        {
+            var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));
+            tilemapTouchHandler.OnTouchPressTilemap.Subscribe(pos => action(pos));
+        }
+        public void ObserveOnTouchUpTilemap(TileMapType type, Action<Vector3Int> action)
+        {
+            var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));
+            tilemapTouchHandler.OnTouchUpTilemap.Subscribe(pos => action(pos));
         }
     }
 }
