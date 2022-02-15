@@ -8,13 +8,16 @@ namespace grid
 
     public class GridInstallController
     {
+        private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
         private UIFurnitureInstallView uiFurnitureInstallView;
         private GridTilemapView gridTilemapView;
-        public GridInstallController(InstallFurnitureModel installFurnitureModel,
+        public GridInstallController(FurnitureManagerModel furnitureManagerModel,
+        InstallFurnitureModel installFurnitureModel,
         UIFurnitureInstallView uiFurnitureInstallView,
         GridTilemapView gridTilemapView)
         {
+            this.furnitureManagerModel = furnitureManagerModel;
             this.installFurnitureModel = installFurnitureModel;
             this.uiFurnitureInstallView = uiFurnitureInstallView;
             this.gridTilemapView = gridTilemapView;
@@ -97,6 +100,8 @@ namespace grid
             {
                 return gridTilemapView.GetTile(grid.TileMapType.Furniture, pos);
             };
+
+            furnitureManagerModel.Setup();
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
@@ -112,6 +117,8 @@ namespace grid
 
             // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
             collider.offset = new Vector2(0, 0.25f);
+            collider.gameObject.layer = 3;
+            furnitureManagerModel.AddFurnitureColliders(collider);
         }
     }
 }
