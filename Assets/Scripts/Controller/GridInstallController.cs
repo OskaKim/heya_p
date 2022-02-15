@@ -79,6 +79,7 @@ namespace grid
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
+                AttachSpriteObjectObject(installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
 
@@ -96,6 +97,21 @@ namespace grid
             {
                 return gridTilemapView.GetTile(grid.TileMapType.Furniture, pos);
             };
+        }
+
+        // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
+        private void AttachSpriteObjectObject(Vector3Int installPos)
+        {
+            var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
+            var furnitureColliderObject = new GameObject($"furniture collider {installFurnitureModel.SelectedFurniture.Value}");
+            furnitureColliderObject.transform.position = tileWorldPos;
+            var spriteRenderer = furnitureColliderObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.sprite =  installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
+            spriteRenderer.enabled = false;
+            var collider = furnitureColliderObject.AddComponent<PolygonCollider2D>();
+
+            // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
+            collider.offset = new Vector2(0, 0.25f);
         }
     }
 }

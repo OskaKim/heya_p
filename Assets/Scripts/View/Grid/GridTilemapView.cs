@@ -12,6 +12,10 @@ namespace grid
         {
             return tilemaps[(int)type];
         }
+        public Vector3 GetTileWorldPos(TileMapType type, Vector3Int pos)
+        {
+            return GetTilemap(type).CellToWorld(pos);
+        }
         public Color GetColor(TileMapType type, Vector3Int pos)
         {
             return GetTilemap(type).GetColor(pos);
