@@ -108,12 +108,12 @@ namespace grid
         private void AttachSpriteObjectObject(Vector3Int installPos)
         {
             var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
-            var furnitureColliderObject = new GameObject($"furniture collider {installFurnitureModel.SelectedFurniture.Value}");
-            furnitureColliderObject.transform.position = tileWorldPos;
-            var spriteRenderer = furnitureColliderObject.AddComponent<SpriteRenderer>();
+            var furnitureObject = new GameObject();
+            furnitureObject.transform.position = tileWorldPos;
+            var spriteRenderer = furnitureObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
             spriteRenderer.enabled = false;
-            var collider = furnitureColliderObject.AddComponent<PolygonCollider2D>();
+            var collider = furnitureObject.AddComponent<PolygonCollider2D>();
 
             // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
             collider.offset = new Vector2(0, 0.25f);
@@ -124,7 +124,8 @@ namespace grid
                 collider.enabled = true;
             });
 
-            furnitureManagerModel.AddfurnitureManagerObjects(collider);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(collider);
+            furnitureObject.name = $"{furnitureManagerObject.Id}";
         }
     }
 }

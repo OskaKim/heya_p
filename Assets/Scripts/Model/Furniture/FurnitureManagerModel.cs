@@ -11,12 +11,12 @@ namespace grid
     {
         private static int uniqueIdMaker = 0; // 모든 가구가 다른 id를 가지도록 하기 위해 생성자에서 id로 할당
         public int Id { private set; get; }
-        public Collider2D collider;
+        public Collider2D Collider {private set; get; }
 
-        public FurnitureManagerObject()
+        public FurnitureManagerObject(Collider2D collider)
         {
             Id = uniqueIdMaker++;
-            collider = null;
+            Collider = collider;
         }
     };
 
@@ -27,27 +27,28 @@ namespace grid
         public void Setup()
         {
             this.UpdateAsObservable()
+            .Where(_ => Input.GetMouseButtonDown(0))
             .Select(_ => Camera.main.ScreenPointToRay(Input.mousePosition))
             .Subscribe(ray =>
             {
                 var hit = Physics2D.Raycast(ray.origin, Vector3.zero);
                 Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 3.5f);
-                foreach (var furnitureCollider in furnitureManagerObjects)
+                foreach (var furnitureManagerObject in furnitureManagerObjects)
                 {
                     // todo : 클릭시 처리
-                    if (hit.collider == furnitureCollider.collider)
+                    if (hit.collider == furnitureManagerObject.Collider)
                     {
-                        
+                        Debug.Log(furnitureManagerObject.Id);
                     }
                 }
             });
         }
 
-        public void AddfurnitureManagerObjects(Collider2D furnitureCollider)
+        public FurnitureManagerObject AddfurnitureManagerObjects(Collider2D furnitureCollider)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject();
-            furnitureManagerObject.collider = furnitureCollider;
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureCollider);
             furnitureManagerObjects.Add(furnitureManagerObject);
+            return furnitureManagerObject;
         }
     }
 }
