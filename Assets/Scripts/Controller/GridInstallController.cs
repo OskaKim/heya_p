@@ -111,12 +111,19 @@ namespace grid
             var furnitureColliderObject = new GameObject($"furniture collider {installFurnitureModel.SelectedFurniture.Value}");
             furnitureColliderObject.transform.position = tileWorldPos;
             var spriteRenderer = furnitureColliderObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite =  installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
+            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
             spriteRenderer.enabled = false;
             var collider = furnitureColliderObject.AddComponent<PolygonCollider2D>();
 
             // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
             collider.offset = new Vector2(0, 0.25f);
+
+            // NOTE : 유니티 엔진의 문제인지 모르겠으나, 이하처럼 콜라이더를 껏다가 다음 프레임에 활성화 하도록 해야 클릭 처리가 가능.
+            collider.enabled = false;
+            Observable.NextFrame().Subscribe(_ => {
+                collider.enabled = true;
+            });
+
             furnitureManagerModel.AddFurnitureColliders(collider);
         }
     }
