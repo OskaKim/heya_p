@@ -8,13 +8,16 @@ namespace grid
 
     public class GridInstallController
     {
+        private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
         private UIFurnitureInstallView uiFurnitureInstallView;
         private GridTilemapView gridTilemapView;
-        public GridInstallController(InstallFurnitureModel installFurnitureModel,
+        public GridInstallController(FurnitureManagerModel furnitureManagerModel,
+        InstallFurnitureModel installFurnitureModel,
         UIFurnitureInstallView uiFurnitureInstallView,
         GridTilemapView gridTilemapView)
         {
+            this.furnitureManagerModel = furnitureManagerModel;
             this.installFurnitureModel = installFurnitureModel;
             this.uiFurnitureInstallView = uiFurnitureInstallView;
             this.gridTilemapView = gridTilemapView;
@@ -79,6 +82,7 @@ namespace grid
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
+                AttachSpriteObjectObject(installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
 
@@ -96,6 +100,32 @@ namespace grid
             {
                 return gridTilemapView.GetTile(grid.TileMapType.Furniture, pos);
             };
+
+            furnitureManagerModel.Setup();
+        }
+
+        // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
+        private void AttachSpriteObjectObject(Vector3Int installPos)
+        {
+            var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
+            var furnitureObject = new GameObject();
+            furnitureObject.transform.position = tileWorldPos;
+            var spriteRenderer = furnitureObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
+            spriteRenderer.enabled = false;
+            var collider = furnitureObject.AddComponent<PolygonCollider2D>();
+
+            // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
+            collider.offset = new Vector2(0, 0.25f);
+
+            // NOTE : 유니티 엔진의 문제인지 모르겠으나, 이하처럼 콜라이더를 껏다가 다음 프레임에 활성화 하도록 해야 클릭 처리가 가능.
+            collider.enabled = false;
+            Observable.NextFrame().Subscribe(_ => {
+                collider.enabled = true;
+            });
+
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject);
+            furnitureObject.name = $"{furnitureManagerObject.Id}";
         }
     }
 }

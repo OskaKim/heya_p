@@ -423,6 +423,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollViewContentRoot: {fileID: 1159228034}
   ScrollViewContentPrefab: {fileID: 969516556352781956, guid: c7653de3cc56b7c4e96a6313565a74de, type: 3}
+--- !u!1 &444516613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 444516614}
+  - component: {fileID: 444516615}
+  m_Layer: 0
+  m_Name: FurnitureManagerModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &444516614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444516613}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1775588211}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &444516615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444516613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830c2290b1db8354ca6a4b107305d0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &447422137
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +616,7 @@ MonoBehaviour:
   uiFurnitureScrollViewView: {fileID: 204031311}
   gridTilemapView: {fileID: 1741522679}
   installFurnitureModel: {fileID: 2120567670}
+  furnitureManagerModel: {fileID: 444516615}
 --- !u!1 &683175898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1480,6 +1524,7 @@ Transform:
   - {fileID: 1710240677}
   - {fileID: 2120567669}
   - {fileID: 1402311527}
+  - {fileID: 444516614}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

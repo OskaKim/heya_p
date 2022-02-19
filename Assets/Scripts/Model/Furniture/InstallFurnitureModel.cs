@@ -26,6 +26,10 @@ namespace grid
         {
             return FurnitureDataBase.FirstOrDefault(x => x.id == id);
         }
+        public Sprite GetFurnitureSprite(int id)
+        {
+            return GetFurnitureData(id).sprite;
+        }
         public TileBase GetFurnitureTile(int id)
         {
             return GetFurnitureData(id).tile;

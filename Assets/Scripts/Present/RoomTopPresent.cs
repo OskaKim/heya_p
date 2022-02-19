@@ -20,11 +20,13 @@ public class RoomTopPresent : BasePresent
     #region model
     [SerializeField]
     private InstallFurnitureModel installFurnitureModel;
+    [SerializeField]
+    private FurnitureManagerModel furnitureManagerModel;
     #endregion
 
     protected override void InitializeControllers()
     {
-        gridInstallController = new GridInstallController(installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
+        gridInstallController = new GridInstallController(furnitureManagerModel, installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
     }
     protected override void SetupModels()
     {

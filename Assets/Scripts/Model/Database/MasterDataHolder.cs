@@ -16,8 +16,6 @@ namespace DataBase
 
         private void Awake()
         {
-            Debug.Log("MasterDataHolder Awake");
-            
             masterDataReaderHolder = new GameObject("MasterDataReaderHolder");
             InitializeFurnitureDatabase();
             InitializeTimeInfoDatabase();
@@ -32,7 +30,6 @@ namespace DataBase
         
         private void InitializeTimeInfoDatabase()
         {
-            Debug.Log("initialize time info datebase");
             var timeInfoDataReader = masterDataReaderHolder.AddComponent<TimeInfoDataReader>();
             timeInfoDataReader.setup(out timeInfoDatabase);
         }
