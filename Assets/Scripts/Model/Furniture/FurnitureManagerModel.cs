@@ -11,12 +11,14 @@ namespace grid
     {
         private static int uniqueIdMaker = 0; // 모든 가구가 다른 id를 가지도록 하기 위해 생성자에서 id로 할당
         public int Id { private set; get; }
-        public Collider2D Collider {private set; get; }
+        public Collider2D Collider { private set; get; }
+        public float priority { private set; get; } // y좌표와 동일
 
-        public FurnitureManagerObject(Collider2D collider)
+        public FurnitureManagerObject(GameObject furnitureManagerGameObject)
         {
             Id = uniqueIdMaker++;
-            Collider = collider;
+            Collider = furnitureManagerGameObject.GetComponent<Collider2D>();
+            priority = furnitureManagerGameObject.transform.position.y;
         }
     };
 
@@ -31,22 +33,36 @@ namespace grid
             .Select(_ => Camera.main.ScreenPointToRay(Input.mousePosition))
             .Subscribe(ray =>
             {
-                var hit = Physics2D.Raycast(ray.origin, Vector3.zero);
-                Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 3.5f);
-                foreach (var furnitureManagerObject in furnitureManagerObjects)
+                var hits = Physics2D.RaycastAll(ray.origin, Vector3.zero);
+                FurnitureManagerObject? target = null;
+                foreach (var hit in hits)
                 {
-                    // todo : 클릭시 처리
-                    if (hit.collider == furnitureManagerObject.Collider)
+                    foreach (var furnitureManagerObject in furnitureManagerObjects)
                     {
-                        Debug.Log(furnitureManagerObject.Id);
+                        bool isClicked = hit.collider == furnitureManagerObject.Collider;
+                        if (isClicked)
+                        {
+                            // 여러개의 가구가 클릭되었을 경우, 아래쪽의 가구를 우선시 함
+                            if (target == null || target.Value.priority > furnitureManagerObject.priority)
+                            {
+                                target = furnitureManagerObject;
+                                break;
+                            }
+                        }
                     }
+                }
+
+                if (target.HasValue)
+                {
+                    // NOTE : 클릭된 가구
+                    Debug.Log(target.Value.Id);
                 }
             });
         }
 
-        public FurnitureManagerObject AddfurnitureManagerObjects(Collider2D furnitureCollider)
+        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureCollider);
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject);
             furnitureManagerObjects.Add(furnitureManagerObject);
             return furnitureManagerObject;
         }
