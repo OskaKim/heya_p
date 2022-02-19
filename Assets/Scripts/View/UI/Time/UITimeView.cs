@@ -11,7 +11,7 @@ namespace timeinfo
 
         public void UpdateTime(DateTime updatedTime)
         {
-            Debug.Log(updatedTime.ToString("MM/dd/yyyy HH:mm:ss", DateTimeFormatInfo.InvariantInfo));
+            //Debug.Log(updatedTime.ToString("MM/dd/yyyy HH:mm:ss", DateTimeFormatInfo.InvariantInfo));
             //dayText.text = 
         }
     }

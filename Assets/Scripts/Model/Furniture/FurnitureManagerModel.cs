@@ -16,7 +16,7 @@ namespace grid
             .Select(_ => Camera.main.ScreenPointToRay(Input.mousePosition))
             .Subscribe(ray =>
             {
-                var hit = Physics2D.Raycast(ray.origin, Vector3.zero, float.MaxValue, 3);
+                var hit = Physics2D.Raycast(ray.origin, Vector3.zero);
                 Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 3.5f);
                 foreach (var furnitureCollider in furnitureColliders)
                 {

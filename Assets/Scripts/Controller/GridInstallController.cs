@@ -117,7 +117,6 @@ namespace grid
 
             // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
             collider.offset = new Vector2(0, 0.25f);
-            collider.gameObject.layer = 3;
             furnitureManagerModel.AddFurnitureColliders(collider);
         }
     }

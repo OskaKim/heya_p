@@ -19,7 +19,6 @@ namespace timeinfo
 
             timeInfoModel.OnUpdateGameTime.Subscribe(currentGameTime =>
             {
-                Debug.Log("UpdateTime");
                 uiTimeView.UpdateTime(currentGameTime);
             });
         }
