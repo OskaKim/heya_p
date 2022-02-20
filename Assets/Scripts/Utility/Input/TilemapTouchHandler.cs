@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Utility
             component.Init(tilemap);
             return component;
         }
-        
+
         public void Init(Tilemap tilemap)
         {
             this.inputTouchTilemap = tilemap;
@@ -45,9 +46,9 @@ namespace Utility
             .Select(_ => Camera.main.ScreenPointToRay(Input.mousePosition))
             .Where(ray =>
             {
-                var hit = Physics2D.Raycast(ray.origin, Vector3.zero);
+                var hits = Physics2D.RaycastAll(ray.origin, Vector3.zero).Where(x => x.collider.GetType() == typeof(TilemapCollider2D));
                 Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 3.5f);
-                return hit.collider == inputTouchTilemapCollider;
+                return hits.Any(x => x.collider == inputTouchTilemapCollider);
             })
             .Subscribe(ray =>
             {
