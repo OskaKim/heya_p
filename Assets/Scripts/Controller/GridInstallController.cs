@@ -124,7 +124,7 @@ namespace grid
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left);
             furnitureObject.name = $"{furnitureManagerObject.Id}";
         }
     }

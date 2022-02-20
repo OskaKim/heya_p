@@ -7,6 +7,12 @@ using System.Linq;
 
 namespace grid
 {
+    public enum FurnitureDirectionType
+    {
+        Left,
+        Right
+    };
+
     // NOTE : 각 가구를 관리하기 위한 구조체
     public struct FurnitureManagerObject
     {
@@ -15,13 +21,14 @@ namespace grid
         public Collider2D Collider { private set; get; }
         public float priority { private set; get; } // y좌표와 동일
         public GameObject FurnitureManagerGameObject { private set; get; }
-
-        public FurnitureManagerObject(GameObject furnitureManagerGameObject)
+        public FurnitureDirectionType FurnitureDirection { private set; get; }
+        public FurnitureManagerObject(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection)
         {
             Id = uniqueIdMaker++;
             Collider = furnitureManagerGameObject.GetComponent<Collider2D>();
             priority = furnitureManagerGameObject.transform.position.y;
             FurnitureManagerGameObject = furnitureManagerGameObject;
+            FurnitureDirection = furnitureDirection;
         }
     };
 
@@ -62,9 +69,9 @@ namespace grid
             });
         }
 
-        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject)
+        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject);
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject, furnitureDirection);
             furnitureManagerObjects.Add(furnitureManagerObject);
             return furnitureManagerObject;
         }
