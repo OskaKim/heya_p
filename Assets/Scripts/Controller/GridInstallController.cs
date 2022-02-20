@@ -82,6 +82,7 @@ namespace grid
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
+                var installedTile = gridTilemapView.GetTile(grid.TileMapType.Furniture, installPos.Value);
                 AttachSpriteObjectObject(installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
@@ -102,6 +103,10 @@ namespace grid
             };
 
             furnitureManagerModel.Setup();
+            furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
+            {
+                gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+            };
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
@@ -120,11 +125,12 @@ namespace grid
 
             // NOTE : 유니티 엔진의 문제인지 모르겠으나, 이하처럼 콜라이더를 껏다가 다음 프레임에 활성화 하도록 해야 클릭 처리가 가능.
             collider.enabled = false;
-            Observable.NextFrame().Subscribe(_ => {
+            Observable.NextFrame().Subscribe(_ =>
+            {
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left, installPos);
             furnitureObject.name = $"{furnitureManagerObject.Id}";
         }
     }

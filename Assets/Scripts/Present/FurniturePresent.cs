@@ -18,6 +18,8 @@ public class FurniturePresent : BasePresent
     [SerializeField] FurnitureManagerModel furnitureManagerModel;
     #endregion
 
+    private int? selectFurniture;
+
     protected override void InitializeControllers()
     {
     }
@@ -29,8 +31,12 @@ public class FurniturePresent : BasePresent
     protected override void SetupViews()
     {
         furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) => {
+            selectFurniture = furnitureManagerObject.Id;
             var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
             uiFurnitureStatusView.Show(pos);
+        };
+        uiFurnitureStatusView.OnClickRotateButton += () => {
+            furnitureManagerModel.ReverseFurnitureDirection(selectFurniture.Value);
         };
     }
 }

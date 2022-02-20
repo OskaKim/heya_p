@@ -21,14 +21,20 @@ namespace grid
         public Collider2D Collider { private set; get; }
         public float priority { private set; get; } // y좌표와 동일
         public GameObject FurnitureManagerGameObject { private set; get; }
-        public FurnitureDirectionType FurnitureDirection { private set; get; }
-        public FurnitureManagerObject(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection)
+        public FurnitureDirectionType FurnitureDirection { set; get; }
+        public Vector3Int InstallPos { private set; get; }
+        public FurnitureManagerObject(GameObject furnitureManagerGameObject, Vector3Int installPos)
         {
             Id = uniqueIdMaker++;
             Collider = furnitureManagerGameObject.GetComponent<Collider2D>();
             priority = furnitureManagerGameObject.transform.position.y;
             FurnitureManagerGameObject = furnitureManagerGameObject;
-            FurnitureDirection = furnitureDirection;
+            FurnitureDirection = FurnitureDirectionType.Left;
+            InstallPos = installPos;
+        }
+        public void UpdateDirection(FurnitureDirectionType directionType)
+        {
+            FurnitureDirection = directionType;
         }
     };
 
@@ -36,6 +42,7 @@ namespace grid
     {
         private List<FurnitureManagerObject> furnitureManagerObjects = new List<FurnitureManagerObject>();
         public event Action<FurnitureManagerObject> OnClickFurniture;
+        public event Action<Vector3Int, FurnitureDirectionType> OnRotateFurniture;
         public void Setup()
         {
             this.UpdateAsObservable()
@@ -69,11 +76,42 @@ namespace grid
             });
         }
 
-        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection)
+        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject, furnitureDirection);
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject, installPos);
             furnitureManagerObjects.Add(furnitureManagerObject);
+            SetFurnitureDirection(furnitureManagerObject, furnitureDirection);
             return furnitureManagerObject;
+        }
+
+        private void SetFurnitureDirection(FurnitureManagerObject furnitureManagerObject, FurnitureDirectionType furnitureDirection)
+        {
+            // todo : 설정한 방향으로 잘 설정이 안되는 버그 조사 후 대응
+            furnitureManagerObject.UpdateDirection(furnitureDirection);
+            OnRotateFurniture?.Invoke(furnitureManagerObject.InstallPos, furnitureManagerObject.FurnitureDirection);
+        }
+
+        // NOTE: 가구를 좌우 반전
+        public void ReverseFurnitureDirection(int id)
+        {
+            FurnitureManagerObject? furnitureManagerObject = null;
+            for (int i = 0; i < furnitureManagerObjects.Count; ++i)
+            {
+                if (furnitureManagerObjects[i].Id == id)
+                {
+                    furnitureManagerObject = furnitureManagerObjects[i];
+                    break;
+                }
+            }
+
+            if(!furnitureManagerObject.HasValue) {
+                Debug.LogError($"id{id}의 가구를 찾지 못했습니다");
+                return;
+            }
+            
+            var direction = furnitureManagerObject.Value.FurnitureDirection == FurnitureDirectionType.Left ?
+            FurnitureDirectionType.Right : FurnitureDirectionType.Left;
+            SetFurnitureDirection(furnitureManagerObject.Value, direction);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class UIFurnitureStatusView : MonoBehaviour
 {
     [SerializeField] private GameObject uiStatusTopObject;
-
+    public event Action OnClickRotateButton;
     private void Awake() {
         Hide();    
     }
@@ -23,8 +24,8 @@ public class UIFurnitureStatusView : MonoBehaviour
         uiStatusTopObject.SetActive(false);
     }
 
-    public void OnClickRotateButton()
+    public void ClickRotateButton()
     {
-        Debug.Log("OnClickRotateButton");
+        OnClickRotateButton?.Invoke();
     }
 }
