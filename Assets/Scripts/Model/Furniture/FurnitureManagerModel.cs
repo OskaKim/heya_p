@@ -1,6 +1,7 @@
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,19 +14,21 @@ namespace grid
         public int Id { private set; get; }
         public Collider2D Collider { private set; get; }
         public float priority { private set; get; } // y좌표와 동일
+        public GameObject FurnitureManagerGameObject { private set; get; }
 
         public FurnitureManagerObject(GameObject furnitureManagerGameObject)
         {
             Id = uniqueIdMaker++;
             Collider = furnitureManagerGameObject.GetComponent<Collider2D>();
             priority = furnitureManagerGameObject.transform.position.y;
+            FurnitureManagerGameObject = furnitureManagerGameObject;
         }
     };
 
     public class FurnitureManagerModel : MonoBehaviour
     {
         private List<FurnitureManagerObject> furnitureManagerObjects = new List<FurnitureManagerObject>();
-
+        public event Action<FurnitureManagerObject> OnClickFurniture;
         public void Setup()
         {
             this.UpdateAsObservable()
@@ -54,8 +57,7 @@ namespace grid
 
                 if (target.HasValue)
                 {
-                    // NOTE : 클릭된 가구
-                    Debug.Log(target.Value.Id);
+                    OnClickFurniture?.Invoke(target.Value);
                 }
             });
         }
