@@ -18,9 +18,7 @@ public class RoomTopPresent : BasePresent
     #endregion
 
     #region model
-    [SerializeField]
     private InstallFurnitureModel installFurnitureModel;
-    [SerializeField]
     private FurnitureManagerModel furnitureManagerModel;
     #endregion
 
@@ -30,6 +28,8 @@ public class RoomTopPresent : BasePresent
     }
     protected override void SetupModels()
     {
+        installFurnitureModel = InstallFurnitureModel.instance;
+        furnitureManagerModel = FurnitureManagerModel.instance;
     }
     protected override void SetupViews()
     {

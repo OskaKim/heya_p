@@ -38,7 +38,7 @@ namespace grid
         }
     };
 
-    public class FurnitureManagerModel : MonoBehaviour
+    public class FurnitureManagerModel : BaseModel<FurnitureManagerModel>
     {
         private List<FurnitureManagerObject> furnitureManagerObjects = new List<FurnitureManagerObject>();
         public event Action<FurnitureManagerObject> OnClickFurniture;

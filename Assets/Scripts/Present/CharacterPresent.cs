@@ -15,8 +15,8 @@ public class CharacterPresent : BasePresent
     #endregion
 
     #region model
-    [SerializeField] private CharacterAIModel characterAIModel;
-    [SerializeField] private TimeInfoModel timeInfoModel;
+    private CharacterAIModel characterAIModel;
+    private TimeInfoModel timeInfoModel;
     #endregion
 
     // todo : 캐릭터 뷰 로써 관리하기
@@ -27,6 +27,9 @@ public class CharacterPresent : BasePresent
 
     protected override void SetupModels()
     {
+        characterAIModel = CharacterAIModel.instance;
+        timeInfoModel = TimeInfoModel.instance;
+        
         // todo : 임시로 상태 추가. 배고픔, 목마름
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Parched);

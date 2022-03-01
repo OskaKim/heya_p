@@ -52,7 +52,7 @@ public class CharacterBehaviourParched : ICharacterBehaviour
     }
 }
 
-public class CharacterAIModel : MonoBehaviour
+public class CharacterAIModel : BaseModel<CharacterAIModel>
 {
     private Subject<string> onUpdateCharacterAIEmotion = new Subject<string>();
     public IObservable<string> OnUpdateCharacterAIEmotion { get => onUpdateCharacterAIEmotion; }

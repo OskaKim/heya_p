@@ -16,7 +16,6 @@ public class TimeInfoPresent : BasePresent
     #endregion
 
     #region model
-    [SerializeField]
     private TimeInfoModel timeInfoModel;
     #endregion
 
@@ -26,6 +25,7 @@ public class TimeInfoPresent : BasePresent
     }
     protected override void SetupModels()
     {
+        timeInfoModel = TimeInfoModel.instance;
         SetupTimeInfoModel();
     }
     protected override void SetupViews()

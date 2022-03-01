@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace grid
 {
-    public class InstallFurnitureModel : MonoBehaviour
+    public class InstallFurnitureModel : BaseModel<InstallFurnitureModel>
     {
         public ReactiveProperty<int> SelectedFurniture { get; private set; } = new ReactiveProperty<int>(-1);
         public ReactiveProperty<Vector3Int> InstallPos { get; private set; } = new ReactiveProperty<Vector3Int>();

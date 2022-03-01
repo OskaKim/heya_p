@@ -15,7 +15,7 @@ public class FurniturePresent : BasePresent
     #endregion
 
     #region model
-    [SerializeField] FurnitureManagerModel furnitureManagerModel;
+    private FurnitureManagerModel furnitureManagerModel;
     #endregion
 
     private int? selectFurniture;
@@ -26,6 +26,7 @@ public class FurniturePresent : BasePresent
 
     protected override void SetupModels()
     {
+        furnitureManagerModel = FurnitureManagerModel.instance;
     }
 
     protected override void SetupViews()
