@@ -5,13 +5,10 @@ using grid;
 using timeinfo;
 using System;
 
-public class CharacterPresent : BasePresent
+public class CharacterController : BaseController
 {
     #region view
     [SerializeField] CharacterAIStatusUIView characterAIStatusUIView;
-    #endregion
-
-    #region controller
     #endregion
 
     #region model
@@ -21,10 +18,7 @@ public class CharacterPresent : BasePresent
 
     // todo : 캐릭터 뷰 로써 관리하기
     [SerializeField] private GameObject characterGameObject;
-    protected override void InitializeControllers()
-    {
-    }
-
+    
     protected override void SetupModels()
     {
         characterAIModel = CharacterAIModel.instance;
@@ -38,15 +32,15 @@ public class CharacterPresent : BasePresent
         {
             characterAIModel.UpdateCharacterBehaviour();
         });
-
-        characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
-        {
-            characterAIStatusUIView.UpdateAIStatusText(emotionText);
-        });
     }
 
     protected override void SetupViews()
     {
+        characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
+        {
+            characterAIStatusUIView.UpdateAIStatusText(emotionText);
+        });
+        
         characterAIStatusUIView.GetCharacterScreenPosition = () =>
         {
             return Camera.main.WorldToScreenPoint(characterGameObject.transform.position);

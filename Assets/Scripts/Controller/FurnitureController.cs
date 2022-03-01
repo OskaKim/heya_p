@@ -5,7 +5,7 @@ using grid;
 using timeinfo;
 using System;
 
-public class FurniturePresent : BasePresent
+public class FurnitureController : BaseController
 {
     #region view
     [SerializeField] UIFurnitureStatusView uiFurnitureStatusView;
@@ -19,10 +19,6 @@ public class FurniturePresent : BasePresent
     #endregion
 
     private int? selectFurniture;
-
-    protected override void InitializeControllers()
-    {
-    }
 
     protected override void SetupModels()
     {

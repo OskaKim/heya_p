@@ -1,22 +1,27 @@
 using System;
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 
 namespace timeinfo
 {
-    public class TimeInfoController
+    public class TimeInfoController : BaseController
     {
+        [SerializeField] private UITimeView uiTimeView;
         private TimeInfoModel timeInfoModel;
-        private DateTime startDateTime;
-        private double startTime;
-        private UITimeView uiTimeView;
 
-        public TimeInfoController(TimeInfoModel timeInfoModel, UITimeView uiTimeView)
+        protected override void SetupModels()
         {
-            this.timeInfoModel = timeInfoModel;
-            this.uiTimeView = uiTimeView;
+            timeInfoModel = TimeInfoModel.instance;
 
+            Observable.Interval(TimeSpan.FromSeconds(1))
+            .Subscribe(_ =>
+            {
+                timeInfoModel.Tick();
+            });
+        }
+
+        protected override void SetupViews()
+        {
             timeInfoModel.OnUpdateGameTime.Subscribe(currentGameTime =>
             {
                 uiTimeView.UpdateTime(currentGameTime);

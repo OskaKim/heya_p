@@ -6,29 +6,24 @@ using UnityEngine.Tilemaps;
 namespace grid
 {
 
-    public class GridInstallController
+    public class GridInstallController : BaseController
     {
+        [SerializeField] private GridTilemapView gridTilemapView;
+        [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
-        private UIFurnitureInstallView uiFurnitureInstallView;
-        private GridTilemapView gridTilemapView;
-        public GridInstallController(FurnitureManagerModel furnitureManagerModel,
-        InstallFurnitureModel installFurnitureModel,
-        UIFurnitureInstallView uiFurnitureInstallView,
-        GridTilemapView gridTilemapView)
+
+        protected override void SetupModels()
         {
-            this.furnitureManagerModel = furnitureManagerModel;
-            this.installFurnitureModel = installFurnitureModel;
-            this.uiFurnitureInstallView = uiFurnitureInstallView;
-            this.gridTilemapView = gridTilemapView;
+            furnitureManagerModel = FurnitureManagerModel.instance;
+            installFurnitureModel = InstallFurnitureModel.instance;   
         }
 
         // todo : 내용이 복잡해졌기 때문에 GridInstallController같은 클래스에 모델의 인터페이스를 받아서 처리하도록 하기
         // todo : 모델의 정보를 사용하도록 하기
         private Vector3Int installPosCache;
         private List<Vector3Int> installRangeCache = new List<Vector3Int>();
-
-        public void Setup()
+        protected override void SetupViews()
         {
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 

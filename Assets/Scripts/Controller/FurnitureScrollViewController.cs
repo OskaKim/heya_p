@@ -5,16 +5,10 @@ using grid;
 using timeinfo;
 using System;
 
-public class RoomTopPresent : BasePresent
+public class FurnitureScrollViewController : BaseController
 {
     #region view
-    [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
     [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
-    [SerializeField] private GridTilemapView gridTilemapView;
-    #endregion
-
-    #region controller
-    private GridInstallController gridInstallController;
     #endregion
 
     #region model
@@ -22,23 +16,12 @@ public class RoomTopPresent : BasePresent
     private FurnitureManagerModel furnitureManagerModel;
     #endregion
 
-    protected override void InitializeControllers()
-    {
-        gridInstallController = new GridInstallController(furnitureManagerModel, installFurnitureModel, uiFurnitureInstallView, gridTilemapView);
-    }
     protected override void SetupModels()
     {
         installFurnitureModel = InstallFurnitureModel.instance;
         furnitureManagerModel = FurnitureManagerModel.instance;
     }
     protected override void SetupViews()
-    {
-        gridInstallController.Setup();
-        UiFurnitureScrollViewStartView();
-    }
-
-    #region view
-    private void UiFurnitureScrollViewStartView()
     {
         UIFurnitureScrollViewView.Param param;
 
@@ -59,5 +42,4 @@ public class RoomTopPresent : BasePresent
             installFurnitureModel.SelectedFurniture.Value = furnitureId;
         });
     }
-    #endregion
 }
