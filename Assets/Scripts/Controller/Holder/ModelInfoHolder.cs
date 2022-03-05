@@ -42,4 +42,7 @@ public class ModelInfoHolder
             throw;
         }
     }
+
+    // todo : 컨트롤러가 삭제될 때 모델에 대한 참조 카운트를 업데이트
+    // todo : 참조 카운트가 0이 된 모델은 삭제해서 메모리 관리 하기
 }
