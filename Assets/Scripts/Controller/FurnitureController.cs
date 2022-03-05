@@ -22,7 +22,7 @@ public class FurnitureController : BaseController
 
     protected override void SetupModels()
     {
-        furnitureManagerModel = FurnitureManagerModel.instance;
+        modelInfoHolder.AddModel(out furnitureManagerModel);
     }
 
     protected override void SetupViews()

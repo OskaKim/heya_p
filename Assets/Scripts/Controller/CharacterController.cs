@@ -4,7 +4,6 @@ using UniRx;
 using grid;
 using timeinfo;
 using System;
-
 public class CharacterController : BaseController
 {
     #region view
@@ -21,8 +20,8 @@ public class CharacterController : BaseController
     
     protected override void SetupModels()
     {
-        characterAIModel = CharacterAIModel.instance;
-        timeInfoModel = TimeInfoModel.instance;
+        modelInfoHolder.AddModel(out characterAIModel);
+        modelInfoHolder.AddModel(out timeInfoModel);
         
         // todo : 임시로 상태 추가. 배고픔, 목마름
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
@@ -40,7 +39,7 @@ public class CharacterController : BaseController
         {
             characterAIStatusUIView.UpdateAIStatusText(emotionText);
         });
-        
+
         characterAIStatusUIView.GetCharacterScreenPosition = () =>
         {
             return Camera.main.WorldToScreenPoint(characterGameObject.transform.position);

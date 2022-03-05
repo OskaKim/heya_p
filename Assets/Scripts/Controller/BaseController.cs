@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class BaseController : MonoBehaviour
 {
+    protected static ModelInfoHolder modelInfoHolder = new ModelInfoHolder();
     protected abstract void SetupModels();
     protected abstract void SetupViews();
 

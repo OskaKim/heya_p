@@ -18,8 +18,8 @@ public class FurnitureScrollViewController : BaseController
 
     protected override void SetupModels()
     {
-        installFurnitureModel = InstallFurnitureModel.instance;
-        furnitureManagerModel = FurnitureManagerModel.instance;
+        modelInfoHolder.AddModel(out installFurnitureModel);
+        modelInfoHolder.AddModel(out furnitureManagerModel);
     }
     protected override void SetupViews()
     {

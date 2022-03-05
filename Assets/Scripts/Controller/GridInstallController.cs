@@ -15,8 +15,8 @@ namespace grid
 
         protected override void SetupModels()
         {
-            furnitureManagerModel = FurnitureManagerModel.instance;
-            installFurnitureModel = InstallFurnitureModel.instance;   
+            modelInfoHolder.AddModel(out furnitureManagerModel);
+            modelInfoHolder.AddModel(out installFurnitureModel);
         }
 
         // todo : 내용이 복잡해졌기 때문에 GridInstallController같은 클래스에 모델의 인터페이스를 받아서 처리하도록 하기

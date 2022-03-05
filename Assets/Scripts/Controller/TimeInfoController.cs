@@ -11,7 +11,7 @@ namespace timeinfo
 
         protected override void SetupModels()
         {
-            timeInfoModel = TimeInfoModel.instance;
+            modelInfoHolder.AddModel(out timeInfoModel);
 
             Observable.Interval(TimeSpan.FromSeconds(1))
             .Subscribe(_ =>

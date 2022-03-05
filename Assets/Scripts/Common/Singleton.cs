@@ -3,7 +3,7 @@ using UnityEngine;
 namespace common
 {
     [DisallowMultipleComponent]
-    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+    public class Singleton<T> : MonoBehaviour where T : UnityEngine.Component
     {
         private static volatile T _instance;
         private static object _syncRoot = new System.Object();
@@ -16,7 +16,6 @@ namespace common
                 return _instance;
             }
         }
-
         public static bool isInitialized
         {
             get
