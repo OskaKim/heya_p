@@ -16,6 +16,7 @@ public class FurnitureController : BaseController
 
     #region model
     private FurnitureManagerModel furnitureManagerModel;
+    private FurnitureDecorateModel furnitureDecorateModel;
     #endregion
 
     private int? selectFurniture;
@@ -23,6 +24,7 @@ public class FurnitureController : BaseController
     protected override void SetupModels()
     {
         modelInfoHolder.AddModel(out furnitureManagerModel);
+        modelInfoHolder.AddModel(out furnitureDecorateModel);
     }
 
     protected override void SetupViews()
@@ -34,6 +36,9 @@ public class FurnitureController : BaseController
         };
         uiFurnitureStatusView.OnClickRotateButton += () => {
             furnitureManagerModel.ReverseFurnitureDirection(selectFurniture.Value);
+        };
+        uiFurnitureStatusView.OnClickDecorateButton += () => {
+            furnitureDecorateModel.DecorateFurniture(selectFurniture.Value);
         };
     }
 }
