@@ -2,6 +2,8 @@
     "furnitureDataUnits": [
         { "id": 1, "spritePath": "Furniture/cup_noodle", "tilePath": "Furniture/cup_noodle" },
         { "id": 2, "spritePath": "Furniture/energy_drink_refrigerator", "tilePath": "Furniture/energy_drink_refrigerator" },
-        { "id": 3, "spritePath": "Furniture/refrigerator", "tilePath": "Furniture/refrigerator" }
+        { "id": 3, "spritePath": "Furniture/refrigerator", "tilePath": "Furniture/refrigerator" },
+        { "id": 4, "spritePath": "Furniture/tv_stand", "tilePath": "Furniture/tv_stand" },
+        { "id": 5, "spritePath": "Furniture/glass_table", "tilePath": "Furniture/glass_table" }
     ]
 }
