@@ -7,6 +7,7 @@ public class UIFurnitureStatusView : MonoBehaviour
 {
     [SerializeField] private GameObject uiStatusTopObject;
     public event Action OnClickRotateButton;
+    public event Action OnClickDecorateButton;
     private void Awake() {
         Hide();    
     }
@@ -27,5 +28,10 @@ public class UIFurnitureStatusView : MonoBehaviour
     public void ClickRotateButton()
     {
         OnClickRotateButton?.Invoke();
+    }
+
+    public void ClickDecorateButton()
+    {
+        OnClickDecorateButton?.Invoke();
     }
 }
