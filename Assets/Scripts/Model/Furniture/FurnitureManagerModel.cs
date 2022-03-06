@@ -35,6 +35,10 @@ namespace grid
         public void UpdateDirection(FurnitureDirectionType directionType)
         {
             FurnitureDirection = directionType;
+
+            // 좌우반전 상태일때는 x스케일을 -1
+            int scaleX = directionType == FurnitureDirectionType.Left ? 1 : -1;
+            FurnitureManagerGameObject.transform.localScale = new Vector3(scaleX, 1, 1);
         }
     };
 
@@ -104,11 +108,12 @@ namespace grid
                 }
             }
 
-            if(furnitureManagerObject == null) {
+            if (furnitureManagerObject == null)
+            {
                 Debug.LogError($"id{id}의 가구를 찾지 못했습니다");
                 return;
             }
-            
+
             var direction = furnitureManagerObject.FurnitureDirection == FurnitureDirectionType.Left ?
             FurnitureDirectionType.Right : FurnitureDirectionType.Left;
             SetFurnitureDirection(furnitureManagerObject, direction);
