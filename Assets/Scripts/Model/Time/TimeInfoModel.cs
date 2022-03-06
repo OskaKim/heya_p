@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 namespace timeinfo
 {
-    public class TimeInfoModel : MonoBehaviour
+    public class TimeInfoModel : BaseModel<TimeInfoModel>
     {
         private Subject<DateTime> onUpdateGameTime = new Subject<DateTime>();
         public IObservable<DateTime> OnUpdateGameTime { get => onUpdateGameTime; }

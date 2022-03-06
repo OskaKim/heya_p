@@ -34,6 +34,15 @@ namespace grid
             GetTilemap(type).SetTileFlags(pos, TileFlags.None);
             GetTilemap(type).SetTile(pos, tile);
         }
+        public void RotateTile(TileMapType type, Vector3Int pos, FurnitureDirectionType furnitureDirection)
+        {
+            var euler =
+             furnitureDirection == FurnitureDirectionType.Left ? Quaternion.Euler(0, 0, 0)
+             : Quaternion.Euler(0, -180, 0);
+
+            Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, euler, Vector3.one);
+            GetTilemap(type).SetTransformMatrix(pos, matrix);
+        }
         public void ObserveOnStayTilemap(TileMapType type, Action<Vector3Int> action)
         {
             var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));

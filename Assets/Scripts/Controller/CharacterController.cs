@@ -4,29 +4,25 @@ using UniRx;
 using grid;
 using timeinfo;
 using System;
-
-public class CharacterPresent : BasePresent
+public class CharacterController : BaseController
 {
     #region view
     [SerializeField] CharacterAIStatusUIView characterAIStatusUIView;
     #endregion
 
-    #region controller
-    #endregion
-
     #region model
-    [SerializeField] private CharacterAIModel characterAIModel;
-    [SerializeField] private TimeInfoModel timeInfoModel;
+    private CharacterAIModel characterAIModel;
+    private TimeInfoModel timeInfoModel;
     #endregion
 
     // todo : 캐릭터 뷰 로써 관리하기
     [SerializeField] private GameObject characterGameObject;
-    protected override void InitializeControllers()
-    {
-    }
-
+    
     protected override void SetupModels()
     {
+        modelInfoHolder.AddModel(out characterAIModel);
+        modelInfoHolder.AddModel(out timeInfoModel);
+        
         // todo : 임시로 상태 추가. 배고픔, 목마름
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Parched);
@@ -35,15 +31,15 @@ public class CharacterPresent : BasePresent
         {
             characterAIModel.UpdateCharacterBehaviour();
         });
-
-        characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
-        {
-            characterAIStatusUIView.UpdateAIStatusText(emotionText);
-        });
     }
 
     protected override void SetupViews()
     {
+        characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
+        {
+            characterAIStatusUIView.UpdateAIStatusText(emotionText);
+        });
+
         characterAIStatusUIView.GetCharacterScreenPosition = () =>
         {
             return Camera.main.WorldToScreenPoint(characterGameObject.transform.position);

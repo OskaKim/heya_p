@@ -6,29 +6,24 @@ using UnityEngine.Tilemaps;
 namespace grid
 {
 
-    public class GridInstallController
+    public class GridInstallController : BaseController
     {
+        [SerializeField] private GridTilemapView gridTilemapView;
+        [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
-        private UIFurnitureInstallView uiFurnitureInstallView;
-        private GridTilemapView gridTilemapView;
-        public GridInstallController(FurnitureManagerModel furnitureManagerModel,
-        InstallFurnitureModel installFurnitureModel,
-        UIFurnitureInstallView uiFurnitureInstallView,
-        GridTilemapView gridTilemapView)
+
+        protected override void SetupModels()
         {
-            this.furnitureManagerModel = furnitureManagerModel;
-            this.installFurnitureModel = installFurnitureModel;
-            this.uiFurnitureInstallView = uiFurnitureInstallView;
-            this.gridTilemapView = gridTilemapView;
+            modelInfoHolder.AddModel(out furnitureManagerModel);
+            modelInfoHolder.AddModel(out installFurnitureModel);
         }
 
         // todo : 내용이 복잡해졌기 때문에 GridInstallController같은 클래스에 모델의 인터페이스를 받아서 처리하도록 하기
         // todo : 모델의 정보를 사용하도록 하기
         private Vector3Int installPosCache;
         private List<Vector3Int> installRangeCache = new List<Vector3Int>();
-
-        public void Setup()
+        protected override void SetupViews()
         {
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
@@ -82,6 +77,7 @@ namespace grid
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
+                var installedTile = gridTilemapView.GetTile(grid.TileMapType.Furniture, installPos.Value);
                 AttachSpriteObjectObject(installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
@@ -102,6 +98,10 @@ namespace grid
             };
 
             furnitureManagerModel.Setup();
+            furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
+            {
+                gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+            };
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
@@ -120,11 +120,12 @@ namespace grid
 
             // NOTE : 유니티 엔진의 문제인지 모르겠으나, 이하처럼 콜라이더를 껏다가 다음 프레임에 활성화 하도록 해야 클릭 처리가 가능.
             collider.enabled = false;
-            Observable.NextFrame().Subscribe(_ => {
+            Observable.NextFrame().Subscribe(_ =>
+            {
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left, installPos);
             furnitureObject.name = $"{furnitureManagerObject.Id}";
         }
     }
