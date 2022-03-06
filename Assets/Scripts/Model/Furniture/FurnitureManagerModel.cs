@@ -13,8 +13,8 @@ namespace grid
         Right
     };
 
-    // NOTE : 각 가구를 관리하기 위한 구조체
-    public struct FurnitureManagerObject
+    // NOTE : 각 가구를 관리하기 위한 클래스
+    public class FurnitureManagerObject
     {
         private static int uniqueIdMaker = 0; // 모든 가구가 다른 id를 가지도록 하기 위해 생성자에서 id로 할당
         public int Id { private set; get; }
@@ -51,7 +51,7 @@ namespace grid
             .Subscribe(ray =>
             {
                 var hits = Physics2D.RaycastAll(ray.origin, Vector3.zero);
-                FurnitureManagerObject? target = null;
+                FurnitureManagerObject target = null;
                 foreach (var hit in hits)
                 {
                     foreach (var furnitureManagerObject in furnitureManagerObjects)
@@ -60,7 +60,7 @@ namespace grid
                         if (isClicked)
                         {
                             // 여러개의 가구가 클릭되었을 경우, 아래쪽의 가구를 우선시 함
-                            if (target == null || target.Value.priority > furnitureManagerObject.priority)
+                            if (target == null || target.priority > furnitureManagerObject.priority)
                             {
                                 target = furnitureManagerObject;
                                 break;
@@ -69,9 +69,9 @@ namespace grid
                     }
                 }
 
-                if (target.HasValue)
+                if (target != null)
                 {
-                    OnClickFurniture?.Invoke(target.Value);
+                    OnClickFurniture?.Invoke(target);
                 }
             });
         }
@@ -94,7 +94,7 @@ namespace grid
         // NOTE: 가구를 좌우 반전
         public void ReverseFurnitureDirection(int id)
         {
-            FurnitureManagerObject? furnitureManagerObject = null;
+            FurnitureManagerObject furnitureManagerObject = null;
             for (int i = 0; i < furnitureManagerObjects.Count; ++i)
             {
                 if (furnitureManagerObjects[i].Id == id)
@@ -104,14 +104,14 @@ namespace grid
                 }
             }
 
-            if(!furnitureManagerObject.HasValue) {
+            if(furnitureManagerObject == null) {
                 Debug.LogError($"id{id}의 가구를 찾지 못했습니다");
                 return;
             }
             
-            var direction = furnitureManagerObject.Value.FurnitureDirection == FurnitureDirectionType.Left ?
+            var direction = furnitureManagerObject.FurnitureDirection == FurnitureDirectionType.Left ?
             FurnitureDirectionType.Right : FurnitureDirectionType.Left;
-            SetFurnitureDirection(furnitureManagerObject.Value, direction);
+            SetFurnitureDirection(furnitureManagerObject, direction);
         }
     }
 }
