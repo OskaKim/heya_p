@@ -14,8 +14,7 @@ namespace DataBase
             var furnitureDataJson = Utility.FileIOUtility.LoadJsonFile<FurnitureDataJson>("SaveFile/Test", "furnitureData");
             foreach (var furnitureDataUnit in furnitureDataJson.furnitureDataUnits)
             {
-                FurnitureDataEntity furnitureData = new FurnitureDataEntity();
-                furnitureData.id = furnitureDataUnit.id;
+                FurnitureDataEntity furnitureData = new FurnitureDataEntity(furnitureDataUnit.id);
                 furnitureData.sprite = Resources.Load<Sprite>(furnitureDataUnit.spritePath);
                 furnitureData.tile = Resources.Load<TileBase>(furnitureDataUnit.tilePath);
 
@@ -30,6 +29,7 @@ namespace DataBase
                 float offsetZ = decorateInfo.decorateOffsetY * 4;
                 furnitureDecorateInfo.offset = new Vector3(decorateInfo.decorateOffsetX, decorateInfo.decorateOffsetY, offsetZ);
                 furnitureDecorateInfo.smallObjectId = decorateInfo.smallObjectId;
+                furnitureDecorateInfos.Add(furnitureDecorateInfo);
             }
         }
     }

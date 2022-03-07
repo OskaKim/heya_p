@@ -21,9 +21,9 @@ namespace DataBase
 
         public List<DecorateInfo> decorateInfos;
 
-        public FurnitureDataEntity()
+        public FurnitureDataEntity(int id)
         {
-            id = 0;
+            this.id = id;
             sprite = null;
             tile = null;
             decorateInfos = new List<DecorateInfo>();

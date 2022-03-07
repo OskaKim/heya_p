@@ -118,5 +118,10 @@ namespace grid
             FurnitureDirectionType.Right : FurnitureDirectionType.Left;
             SetFurnitureDirection(furnitureManagerObject, direction);
         }
+
+        public Vector3Int GetInstallPos(int id)
+        {
+            return furnitureManagerObjects.First(x=>x.Id == id).InstallPos;
+        }
     }
 }

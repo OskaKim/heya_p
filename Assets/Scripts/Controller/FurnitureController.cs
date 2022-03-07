@@ -9,6 +9,7 @@ public class FurnitureController : BaseController
 {
     #region view
     [SerializeField] UIFurnitureStatusView uiFurnitureStatusView;
+    [SerializeField] GridTilemapView gridTilemapView;
     #endregion
 
     #region controller
@@ -18,6 +19,8 @@ public class FurnitureController : BaseController
     private FurnitureManagerModel furnitureManagerModel;
     private FurnitureDecorateModel furnitureDecorateModel;
     #endregion
+
+    [SerializeField] UnityEngine.Tilemaps.TileBase tileBase;
 
     private int? selectFurniture;
 
@@ -38,7 +41,17 @@ public class FurnitureController : BaseController
             furnitureManagerModel.ReverseFurnitureDirection(selectFurniture.Value);
         };
         uiFurnitureStatusView.OnClickDecorateButton += () => {
-            furnitureDecorateModel.DecorateFurniture(selectFurniture.Value);
+            // todo : smallObjectId를 UI를 통해 입력받기
+            int smallObjectEntityId = 1;
+
+            // todo : 클릭중인 가구로부터 가구의 데이터 아이디를 가져오기
+            int furnitureDataEntityId = 1;
+
+            var decorateOffset = furnitureDecorateModel.GetDecorateOffset(furnitureDataEntityId, smallObjectEntityId);
+            Debug.Log(decorateOffset);
+
+            gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurniture.Value), tileBase);
+            gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurniture.Value), decorateOffset);
         };
     }
 }

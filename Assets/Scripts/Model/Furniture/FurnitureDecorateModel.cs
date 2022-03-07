@@ -1,11 +1,14 @@
+using DataBase;
 using UnityEngine;
+using System.Linq;
 
 public class FurnitureDecorateModel : BaseModel<FurnitureDecorateModel>
 {
-    public void DecorateFurniture(int furnitureId)
-    {
-        Debug.Log($"{furnitureId}의 데코");
 
-        // todo : 마스터 데이터에서 가구를 특정해서 데코레이트 위치에 꾸밀 아이템을 배치
+    public Vector3 GetDecorateOffset(int furnitureId, int smallObjectId)
+    {
+        var furnitureData = MasterDataHolder.FurnitureDatabase.First(x=>x.id == furnitureId);
+        var decorateInfo = furnitureData.decorateInfos.First(x=>x.smallObjectId == smallObjectId);
+        return decorateInfo.offset;
     }
 }

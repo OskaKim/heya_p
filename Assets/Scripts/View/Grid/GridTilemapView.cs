@@ -43,6 +43,25 @@ namespace grid
             Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, euler, Vector3.one);
             GetTilemap(type).SetTransformMatrix(pos, matrix);
         }
+        public void OffsetTile(TileMapType type, Vector3Int pos, Vector3 offset)
+        {
+            // tilemap의 매트릭스에 대한 래퍼 함수가 없어서 매트릭스를 직접 수정해야 함
+            var matrix = GetTilemap(type).GetTransformMatrix(pos);
+         
+            Quaternion rotation = Quaternion.LookRotation(
+                matrix.GetColumn(2),
+                matrix.GetColumn(1)
+            );
+
+            Vector3 scale = new Vector3(
+                matrix.GetColumn(0).magnitude,
+                matrix.GetColumn(1).magnitude,
+                matrix.GetColumn(2).magnitude
+            );
+
+            matrix = Matrix4x4.TRS(offset, rotation, scale);
+            GetTilemap(type).SetTransformMatrix(pos, matrix);
+        }
         public void ObserveOnStayTilemap(TileMapType type, Action<Vector3Int> action)
         {
             var tilemapTouchHandler = Utility.InputUtility.GetTilemapTouchHandler(GetTilemap(type));

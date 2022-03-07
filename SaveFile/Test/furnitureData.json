@@ -7,11 +7,11 @@
     ],
 
     "decorateInfos": [
-        { "id": 1, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
-        { "id": 1, "small_object_id": 2, "decorate_offset_x": 0, "decorate_offset_y": 0 },
-        { "id": 1, "small_object_id": 3, "decorate_offset_x": 0, "decorate_offset_y": 0 },
-        { "id": 2, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
-        { "id": 3, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
-        { "id": 4, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 }
+        { "id": 1, "smallObjectId": 1, "decorateOffsetX": -0.2, "decorateOffsetY": 0.4 },
+        { "id": 1, "smallObjectId": 2, "decorateOffsetX": 0, "decorateOffsetY": 0 },
+        { "id": 1, "smallObjectId": 3, "decorateOffsetX": 0, "decorateOffsetY": 0 },
+        { "id": 2, "smallObjectId": 1, "decorateOffsetX": 0, "decorateOffsetY": 0 },
+        { "id": 3, "smallObjectId": 1, "decorateOffsetX": 0, "decorateOffsetY": 0 },
+        { "id": 4, "smallObjectId": 1, "decorateOffsetX": 0, "decorateOffsetY": 0 }
     ]
 }
