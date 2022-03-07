@@ -4,5 +4,14 @@
         { "id": 2, "spritePath": "Furniture/refrigerator", "tilePath": "Furniture/refrigerator" },
         { "id": 3, "spritePath": "Furniture/tv_stand", "tilePath": "Furniture/tv_stand" },
         { "id": 4, "spritePath": "Furniture/glass_table", "tilePath": "Furniture/glass_table" }
+    ],
+
+    "decorateInfos": [
+        { "id": 1, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
+        { "id": 1, "small_object_id": 2, "decorate_offset_x": 0, "decorate_offset_y": 0 },
+        { "id": 1, "small_object_id": 3, "decorate_offset_x": 0, "decorate_offset_y": 0 },
+        { "id": 2, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
+        { "id": 3, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 },
+        { "id": 4, "small_object_id": 1, "decorate_offset_x": 0, "decorate_offset_y": 0 }
     ]
 }
