@@ -101,6 +101,7 @@ namespace grid
             furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
             {
                 gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+                gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
             };
         }
 
