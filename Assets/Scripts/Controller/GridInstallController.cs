@@ -77,7 +77,7 @@ namespace grid
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
                 var installedTile = gridTilemapView.GetTile(grid.TileMapType.Furniture, installPos.Value);
-                AttachSpriteObjectObject(installPos.Value);
+                AttachSpriteObjectObject(installFurnitureModel.SelectedFurniture.Value, installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
 
@@ -105,13 +105,13 @@ namespace grid
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
-        private void AttachSpriteObjectObject(Vector3Int installPos)
+        private void AttachSpriteObjectObject(int furnitureId, Vector3Int installPos)
         {
             var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
             var furnitureObject = new GameObject();
             furnitureObject.transform.position = tileWorldPos;
             var spriteRenderer = furnitureObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
+            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(furnitureId);
             spriteRenderer.enabled = false;
             var collider = furnitureObject.AddComponent<PolygonCollider2D>();
 
@@ -125,8 +125,8 @@ namespace grid
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left, installPos);
-            furnitureObject.name = $"{furnitureManagerObject.Id}";
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos);
+            furnitureObject.name = $"{furnitureManagerObject.Serial}";
         }
     }
 }

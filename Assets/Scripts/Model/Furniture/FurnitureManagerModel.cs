@@ -16,16 +16,18 @@ namespace grid
     // NOTE : 각 가구를 관리하기 위한 클래스
     public class FurnitureManagerObject
     {
-        private static int uniqueIdMaker = 0; // 모든 가구가 다른 id를 가지도록 하기 위해 생성자에서 id로 할당
+        private static int serialMaker = 0; // 모든 가구가 다른 Serial를 가지도록 하기 위해 생성자에서 serial로 할당
         public int Id { private set; get; }
+        public int Serial { private set; get; }
         public Collider2D Collider { private set; get; }
         public float priority { private set; get; } // y좌표와 동일
         public GameObject FurnitureManagerGameObject { private set; get; }
         public FurnitureDirectionType FurnitureDirection { set; get; }
         public Vector3Int InstallPos { private set; get; }
-        public FurnitureManagerObject(GameObject furnitureManagerGameObject, Vector3Int installPos)
+        public FurnitureManagerObject(int id, GameObject furnitureManagerGameObject, Vector3Int installPos)
         {
-            Id = uniqueIdMaker++;
+            Id = id;
+            Serial = serialMaker++;
             Collider = furnitureManagerGameObject.GetComponent<Collider2D>();
             priority = furnitureManagerGameObject.transform.position.y;
             FurnitureManagerGameObject = furnitureManagerGameObject;
@@ -80,9 +82,9 @@ namespace grid
             });
         }
 
-        public FurnitureManagerObject AddfurnitureManagerObjects(GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos)
+        public FurnitureManagerObject AddfurnitureManagerObjects(int id, GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(furnitureManagerGameObject, installPos);
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos);
             furnitureManagerObjects.Add(furnitureManagerObject);
             SetFurnitureDirection(furnitureManagerObject, furnitureDirection);
             return furnitureManagerObject;
@@ -96,12 +98,12 @@ namespace grid
         }
 
         // NOTE: 가구를 좌우 반전
-        public void ReverseFurnitureDirection(int id)
+        public void ReverseFurnitureDirection(int serial)
         {
             FurnitureManagerObject furnitureManagerObject = null;
             for (int i = 0; i < furnitureManagerObjects.Count; ++i)
             {
-                if (furnitureManagerObjects[i].Id == id)
+                if (furnitureManagerObjects[i].Serial == serial)
                 {
                     furnitureManagerObject = furnitureManagerObjects[i];
                     break;
@@ -110,7 +112,7 @@ namespace grid
 
             if (furnitureManagerObject == null)
             {
-                Debug.LogError($"id{id}의 가구를 찾지 못했습니다");
+                Debug.LogError($"id{serial}의 가구를 찾지 못했습니다");
                 return;
             }
 
@@ -119,9 +121,14 @@ namespace grid
             SetFurnitureDirection(furnitureManagerObject, direction);
         }
 
-        public Vector3Int GetInstallPos(int id)
+        public Vector3Int GetInstallPos(int serial)
         {
-            return furnitureManagerObjects.First(x=>x.Id == id).InstallPos;
+            return furnitureManagerObjects.First(x=>x.Serial == serial).InstallPos;
+        }
+
+        public int GetIdFrom(int serial)
+        {
+            return furnitureManagerObjects.First(x=>x.Serial == serial).Id;
         }
     }
 }
