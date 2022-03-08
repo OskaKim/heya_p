@@ -76,7 +76,7 @@ namespace grid
             // note : 선택 해제
             SelectedFurniture.Value = -1;
 
-            // todo : 데이터로 보존
+            // FurnitureManagerModel에서 설치된 가구를 관리함
         }
     }
 }

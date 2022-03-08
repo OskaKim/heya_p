@@ -19,7 +19,6 @@ namespace grid
             modelInfoHolder.AddModel(out installFurnitureModel);
         }
 
-        // todo : 내용이 복잡해졌기 때문에 GridInstallController같은 클래스에 모델의 인터페이스를 받아서 처리하도록 하기
         // todo : 모델의 정보를 사용하도록 하기
         private Vector3Int installPosCache;
         private List<Vector3Int> installRangeCache = new List<Vector3Int>();
@@ -78,7 +77,7 @@ namespace grid
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
                 var installedTile = gridTilemapView.GetTile(grid.TileMapType.Furniture, installPos.Value);
-                AttachSpriteObjectObject(installPos.Value);
+                AttachSpriteObjectObject(installFurnitureModel.SelectedFurniture.Value, installPos.Value);
                 installFurnitureModel.InstallFurniture();
             });
 
@@ -101,17 +100,18 @@ namespace grid
             furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
             {
                 gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+                gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
             };
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
-        private void AttachSpriteObjectObject(Vector3Int installPos)
+        private void AttachSpriteObjectObject(int furnitureId, Vector3Int installPos)
         {
             var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
             var furnitureObject = new GameObject();
             furnitureObject.transform.position = tileWorldPos;
             var spriteRenderer = furnitureObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(installFurnitureModel.SelectedFurniture.Value);
+            spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(furnitureId);
             spriteRenderer.enabled = false;
             var collider = furnitureObject.AddComponent<PolygonCollider2D>();
 
@@ -125,8 +125,8 @@ namespace grid
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureObject, FurnitureDirectionType.Left, installPos);
-            furnitureObject.name = $"{furnitureManagerObject.Id}";
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos);
+            furnitureObject.name = $"{furnitureManagerObject.Serial}";
         }
     }
 }

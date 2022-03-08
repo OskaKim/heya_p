@@ -9,6 +9,7 @@ namespace grid
         Floor,
         Furniture,
         FurniturePreview,
+        Decorate,
         Max
     }
 }

@@ -1,0 +1,7 @@
+{
+    "smallObjectDataUnits": [
+        { "id": 1, "spritePath": "Furniture/Small/cup_noodle", "tilePath": "Furniture/Small/cup_noodle" },
+        { "id": 2, "spritePath": "Furniture/Small/mug_cup(coffee)", "tilePath": "Furniture/Small/mug_cup(coffee)" },
+        { "id": 3, "spritePath": "Furniture/Small/tissue", "tilePath": "Furniture/Small/tissue" }
+    ]
+}
