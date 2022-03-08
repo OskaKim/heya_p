@@ -35,21 +35,30 @@ public class FurnitureController : BaseController
 
     protected override void SetupViews()
     {
-        furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) => {
+        furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) =>
+        {
             selectFurnitureSerial = furnitureManagerObject.Serial;
             var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
             uiFurnitureStatusView.Show(pos);
         };
-        uiFurnitureStatusView.OnClickRotateButton += () => {
+        uiFurnitureStatusView.OnClickRotateButton += () =>
+        {
             furnitureManagerModel.ReverseFurnitureDirection(selectFurnitureSerial.Value);
         };
-        uiFurnitureStatusView.OnClickDecorateButton += () => {
+        uiFurnitureStatusView.OnClickDecorateButton += () =>
+        {
             // todo : smallObjectId를 UI를 통해 입력받기
             int furnitureId = furnitureManagerModel.GetIdFrom(selectFurnitureSerial.Value);
-            var decorateOffset = furnitureDecorateModel.GetDecorateOffset(furnitureId, smallObjectId);
-
-            gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), tileBase);
-            gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), decorateOffset);
+            var decorateInfo = furnitureDecorateModel.GetDecorateInfo(furnitureId, smallObjectId);
+            if (decorateInfo.HasValue)
+            {
+                gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), tileBase);
+                gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), decorateInfo.Value.offset);
+            }
+            else
+            {
+                Debug.LogError($"furnitureId:{furnitureId}, smallObjectId:{smallObjectId}의 데코레이션 정보는 정의되지 않았습니다");
+            }
         };
     }
 }
