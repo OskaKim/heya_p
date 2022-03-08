@@ -20,6 +20,9 @@ public class FurnitureController : BaseController
     private FurnitureDecorateModel furnitureDecorateModel;
     #endregion
 
+    // 테스트를 위해 임시로 할당
+    // todo : UI에서 선택한 small object로부터 id를 취득하고, database에서 tilebase 값을 얻도록 하기.
+    [SerializeField] int smallObjectId = 1;
     [SerializeField] UnityEngine.Tilemaps.TileBase tileBase;
 
     private int? selectFurnitureSerial;
@@ -42,9 +45,8 @@ public class FurnitureController : BaseController
         };
         uiFurnitureStatusView.OnClickDecorateButton += () => {
             // todo : smallObjectId를 UI를 통해 입력받기
-            int smallObjectEntityId = 1;
             int furnitureId = furnitureManagerModel.GetIdFrom(selectFurnitureSerial.Value);
-            var decorateOffset = furnitureDecorateModel.GetDecorateOffset(furnitureId, smallObjectEntityId);
+            var decorateOffset = furnitureDecorateModel.GetDecorateOffset(furnitureId, smallObjectId);
 
             gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), tileBase);
             gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), decorateOffset);
