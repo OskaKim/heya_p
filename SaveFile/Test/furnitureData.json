@@ -1,9 +1,38 @@
 {
-    "furnitureDataUnits": [
-        { "id": 1, "spritePath": "Furniture/energy_drink_refrigerator", "tilePath": "Furniture/energy_drink_refrigerator" },
-        { "id": 2, "spritePath": "Furniture/refrigerator", "tilePath": "Furniture/refrigerator" },
-        { "id": 3, "spritePath": "Furniture/tv_stand", "tilePath": "Furniture/tv_stand" },
-        { "id": 4, "spritePath": "Furniture/glass_table", "tilePath": "Furniture/glass_table" }
+    "furnitureInfos": [{
+            "id": 1,
+            "spritePath": "Furniture/energy_drink_refrigerator",
+            "tilePath": "Furniture/energy_drink_refrigerator",
+            "installRangeTilePos": [
+                { "x": 0, "y": 0 }
+            ]
+        },
+        {
+            "id": 2,
+            "spritePath": "Furniture/refrigerator",
+            "tilePath": "Furniture/refrigerator",
+            "installRangeTilePos": [
+                { "x": 0, "y": 0 }
+            ]
+        },
+        {
+            "id": 3,
+            "spritePath": "Furniture/tv_stand",
+            "tilePath": "Furniture/tv_stand",
+            "installRangeTilePos": [
+                { "x": 0, "y": 0 },
+                { "x": 0, "y": 1 }
+            ]
+        },
+        {
+            "id": 4,
+            "spritePath": "Furniture/glass_table",
+            "tilePath": "Furniture/glass_table",
+            "installRangeTilePos": [
+                { "x": 0, "y": 0 },
+                { "x": 0, "y": 1 }
+            ]
+        }
     ],
 
     "decorateInfos": [

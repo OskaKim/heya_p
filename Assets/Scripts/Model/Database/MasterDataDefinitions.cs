@@ -12,6 +12,7 @@ namespace DataBase
         public int id;
         public Sprite sprite;
         public TileBase tile;
+        public List<Vector3Int> installRangeTilePos;
 
         public struct DecorateInfo
         {
@@ -26,6 +27,7 @@ namespace DataBase
             this.id = id;
             sprite = null;
             tile = null;
+            installRangeTilePos = new List<Vector3Int>();
             decorateInfos = new List<DecorateInfo>();
         }
     }
@@ -41,11 +43,12 @@ namespace DataBase
     public struct FurnitureDataJson
     {
         [System.Serializable]
-        public struct FurnitureDataUnit
+        public struct FurnitureInfo
         {
             public int id;
             public string spritePath;
             public string tilePath;
+            public Vector2[] installRangeTilePos;
         }
 
         [System.Serializable]
@@ -57,7 +60,7 @@ namespace DataBase
             public float decorateOffsetY;
         }
 
-        public FurnitureDataUnit[] furnitureDataUnits;
+        public FurnitureInfo[] furnitureInfos;
         public DecorateInfo[] decorateInfos;
     }
 

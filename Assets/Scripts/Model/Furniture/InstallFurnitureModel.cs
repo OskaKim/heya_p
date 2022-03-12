@@ -53,21 +53,10 @@ namespace grid
             if (SelectedFurniture.HasValue && GetFurnitureTile(SelectedFurniture.Value) != null)
             {
                 InstallPos.Value = pos;
-
-                var installRangeValue = InstallRange.Value;
-                installRangeValue.Clear();
-
-                // todo : 각 가구에 대응하는 위치를 적용 시켜야 함
-                // todo : 외부에서 각 가구의 배치시 범위를 지정
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x - 1, InstallPos.Value.y - 1, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x - 1, InstallPos.Value.y, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x - 1, InstallPos.Value.y + 1, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x, InstallPos.Value.y - 1, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x, InstallPos.Value.y, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x, InstallPos.Value.y + 1, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x + 1, InstallPos.Value.y - 1, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x + 1, InstallPos.Value.y, 0));
-                installRangeValue.Add(new Vector3Int(InstallPos.Value.x + 1, InstallPos.Value.y + 1, 0));
+                InstallRange.Value = GetFurnitureData(SelectedFurniture.Value)
+                .installRangeTilePos
+                .Select(data => new Vector3Int(InstallPos.Value.x + data.x, InstallPos.Value.y + data.y, 0))
+                .ToList();
             }
         }
 
