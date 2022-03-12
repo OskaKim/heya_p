@@ -21,7 +21,7 @@
             "tilePath": "Furniture/tv_stand",
             "installRangeTilePos": [
                 { "x": 0, "y": 0 },
-                { "x": -1, "y": 0 }
+                { "x": 0, "y": 1 }
             ]
         },
         {
@@ -30,7 +30,7 @@
             "tilePath": "Furniture/glass_table",
             "installRangeTilePos": [
                 { "x": 0, "y": 0 },
-                { "x": -1, "y": 0 }
+                { "x": 0, "y": 1 }
             ]
         }
     ],
