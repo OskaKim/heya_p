@@ -41,7 +41,7 @@ namespace DataBase
     public struct FurnitureDataJson
     {
         [System.Serializable]
-        public struct FurnitureDataUnit
+        public struct FurnitureInfo
         {
             public int id;
             public string spritePath;
@@ -57,7 +57,7 @@ namespace DataBase
             public float decorateOffsetY;
         }
 
-        public FurnitureDataUnit[] furnitureDataUnits;
+        public FurnitureInfo[] furnitureInfos;
         public DecorateInfo[] decorateInfos;
     }
 

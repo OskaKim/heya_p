@@ -12,7 +12,7 @@ namespace DataBase
             furnitureDatabase = new List<FurnitureDataEntity>();
 
             var furnitureDataJson = Utility.FileIOUtility.LoadJsonFile<FurnitureDataJson>("SaveFile/Test", "furnitureData");
-            foreach (var furnitureDataUnit in furnitureDataJson.furnitureDataUnits)
+            foreach (var furnitureDataUnit in furnitureDataJson.furnitureInfos)
             {
                 FurnitureDataEntity furnitureData = new FurnitureDataEntity(furnitureDataUnit.id);
                 furnitureData.sprite = Resources.Load<Sprite>(furnitureDataUnit.spritePath);

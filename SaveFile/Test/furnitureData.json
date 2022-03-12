@@ -1,5 +1,5 @@
 {
-    "furnitureDataUnits": [
+    "furnitureInfos": [
         { "id": 1, "spritePath": "Furniture/energy_drink_refrigerator", "tilePath": "Furniture/energy_drink_refrigerator" },
         { "id": 2, "spritePath": "Furniture/refrigerator", "tilePath": "Furniture/refrigerator" },
         { "id": 3, "spritePath": "Furniture/tv_stand", "tilePath": "Furniture/tv_stand" },
