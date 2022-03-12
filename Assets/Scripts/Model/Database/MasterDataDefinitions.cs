@@ -12,6 +12,7 @@ namespace DataBase
         public int id;
         public Sprite sprite;
         public TileBase tile;
+        public List<Vector2> installRangeTilePos;
 
         public struct DecorateInfo
         {
@@ -26,6 +27,7 @@ namespace DataBase
             this.id = id;
             sprite = null;
             tile = null;
+            installRangeTilePos = new List<Vector2>();
             decorateInfos = new List<DecorateInfo>();
         }
     }
@@ -46,6 +48,7 @@ namespace DataBase
             public int id;
             public string spritePath;
             public string tilePath;
+            public Vector2[] installRangeTilePos;
         }
 
         [System.Serializable]

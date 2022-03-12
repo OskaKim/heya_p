@@ -17,6 +17,7 @@ namespace DataBase
                 FurnitureDataEntity furnitureData = new FurnitureDataEntity(furnitureDataUnit.id);
                 furnitureData.sprite = Resources.Load<Sprite>(furnitureDataUnit.spritePath);
                 furnitureData.tile = Resources.Load<TileBase>(furnitureDataUnit.tilePath);
+                furnitureData.installRangeTilePos = furnitureDataUnit.installRangeTilePos.ToList();
 
                 furnitureDatabase.Add(furnitureData);
             }
