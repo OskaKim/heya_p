@@ -12,7 +12,7 @@ namespace DataBase
         public int id;
         public Sprite sprite;
         public TileBase tile;
-        public List<Vector2> installRangeTilePos;
+        public List<Vector3Int> installRangeTilePos;
 
         public struct DecorateInfo
         {
@@ -27,7 +27,7 @@ namespace DataBase
             this.id = id;
             sprite = null;
             tile = null;
-            installRangeTilePos = new List<Vector2>();
+            installRangeTilePos = new List<Vector3Int>();
             decorateInfos = new List<DecorateInfo>();
         }
     }
