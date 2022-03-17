@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UniRx;
 using UnityEngine.Tilemaps;
@@ -21,7 +22,7 @@ namespace grid
 
         // todo : 모델의 정보를 사용하도록 하기
         private Vector3Int installPosCache;
-        private List<Vector3Int> installRangeCache = new List<Vector3Int>();
+        private List<Vector3Int> installRestrictAreasCache = new List<Vector3Int>();
         protected override void SetupViews()
         {
             var installTileType = installFurnitureModel.GetInstallTilemapType();
@@ -39,10 +40,11 @@ namespace grid
             .Subscribe(pos =>
             {
                 // note : 이미 표시되고 있는 프리뷰 타일을 지우기
-                foreach (var installRange in installRangeCache)
+                foreach (var installRange in installRestrictAreasCache)
                 {
                     gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
                 }
+                
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
                 // note : 프리뷰 타일 그리기
@@ -52,7 +54,7 @@ namespace grid
 
                 // note : 나중에 지우기 위해 캐시
                 installPosCache = pos;
-                installRangeCache = new List<Vector3Int>(selectedFurnitureRange);
+                installRestrictAreasCache = new List<Vector3Int>(selectedFurnitureRange);
             });
 
             // note : 선택된 타일이 있고, 입력이 있으면 설치
@@ -61,14 +63,18 @@ namespace grid
             {
                 var checkInput = Input.GetMouseButtonDown(0);
                 var isExistSelectedFurniture = installFurnitureModel.ExistSelectedFurnitureTile();
+
+                // note : 이미 설치된 타일이 타일 설치 영역에 있음
+                if (furnitureManagerModel.IsInInstallRestrictArea(installRestrictAreasCache)) return false;
+                
                 return checkInput && isExistSelectedFurniture;
             })
             .Subscribe(_ =>
             {
                 // note : 이미 표시되고 있는 프리뷰 타일을 지우기
-                foreach (var installRange in installRangeCache)
+                foreach (var installRestrictArea in installRestrictAreasCache)
                 {
-                    gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
+                    gridTilemapView.SetColor(grid.TileMapType.Floor, installRestrictArea, Color.white);
                 }
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
@@ -77,7 +83,7 @@ namespace grid
                 var installPos = installFurnitureModel.InstallPos;
                 gridTilemapView.SetTile(grid.TileMapType.Furniture, installPos.Value, selectedFurniture);
                 var installedTile = gridTilemapView.GetTile(grid.TileMapType.Furniture, installPos.Value);
-                AttachSpriteObjectObject(installFurnitureModel.SelectedFurniture.Value, installPos.Value);
+                AttachSpriteObjectObject(installFurnitureModel.SelectedFurniture.Value, installPos.Value, installRestrictAreasCache);
                 installFurnitureModel.InstallFurniture();
             });
 
@@ -93,7 +99,8 @@ namespace grid
 
             uiFurnitureInstallView.IsTileExistFurnitureAlready = (Vector3Int pos) =>
             {
-                return gridTilemapView.GetTile(grid.TileMapType.Furniture, pos);
+                // note : 이미 설치된 타일이 타일 설치 영역에 있음
+                return furnitureManagerModel.IsInInstallRestrictArea(pos);
             };
 
             furnitureManagerModel.Setup();
@@ -105,7 +112,7 @@ namespace grid
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
-        private void AttachSpriteObjectObject(int furnitureId, Vector3Int installPos)
+        private void AttachSpriteObjectObject(int furnitureId, Vector3Int installPos, List<Vector3Int> installRange)
         {
             var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
             var furnitureObject = new GameObject();
@@ -125,7 +132,7 @@ namespace grid
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos, installRange);
             furnitureObject.name = $"{furnitureManagerObject.Serial}";
         }
     }
