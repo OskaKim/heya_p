@@ -12,7 +12,8 @@ namespace DataBase
         public int id;
         public Sprite sprite;
         public TileBase tile;
-        public List<Vector3Int> installRangeTilePos;
+        public List<Vector3Int> installRestrictedAreas;
+        public Vector3Int interactionPos;
 
         public struct DecorateInfo
         {
@@ -27,7 +28,8 @@ namespace DataBase
             this.id = id;
             sprite = null;
             tile = null;
-            installRangeTilePos = new List<Vector3Int>();
+            installRestrictedAreas = new List<Vector3Int>();
+            interactionPos = new Vector3Int();
             decorateInfos = new List<DecorateInfo>();
         }
     }
@@ -48,7 +50,8 @@ namespace DataBase
             public int id;
             public string spritePath;
             public string tilePath;
-            public Vector2[] installRangeTilePos;
+            public Vector2[] installRestrictedAreas;
+            public Vector2 interactionPos;
         }
 
         [System.Serializable]

@@ -49,12 +49,12 @@ namespace grid
 
                 // note : 프리뷰 타일 그리기
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
-                var selectedFurnitureRange = installFurnitureModel.InstallRange.Value;
-                uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureRange, selectedFurniture);
+                var selectedFurnitureInstallRestrictedAreas = installFurnitureModel.InstallRestrictedAreas;
+                uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
 
                 // note : 나중에 지우기 위해 캐시
                 installPosCache = pos;
-                installRestrictAreasCache = new List<Vector3Int>(selectedFurnitureRange);
+                installRestrictAreasCache = new List<Vector3Int>(selectedFurnitureInstallRestrictedAreas);
             });
 
             // note : 선택된 타일이 있고, 입력이 있으면 설치
@@ -132,7 +132,7 @@ namespace grid
                 collider.enabled = true;
             });
 
-            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos, installRange);
+            var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos);
             furnitureObject.name = $"{furnitureManagerObject.Serial}";
         }
     }
