@@ -51,6 +51,7 @@ namespace DataBase
             public string spritePath;
             public string tilePath;
             public Vector2[] installRestrictedAreas;
+            public Vector2 interactionPos;
         }
 
         [System.Serializable]
