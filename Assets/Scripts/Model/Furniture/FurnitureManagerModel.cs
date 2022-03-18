@@ -47,7 +47,7 @@ namespace grid
 
         public FurnitureManagerObject AddfurnitureManagerObjects(int id, GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos, List<Vector3Int> installRanges)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos, installRanges);
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos, installRanges, /*todo : 상호작용 위치 적용*/new Vector3Int());
             furnitureManagerObjects.Add(furnitureManagerObject);
             SetFurnitureDirection(furnitureManagerObject, furnitureDirection);
             return furnitureManagerObject;
