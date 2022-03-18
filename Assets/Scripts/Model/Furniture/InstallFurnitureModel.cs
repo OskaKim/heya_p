@@ -14,7 +14,7 @@ namespace grid
     {
         public ReactiveProperty<int> SelectedFurniture { get; private set; } = new ReactiveProperty<int>(-1);
         public ReactiveProperty<Vector3Int> InstallPos { get; private set; } = new ReactiveProperty<Vector3Int>();
-        public ReactiveProperty<List<Vector3Int>> InstallRange { get; private set; } = new ReactiveProperty<List<Vector3Int>>(new List<Vector3Int>());
+        public List<Vector3Int> InstallRestrictedAreas { get; private set; } = new List<Vector3Int>();
         public ReadOnlyCollection<FurnitureDataEntity> FurnitureDataBase
         {
             get
@@ -53,8 +53,9 @@ namespace grid
             if (SelectedFurniture.HasValue && GetFurnitureTile(SelectedFurniture.Value) != null)
             {
                 InstallPos.Value = pos;
-                InstallRange.Value = GetFurnitureData(SelectedFurniture.Value)
-                .installRangeTilePos
+
+                InstallRestrictedAreas = GetFurnitureData(SelectedFurniture.Value)
+                .installRestrictedAreas
                 .Select(data => new Vector3Int(InstallPos.Value.x + data.x, InstallPos.Value.y + data.y, 0))
                 .ToList();
             }

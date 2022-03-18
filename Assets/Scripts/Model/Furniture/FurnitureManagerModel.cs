@@ -45,9 +45,17 @@ namespace grid
             });
         }
 
-        public FurnitureManagerObject AddfurnitureManagerObjects(int id, GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos, List<Vector3Int> installRanges)
+        public FurnitureManagerObject AddfurnitureManagerObjects(int id, GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos)
         {
-            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos, installRanges, /*todo : 상호작용 위치 적용*/new Vector3Int());
+            var furnitureDataBase = DataBase.MasterDataHolder.FurnitureDatabase.FirstOrDefault(x => x.id == id);
+
+            // 데이터베이스의 위치 + 설치 기준 위치
+            var interactionPos = new Vector3Int(installPos.x + furnitureDataBase.interactionPos.x, installPos.y + furnitureDataBase.interactionPos.y, 0);
+            var installRestrictedAreas = furnitureDataBase.installRestrictedAreas
+                .Select(data => new Vector3Int(installPos.x + data.x, installPos.y + data.y, 0))
+                .ToList();
+
+            FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos, installRestrictedAreas, interactionPos);
             furnitureManagerObjects.Add(furnitureManagerObject);
             SetFurnitureDirection(furnitureManagerObject, furnitureDirection);
             return furnitureManagerObject;
