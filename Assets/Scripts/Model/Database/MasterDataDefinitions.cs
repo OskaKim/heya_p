@@ -50,7 +50,7 @@ namespace DataBase
             public int id;
             public string spritePath;
             public string tilePath;
-            public Vector2[] installRangeTilePos;
+            public Vector2[] installRestrictedAreas;
         }
 
         [System.Serializable]

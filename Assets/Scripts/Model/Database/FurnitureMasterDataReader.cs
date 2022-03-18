@@ -17,7 +17,7 @@ namespace DataBase
                 FurnitureDataEntity furnitureData = new FurnitureDataEntity(furnitureDataUnit.id);
                 furnitureData.sprite = Resources.Load<Sprite>(furnitureDataUnit.spritePath);
                 furnitureData.tile = Resources.Load<TileBase>(furnitureDataUnit.tilePath);
-                furnitureData.installRestrictedAreas = furnitureDataUnit.installRangeTilePos.Select(data => new Vector3Int((int)data.x, (int)data.y, 0)).ToList();
+                furnitureData.installRestrictedAreas = furnitureDataUnit.installRestrictedAreas.Select(data => new Vector3Int((int)data.x, (int)data.y, 0)).ToList();
 
                 // todo : 실제 데이터에서 읽어들이기
                 furnitureData.interactionPos = new Vector3Int(-1, 0, 0);
