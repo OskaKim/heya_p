@@ -48,12 +48,12 @@ public class FurnitureController : BaseController
         uiFurnitureStatusView.OnClickDecorateButton += () =>
         {
             // todo : smallObjectId를 UI를 통해 입력받기
-            int furnitureId = furnitureManagerModel.GetIdFrom(selectFurnitureSerial.Value);
+            int furnitureId = furnitureManagerModel.GetIdFromSerial(selectFurnitureSerial.Value);
             var decorateInfo = furnitureDecorateModel.GetDecorateInfo(furnitureId, smallObjectId);
             if (decorateInfo.HasValue)
             {
-                gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), tileBase);
-                gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPos(selectFurnitureSerial.Value), decorateInfo.Value.offset);
+                gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), tileBase);
+                gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), decorateInfo.Value.offset);
             }
             else
             {

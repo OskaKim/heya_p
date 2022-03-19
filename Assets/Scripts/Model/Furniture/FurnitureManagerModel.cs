@@ -12,7 +12,13 @@ namespace grid
         private List<FurnitureManagerObject> furnitureManagerObjects = new List<FurnitureManagerObject>();
         public event Action<FurnitureManagerObject> OnClickFurniture;
         public event Action<Vector3Int, FurnitureDirectionType> OnRotateFurniture;
+
+        #region setup
         public void Setup()
+        {
+            SetupFurnitureClickDelegate();
+        }
+        private void SetupFurnitureClickDelegate()
         {
             this.UpdateAsObservable()
             .Where(_ => Input.GetMouseButtonDown(0))
@@ -44,7 +50,10 @@ namespace grid
                 }
             });
         }
+        #endregion
 
+        #region furniture manager object
+        // 가구 관리 오브젝트의 추가
         public FurnitureManagerObject AddfurnitureManagerObjects(int id, GameObject furnitureManagerGameObject, FurnitureDirectionType furnitureDirection, Vector3Int installPos)
         {
             var furnitureDataBase = DataBase.MasterDataHolder.FurnitureDatabase.FirstOrDefault(x => x.id == id);
@@ -57,13 +66,15 @@ namespace grid
 
             FurnitureManagerObject furnitureManagerObject = new FurnitureManagerObject(id, furnitureManagerGameObject, installPos, installRestrictedAreas, interactionPos);
             furnitureManagerObjects.Add(furnitureManagerObject);
-            SetFurnitureDirection(furnitureManagerObject, furnitureDirection);
+            UpdateFurnitureDirection(furnitureManagerObject, furnitureDirection);
             return furnitureManagerObject;
         }
+        #endregion
 
-        private void SetFurnitureDirection(FurnitureManagerObject furnitureManagerObject, FurnitureDirectionType furnitureDirection)
+        #region direction
+        // 가구 방향 갱신
+        private void UpdateFurnitureDirection(FurnitureManagerObject furnitureManagerObject, FurnitureDirectionType furnitureDirection)
         {
-            // todo : 설정한 방향으로 잘 설정이 안되는 버그 조사 후 대응
             furnitureManagerObject.UpdateDirection(furnitureDirection);
             OnRotateFurniture?.Invoke(furnitureManagerObject.InstallPos, furnitureManagerObject.FurnitureDirection);
         }
@@ -89,14 +100,11 @@ namespace grid
 
             var direction = furnitureManagerObject.FurnitureDirection == FurnitureDirectionType.Left ?
             FurnitureDirectionType.Right : FurnitureDirectionType.Left;
-            SetFurnitureDirection(furnitureManagerObject, direction);
+            UpdateFurnitureDirection(furnitureManagerObject, direction);
         }
+        #endregion
 
-        public Vector3Int GetInstallPos(int serial)
-        {
-            return furnitureManagerObjects.First(x => x.Serial == serial).InstallPos;
-        }
-
+        #region restrictArea
         public List<Vector3Int> GetInstallRestrictAreas(int serial)
         {
             return furnitureManagerObjects.First(x => x.Serial == serial).InstallRestrictAreas;
@@ -119,9 +127,19 @@ namespace grid
             return checkAreas.Any(x => IsInInstallRestrictArea(x));
         }
 
-        public int GetIdFrom(int serial)
+        #endregion
+
+        #region getter
+        public int GetIdFromSerial(int serial)
         {
             return furnitureManagerObjects.First(x => x.Serial == serial).Id;
         }
+
+        public Vector3Int GetInstallPosFromSerial(int serial)
+        {
+            return furnitureManagerObjects.First(x => x.Serial == serial).InstallPos;
+        }
+        #endregion
+
     }
 }

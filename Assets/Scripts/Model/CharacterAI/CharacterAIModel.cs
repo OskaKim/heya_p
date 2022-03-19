@@ -43,12 +43,12 @@ public class CharacterBehaviourParched : ICharacterBehaviour
         /// 욕구를 충족하고 행동 종료
         /// </summary>
         isFinished = false;
-
-        if (--count <= 0)
-        {
-            isFinished = true;
-            Debug.Log("욕구 충족");
-        }
+        
+        // if (--count <= 0)
+        // {
+        //     isFinished = true;
+        //     Debug.Log("욕구 충족");
+        // }
     }
 }
 
