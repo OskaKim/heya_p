@@ -44,6 +44,7 @@ public class CharacterBehaviourParched : ICharacterBehaviour
         /// </summary>
         isFinished = false;
         
+
         // if (--count <= 0)
         // {
         //     isFinished = true;

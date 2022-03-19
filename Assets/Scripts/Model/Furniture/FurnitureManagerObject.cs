@@ -9,7 +9,8 @@ namespace grid
         Right
     };
 
-    // NOTE : 각 가구를 관리하기 위한 클래스
+    // NOTE : 각 가구를 관리하기 위한 클래스.
+    // NOTE : FurnitureManagerModel을 통해 접근 가능
     public class FurnitureManagerObject
     {
         private static int serialMaker = 0; // 모든 가구가 다른 Serial를 가지도록 하기 위해 생성자에서 serial로 할당

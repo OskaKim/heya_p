@@ -130,15 +130,26 @@ namespace grid
         #endregion
 
         #region getter
+        public List<int> GetSerialsFromId(int id)
+        {
+            return furnitureManagerObjects.Where(x => x.Id == id).Select(x => x.Serial).ToList();
+        }
+
         public int GetIdFromSerial(int serial)
         {
             return furnitureManagerObjects.First(x => x.Serial == serial).Id;
+        }
+
+        public FurnitureManagerObject GetFurnitureManagerObjectFromSerial(int serial)
+        {
+            return furnitureManagerObjects.FirstOrDefault(x => x.Serial == serial);
         }
 
         public Vector3Int GetInstallPosFromSerial(int serial)
         {
             return furnitureManagerObjects.First(x => x.Serial == serial).InstallPos;
         }
+
         #endregion
 
     }
