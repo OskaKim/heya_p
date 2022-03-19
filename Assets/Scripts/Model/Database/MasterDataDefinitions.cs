@@ -14,6 +14,7 @@ namespace DataBase
         public TileBase tile;
         public List<Vector3Int> installRestrictedAreas;
         public Vector3Int interactionPos;
+        public List<string> interactions;
 
         public struct DecorateInfo
         {
@@ -31,6 +32,7 @@ namespace DataBase
             installRestrictedAreas = new List<Vector3Int>();
             interactionPos = new Vector3Int();
             decorateInfos = new List<DecorateInfo>();
+            interactions = new List<string>();
         }
     }
 
@@ -63,8 +65,15 @@ namespace DataBase
             public float decorateOffsetY;
         }
 
+        [System.Serializable]
+        public struct InteractionInfo
+        {
+            public int id;
+            public string[] interactions;
+        }
         public FurnitureInfo[] furnitureInfos;
         public DecorateInfo[] decorateInfos;
+        public InteractionInfo[] interactionInfos;
     }
 
     [System.Serializable]
