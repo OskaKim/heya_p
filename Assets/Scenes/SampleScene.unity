@@ -796,8 +796,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 683175899}
+  - component: {fileID: 683175900}
   m_Layer: 0
-  m_Name: PlayerRoot
+  m_Name: PlayerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -818,6 +819,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &683175900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683175898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0040c4d69ab2fb74498e1c10c5d79e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterGameObject: {fileID: 683175898}
 --- !u!1 &878539640
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,6 +1268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiFurnitureStatusView: {fileID: 1942011225}
   gridTilemapView: {fileID: 1741522679}
+  smallObjectId: 1
   tileBase: {fileID: 11400000, guid: 619690042595cef4f991bb127a89054a, type: 2}
 --- !u!1839735485 &1247916001 stripped
 Tilemap:
@@ -1616,7 +1631,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1711037801}
   m_HandleRect: {fileID: 1711037800}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2041,7 +2056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterAIStatusUIView: {fileID: 907239255}
-  characterGameObject: {fileID: 683175898}
+  characterView: {fileID: 683175900}
 --- !u!1 &2100911424
 GameObject:
   m_ObjectHideFlags: 0
