@@ -30,9 +30,7 @@ namespace DataBase
             {
                 var furnitureDecorateInfos = furnitureDatabase.First(x => x.id == decorateInfo.id).decorateInfos;
                 FurnitureDataEntity.DecorateInfo furnitureDecorateInfo = new FurnitureDataEntity.DecorateInfo();
-                // 그리드 상 z는 y * 4 고정. 이걸 맞춰야 출력 우선순위가 일치하게 됨.
-                float offsetZ = decorateInfo.decorateOffsetY * 4;
-                furnitureDecorateInfo.offset = new Vector3(decorateInfo.decorateOffsetX, decorateInfo.decorateOffsetY, offsetZ);
+                furnitureDecorateInfo.offset = GridUtility.GetCorrectGridWorldPosition(new Vector3(decorateInfo.decorateOffsetX, decorateInfo.decorateOffsetY, 0));
                 furnitureDecorateInfo.smallObjectId = decorateInfo.smallObjectId;
                 furnitureDecorateInfos.Add(furnitureDecorateInfo);
             }

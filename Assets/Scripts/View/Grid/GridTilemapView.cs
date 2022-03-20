@@ -12,9 +12,19 @@ namespace grid
         {
             return tilemaps[(int)type];
         }
-        public Vector3 GetTileWorldPos(TileMapType type, Vector3Int pos)
+
+        // grid위치에서 worldpos를 취득.
+        public Vector3 GetTileWorldPos(TileMapType type, Vector3Int pos, bool isCorrectRenderPrioirty)
         {
-            return GetTilemap(type).CellToWorld(pos);
+            var worldPos = GetTilemap(type).CellToWorld(pos);
+
+            // NOTE : CellToWorld로 취득되는 위치가 실제 위치와 어째서인지 차이가 있으므로 offset
+            var offset = new Vector2(0, 0.25f);
+            worldPos = new Vector3(worldPos.x + offset.x, worldPos.y + offset.y, worldPos.z);
+
+            if (!isCorrectRenderPrioirty) return worldPos;
+
+            return GridUtility.GetCorrectGridWorldPosition(worldPos);
         }
         public Color GetColor(TileMapType type, Vector3Int pos)
         {

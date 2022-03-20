@@ -114,18 +114,15 @@ namespace grid
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용
         private void AttachSpriteObjectObject(int furnitureId, Vector3Int installPos, List<Vector3Int> installRange)
         {
-            var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos);
+            var tileWorldPos = gridTilemapView.GetTileWorldPos(grid.TileMapType.Furniture, installPos, false);
             var furnitureObject = new GameObject();
             furnitureObject.transform.position = tileWorldPos;
             var spriteRenderer = furnitureObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = installFurnitureModel.GetFurnitureSprite(furnitureId);
             spriteRenderer.enabled = false;
-            var collider = furnitureObject.AddComponent<PolygonCollider2D>();
-
-            // NOTE : 타일상의 위치와 차이가 있기 때문에 보정
-            collider.offset = new Vector2(0, 0.25f);
 
             // NOTE : 유니티 엔진의 문제인지 모르겠으나, 이하처럼 콜라이더를 껏다가 다음 프레임에 활성화 하도록 해야 클릭 처리가 가능.
+            var collider = furnitureObject.AddComponent<PolygonCollider2D>();
             collider.enabled = false;
             Observable.NextFrame().Subscribe(_ =>
             {

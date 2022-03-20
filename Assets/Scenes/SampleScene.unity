@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0040c4d69ab2fb74498e1c10c5d79e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterGameObject: {fileID: 683175898}
+  characterViewObject: {fileID: 356469352170510566}
 --- !u!1 &878539640
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,6 +2056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterAIStatusUIView: {fileID: 907239255}
+  gridTilemapView: {fileID: 1741522679}
   characterView: {fileID: 683175900}
 --- !u!1 &2100911424
 GameObject:

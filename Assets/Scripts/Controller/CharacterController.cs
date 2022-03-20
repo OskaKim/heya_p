@@ -9,6 +9,7 @@ public class CharacterController : BaseController
 {
     #region view
     [SerializeField] CharacterAIStatusUIView characterAIStatusUIView;
+    [SerializeField] GridTilemapView gridTilemapView;
     #endregion
 
     #region model
@@ -33,12 +34,6 @@ public class CharacterController : BaseController
 
         timeInfoModel.OnUpdateGameTime.Subscribe(_ =>
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                // todo : ai 업데이트시 사용. 캐릭터를 이 위치로 이동 시키게하기
-                Debug.Log(getFurnitureInteractionPos("ComplaintAppetite"));
-            }
-
             characterAIModel.UpdateCharacterBehaviour();
         });
     }
@@ -54,6 +49,14 @@ public class CharacterController : BaseController
         {
             return characterView.GetCharacterUIPosition();
         };
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.F)) {
+            // todo : ai 업데이트시 사용. 캐릭터를 이 위치로 이동 시키게하기
+            var pos = gridTilemapView.GetTileWorldPos(TileMapType.Furniture, getFurnitureInteractionPos("ComplaintAppetite").Value, true);
+            characterView.UpdateCharacterPos(pos);
+        }
     }
 
     private Vector3Int? getFurnitureInteractionPos(string targetInteraction)
