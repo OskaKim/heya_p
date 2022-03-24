@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using grid;
 using timeinfo;
-using System;
 using System.Linq;
 public class CharacterController : BaseController
 {

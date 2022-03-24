@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using grid;
-using timeinfo;
-using System;
 
 public class FurnitureScrollViewController : BaseController
 {
