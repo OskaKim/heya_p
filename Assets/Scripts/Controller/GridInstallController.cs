@@ -10,7 +10,10 @@ namespace grid
     public class GridInstallController : BaseController
     {
         [SerializeField] private GridTilemapView gridTilemapView;
+        
+        // todo - 코드 정리. uiFurnitureInstallView는 내부에 이벤트 밖에 없기 때문에 View로써 불필요 할듯.
         [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
+
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
 
