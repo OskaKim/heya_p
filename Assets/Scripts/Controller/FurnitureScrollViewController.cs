@@ -16,13 +16,11 @@ public class FurnitureScrollViewController : BaseController
     private FurnitureManagerModel furnitureManagerModel;
     #endregion
 
-    protected override void SetupModels()
+    protected override void Start()
     {
         modelInfoHolder.AddModel(out installFurnitureModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
-    }
-    protected override void SetupViews()
-    {
+     
         UIFurnitureScrollViewView.Param param;
 
         param.furnitureScrollDataList = new List<UIFurnitureScrollViewView.Param.FurnitureScrollData>();

@@ -24,7 +24,7 @@ public class FurnitureController : BaseController
 
     private int? selectFurnitureSerial;
 
-    protected override void SetupModels()
+    protected override void Start()
     {
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
@@ -35,11 +35,6 @@ public class FurnitureController : BaseController
             var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
             uiFurnitureStatusView.Show(pos);
         };
-    }
-    
-
-    protected override void SetupViews()
-    {
         uiFurnitureStatusView.OnClickRotateButton += () =>
         {
             furnitureManagerModel.ReverseFurnitureDirection(selectFurnitureSerial.Value);

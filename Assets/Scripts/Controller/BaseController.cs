@@ -9,8 +9,6 @@ public abstract class BaseControllerBehaviorRapper : MonoBehaviour
 public abstract class BaseController : BaseControllerBehaviorRapper
 {
     protected static ModelInfoHolder modelInfoHolder = new ModelInfoHolder();
-    protected abstract void SetupModels();
-    protected abstract void SetupViews();
 
     // note : 객체 초기화 순서
     // Awake의 MasterDataHolder에서 데이터베이스 초기화 까지 진행
@@ -21,9 +19,5 @@ public abstract class BaseController : BaseControllerBehaviorRapper
     { }
 
     // model을 controller에 추가하고 싶을 시엔 modelInfoHolder.AddModel(out)으로 추가.
-    private void Start()
-    {
-        SetupModels();
-        SetupViews();
-    }
+    protected abstract void Start();
 }
