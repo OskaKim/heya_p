@@ -14,7 +14,12 @@ namespace timeinfo
         [SerializeField] private Text playPauseButtonText;
 
         public event Action<bool> OnPlayPauseButtonClicked;
-        private bool isPlaying = true;
+        private bool isPlaying;
+
+        private void Awake()
+        {
+            isPlaying = Definitions.DefaultInteravalTimeConfig;
+        }
 
         public void UpdateTime(DateTime updatedTime)
         {

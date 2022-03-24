@@ -8,12 +8,26 @@ namespace timeinfo
     {
         [SerializeField] private UITimeView uiTimeView;
         private TimeInfoModel timeInfoModel;
+        private bool isIntervalTime;
+        private void Awake()
+        {
+            isIntervalTime = Definitions.DefaultInteravalTimeConfig;
+        }
+        private void OnEnable()
+        {
+            uiTimeView.OnPlayPauseButtonClicked += OnUpdatePlayMode;
+        }
+        private void OnDisable()
+        {
+            uiTimeView.OnPlayPauseButtonClicked -= OnUpdatePlayMode;
+        }
 
         protected override void SetupModels()
         {
             modelInfoHolder.AddModel(out timeInfoModel);
 
             Observable.Interval(TimeSpan.FromSeconds(1))
+            .Where(_ => isIntervalTime)
             .Subscribe(_ =>
             {
                 timeInfoModel.Tick();
@@ -26,6 +40,11 @@ namespace timeinfo
             {
                 uiTimeView.UpdateTime(currentGameTime);
             });
+        }
+
+        private void OnUpdatePlayMode(bool isPlaying)
+        {
+            isIntervalTime = isPlaying;
         }
     }
 }
