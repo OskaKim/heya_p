@@ -12,9 +12,6 @@ public class FurnitureController : BaseController
     [SerializeField] GridTilemapView gridTilemapView;
     #endregion
 
-    #region controller
-    #endregion
-
     #region model
     private FurnitureManagerModel furnitureManagerModel;
     private FurnitureDecorateModel furnitureDecorateModel;
@@ -31,16 +28,18 @@ public class FurnitureController : BaseController
     {
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
-    }
 
-    protected override void SetupViews()
-    {
         furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) =>
         {
             selectFurnitureSerial = furnitureManagerObject.Serial;
             var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
             uiFurnitureStatusView.Show(pos);
         };
+    }
+    
+
+    protected override void SetupViews()
+    {
         uiFurnitureStatusView.OnClickRotateButton += () =>
         {
             furnitureManagerModel.ReverseFurnitureDirection(selectFurnitureSerial.Value);
