@@ -25,7 +25,6 @@ namespace timeinfo
         protected override void SetupModels()
         {
             modelInfoHolder.AddModel(out timeInfoModel);
-
             Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => isIntervalTime)
             .Subscribe(_ =>
@@ -40,6 +39,9 @@ namespace timeinfo
             {
                 uiTimeView.UpdateTime(currentGameTime);
             });
+
+            // 1번 Tick을 진행해두지 않으면 ui가 갱신되지 않기 때문에 미리 업데이트
+            timeInfoModel.Tick();
         }
 
         private void OnUpdatePlayMode(bool isPlaying)
