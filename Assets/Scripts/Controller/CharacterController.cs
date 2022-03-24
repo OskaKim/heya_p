@@ -19,7 +19,7 @@ public class CharacterController : BaseController
     #endregion
 
     [SerializeField] private CharacterView characterView;
-    
+
     protected override void SetupModels()
     {
         modelInfoHolder.AddModel(out characterAIModel);
