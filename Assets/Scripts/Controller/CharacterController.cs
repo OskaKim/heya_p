@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using grid;
 using timeinfo;
-using System;
 using System.Linq;
 public class CharacterController : BaseController
 {
@@ -20,7 +18,7 @@ public class CharacterController : BaseController
 
     [SerializeField] private CharacterView characterView;
 
-    protected override void SetupModels()
+    protected override void Start()
     {
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
@@ -36,10 +34,7 @@ public class CharacterController : BaseController
         {
             characterAIModel.UpdateCharacterBehaviour();
         });
-    }
 
-    protected override void SetupViews()
-    {
         characterAIModel.OnUpdateCharacterAIEmotion.Subscribe(emotionText =>
         {
             characterAIStatusUIView.UpdateAIStatusText(emotionText);
@@ -51,8 +46,10 @@ public class CharacterController : BaseController
         };
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.F)) {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
             // todo : ai 업데이트시 사용. 캐릭터를 이 위치로 이동 시키게하기
             var pos = gridTilemapView.GetTileWorldPos(TileMapType.Furniture, getFurnitureInteractionPos("ComplaintAppetite").Value, true);
             characterView.UpdateCharacterPos(pos);

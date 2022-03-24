@@ -1,5 +1,4 @@
 using DataBase;
-using UnityEngine;
 using System.Linq;
 
 public class FurnitureDecorateModel : BaseModel<FurnitureDecorateModel>

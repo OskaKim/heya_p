@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace DataBase
 {
-
-    // NOTE : 값이 정해진 static한 데이터의 집합. 참조는 모델에 한함
+    // NOTE : 게임 내에서 사용하는 static한 마스터 데이터의 집합. 초기화는 Awake단계에서 완결됨
     public class MasterDataHolder : MonoBehaviour
     {
         public static ReadOnlyCollection<FurnitureDataEntity> FurnitureDatabase { get => furnitureDatabase.AsReadOnly(); }

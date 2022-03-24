@@ -10,21 +10,22 @@ namespace grid
     public class GridInstallController : BaseController
     {
         [SerializeField] private GridTilemapView gridTilemapView;
+        
+        // todo - 코드 정리. uiFurnitureInstallView는 내부에 이벤트 밖에 없기 때문에 View로써 불필요 할듯.
         [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
+
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
-
-        protected override void SetupModels()
-        {
-            modelInfoHolder.AddModel(out furnitureManagerModel);
-            modelInfoHolder.AddModel(out installFurnitureModel);
-        }
 
         // todo : 모델의 정보를 사용하도록 하기
         private Vector3Int installPosCache;
         private List<Vector3Int> installRestrictAreasCache = new List<Vector3Int>();
-        protected override void SetupViews()
+
+        protected override void Start()
         {
+            modelInfoHolder.AddModel(out furnitureManagerModel);
+            modelInfoHolder.AddModel(out installFurnitureModel);
+
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
             // note : 타일 입력으로부터 model 타일 위치 갱신

@@ -1,18 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 using grid;
-using timeinfo;
-using System;
 
 public class FurnitureController : BaseController
 {
     #region view
     [SerializeField] UIFurnitureStatusView uiFurnitureStatusView;
     [SerializeField] GridTilemapView gridTilemapView;
-    #endregion
-
-    #region controller
     #endregion
 
     #region model
@@ -27,14 +20,11 @@ public class FurnitureController : BaseController
 
     private int? selectFurnitureSerial;
 
-    protected override void SetupModels()
+    protected override void Start()
     {
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
-    }
 
-    protected override void SetupViews()
-    {
         furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) =>
         {
             selectFurnitureSerial = furnitureManagerObject.Serial;
