@@ -9,10 +9,10 @@ namespace grid
 
     public class GridInstallController : BaseController
     {
-        [SerializeField] private GridTilemapView gridTilemapView;
+        private GridTilemapView gridTilemapView;
         
         // todo - 코드 정리. uiFurnitureInstallView는 내부에 이벤트 밖에 없기 때문에 View로써 불필요 할듯.
-        [SerializeField] private UIFurnitureInstallView uiFurnitureInstallView;
+        private UIFurnitureInstallView uiFurnitureInstallView;
 
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
@@ -23,6 +23,10 @@ namespace grid
 
         protected override void Start()
         {
+            // todo : view를 생성하고 컨트롤러에서 수명 관리
+            gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+            uiFurnitureInstallView = GameObject.FindObjectOfType<UIFurnitureInstallView>();
+
             modelInfoHolder.AddModel(out furnitureManagerModel);
             modelInfoHolder.AddModel(out installFurnitureModel);
 

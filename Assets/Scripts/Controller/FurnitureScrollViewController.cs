@@ -5,17 +5,15 @@ using grid;
 
 public class FurnitureScrollViewController : BaseController
 {
-    #region view
-    [SerializeField] private UIFurnitureScrollViewView uiFurnitureScrollViewView;
-    #endregion
-
-    #region model
+    private UIFurnitureScrollViewView uiFurnitureScrollViewView;
     private InstallFurnitureModel installFurnitureModel;
     private FurnitureManagerModel furnitureManagerModel;
-    #endregion
 
     protected override void Start()
     {
+        // todo : view를 생성하고 컨트롤러에서 수명 관리
+        uiFurnitureScrollViewView = GameObject.FindObjectOfType<UIFurnitureScrollViewView>();
+
         modelInfoHolder.AddModel(out installFurnitureModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
      

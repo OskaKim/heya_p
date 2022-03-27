@@ -3,15 +3,10 @@ using grid;
 
 public class FurnitureController : BaseController
 {
-    #region view
-    [SerializeField] UIFurnitureStatusView uiFurnitureStatusView;
-    [SerializeField] GridTilemapView gridTilemapView;
-    #endregion
-
-    #region model
+    private UIFurnitureStatusView uiFurnitureStatusView;
+    private GridTilemapView gridTilemapView;
     private FurnitureManagerModel furnitureManagerModel;
     private FurnitureDecorateModel furnitureDecorateModel;
-    #endregion
 
     // 테스트를 위해 임시로 할당
     // todo : UI에서 선택한 small object로부터 id를 취득하고, database에서 tilebase 값을 얻도록 하기.
@@ -22,6 +17,11 @@ public class FurnitureController : BaseController
 
     protected override void Start()
     {
+        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+        
+        // todo : view를 생성하고 컨트롤러에서 수명 관리
+        uiFurnitureStatusView = GameObject.FindObjectOfType<UIFurnitureStatusView>();
+
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
 
