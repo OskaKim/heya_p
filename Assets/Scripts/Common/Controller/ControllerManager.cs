@@ -5,20 +5,18 @@ using System.Linq;
 
 namespace common
 {
-    public class ControllerManager : common.Singleton<MonoBehaviour>
+    // 컨트롤러를 추가할 시 ControllerType과 manageableControllers에 새로운 컨트롤러에 대한 정의를 추가할 필요가 있다.
+    public enum ControllerType
     {
-        #region
+        Character,
+        Furniture,
+        FurnitureScroillView,
+        GridInstall,
+        TimeInfo
+    };
 
-        // 컨트롤러를 추가할 시 ControllerType과 manageableControllers에 새로운 컨트롤러에 대한 정의를 추가할 필요가 있다.
-        public enum ControllerType
-        {
-            Character,
-            Furniture,
-            FurnitureScroillView,
-            GridInstall,
-            TimeInfo
-        };
-
+    public class ControllerManager : common.Singleton<ControllerManager>
+    {
         // 관리가능한 컨트롤러 리스트.
         private Dictionary<ControllerType, Type> manageableControllers = new Dictionary<ControllerType, Type>(){
             {ControllerType.Character, typeof(CharacterController)},
@@ -27,8 +25,6 @@ namespace common
             {ControllerType.GridInstall, typeof(grid.GridInstallController)},
             {ControllerType.TimeInfo, typeof(timeinfo.TimeInfoController)},
         };
-
-        #endregion
 
         // 관리중인 컨트롤러 리스트
         // RunController시에 add되고, StopController시에 remove됨
