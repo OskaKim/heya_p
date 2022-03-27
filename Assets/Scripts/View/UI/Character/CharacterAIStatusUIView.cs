@@ -11,6 +11,12 @@ public class CharacterAIStatusUIView : MonoBehaviour
 
     public Func<Vector3> GetCharacterScreenPosition;
 
+    private void Awake()
+    {
+        var roomUI = GameObject.Find("RoomUI");
+        transform.parent = roomUI.transform;
+    }
+
     public void Update()
     {
         FollowCharacter();

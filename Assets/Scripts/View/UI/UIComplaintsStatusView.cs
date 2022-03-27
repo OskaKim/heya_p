@@ -11,6 +11,12 @@ public class UIComplaintsStatusView : MonoBehaviour
     [SerializeField] private int parchedValue;
     [SerializeField] private int poisonValue;
 
+    private void Awake()
+    {
+        var roomUI = GameObject.Find("RoomUI");
+        transform.parent = roomUI.transform;
+    }
+    
     public void Start()
     {
         UpdateUITexts();

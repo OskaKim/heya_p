@@ -18,9 +18,9 @@ public class FurnitureController : BaseController
     protected override void Start()
     {
         gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
-        
+
         // todo : view를 생성하고 컨트롤러에서 수명 관리
-        uiFurnitureStatusView = GameObject.FindObjectOfType<UIFurnitureStatusView>();
+        uiFurnitureStatusView = common.ViewManager.instance.CreateViewObject<UIFurnitureStatusView>();
 
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);

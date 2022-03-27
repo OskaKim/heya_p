@@ -17,8 +17,7 @@ namespace timeinfo
 
         protected override void Start()
         {
-            // todo : view를 생성하고 컨트롤러에서 수명 관리
-            uiTimeView = GameObject.FindObjectOfType<UITimeView>();
+            uiTimeView = common.ViewManager.instance.CreateViewObject<UITimeView>();
             modelInfoHolder.AddModel(out timeInfoModel);
 
             uiTimeView.OnPlayPauseButtonClicked += OnUpdatePlayMode;

@@ -15,10 +15,9 @@ public class CharacterController : BaseController
 
     protected override void Start()
     {
-        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
-
         // todo : view를 생성하고 컨트롤러에서 수명 관리
-        characterAIStatusUIView = GameObject.FindObjectOfType<CharacterAIStatusUIView>();
+        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+        characterAIStatusUIView = common.ViewManager.instance.CreateViewObject<CharacterAIStatusUIView>();
         characterView = GameObject.FindObjectOfType<CharacterView>();
         
         modelInfoHolder.AddModel(out characterAIModel);

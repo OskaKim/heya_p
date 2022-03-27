@@ -33,6 +33,12 @@ public class UIFurnitureScrollViewView : MonoBehaviour
     private Param param;
     private List<UIFurnitureScrollContent> furnitureScrollContentList = new List<UIFurnitureScrollContent>();
 
+    private void Awake()
+    {
+        var roomUI = GameObject.Find("RoomUI");
+        transform.parent = roomUI.transform;
+    }
+
     public void StartView(Param _param)
     {
         param = _param;
