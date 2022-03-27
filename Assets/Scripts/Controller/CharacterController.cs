@@ -5,21 +5,22 @@ using timeinfo;
 using System.Linq;
 public class CharacterController : BaseController
 {
-    #region view
-    [SerializeField] CharacterAIStatusUIView characterAIStatusUIView;
-    [SerializeField] GridTilemapView gridTilemapView;
-    #endregion
-
-    #region model
+    private CharacterAIStatusUIView characterAIStatusUIView;
+    private GridTilemapView gridTilemapView;
+    private CharacterView characterView;
     private CharacterAIModel characterAIModel;
     private FurnitureManagerModel furnitureManagerModel;
     private TimeInfoModel timeInfoModel;
-    #endregion
 
-    [SerializeField] private CharacterView characterView;
 
     protected override void Start()
     {
+        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+
+        // todo : view를 생성하고 컨트롤러에서 수명 관리
+        characterAIStatusUIView = GameObject.FindObjectOfType<CharacterAIStatusUIView>();
+        characterView = GameObject.FindObjectOfType<CharacterView>();
+        
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out timeInfoModel);
