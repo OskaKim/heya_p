@@ -1,10 +1,15 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace common
 {
     public class ControllerManager : common.Singleton<MonoBehaviour>
     {
+        #region
+
+        // 컨트롤러를 추가할 시 ControllerType과 manageableControllers에 새로운 컨트롤러에 대한 정의를 추가할 필요가 있다.
         public enum ControllerType
         {
             Character,
@@ -13,21 +18,43 @@ namespace common
             GridInstall,
             TimeInfo
         };
-        private List<BaseController> runningControllers;
-        private List<BaseController> pausedControllers;
+
+        // 관리가능한 컨트롤러 리스트.
+        private Dictionary<ControllerType, Type> manageableControllers = new Dictionary<ControllerType, Type>(){
+            {ControllerType.Character, typeof(CharacterController)},
+            {ControllerType.Furniture, typeof(FurnitureController)},
+            {ControllerType.FurnitureScroillView, typeof(FurnitureScrollViewController)},
+            {ControllerType.GridInstall, typeof(grid.GridInstallController)},
+            {ControllerType.TimeInfo, typeof(timeinfo.TimeInfoController)},
+        };
+
+        #endregion
+
+        // 관리중인 컨트롤러 리스트
+        // RunController시에 add되고, StopController시에 remove됨
+        private List<BaseController> managedControllers = new List<BaseController>();
+
+        private const string controllerObjectNameFormat = "{0}Controller";
 
         protected sealed override void Awake()
         {
-            runningControllers = new List<BaseController>();
         }
 
         public void RunController(ControllerType controllerType)
         {
-            // todo : controller실행
-            // controller에 필요한 view와 model이 없으면 생성하는 controllerCreator?같은걸 만들어야 할듯
-            // 각 view는 특정 식별자로 생성이 될 수 있어야 하므로, 모든 view는 기본적으로 prefab임을 전제로 해야함.
-            // 이를 위해서는 각 view가 디폴트로 배치되어있는 기본 오브젝트에 대한 정보를 가지고 있으야 하고, view내부에 조작하는 ui가 위치해야함
-            // 각 view가 서로 알지 못하는 상태니 별 문제는 없을듯
+            // 해당 타입의 컨트롤러용 오브젝트를 생성
+            var createdControllerObject = new GameObject(string.Format(controllerObjectNameFormat, controllerType.ToString()));
+            createdControllerObject.transform.parent = transform;
+            Type controllerClassType;
+            if (manageableControllers.TryGetValue(controllerType, out controllerClassType))
+            {
+                managedControllers.Add(createdControllerObject.AddComponent(controllerClassType) as BaseController);
+            }
+            else
+            {
+                Debug.LogError($"정의 되지 않은 컨트롤러{controllerType.ToString()}");
+                DestroyImmediate(createdControllerObject);
+            }
         }
 
         public void PauseController(ControllerType controllerType)
@@ -38,8 +65,20 @@ namespace common
 
         public void StopController(ControllerType controllerType)
         {
-            // todo : controller정지(삭제)
-            // controller삭제시 참조하던 view와 model의 참조 갯수를 -1하고, 참조 갯수가 0이 된 view와 model은 삭제
+
+            var createdControllerObject = new GameObject(string.Format(controllerObjectNameFormat, controllerType.ToString()));
+            var targetControllerObjectName = string.Format(controllerObjectNameFormat, controllerType.ToString());
+            var targetController = managedControllers
+            .FirstOrDefault(controller => controller.name == targetControllerObjectName);
+
+            if (!targetController)
+            {
+                Debug.LogError($"생성되지 않은 컨트롤러{targetControllerObjectName}");
+                return;
+            }
+
+            managedControllers.Remove(targetController);
+            Destroy(targetController);
         }
     }
 }
