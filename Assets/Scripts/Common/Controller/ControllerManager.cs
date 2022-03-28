@@ -36,6 +36,11 @@ namespace common
         {
         }
 
+        public T GetManagedController<T>() where T : BaseController
+        {
+            return managedControllers.Single(x => x.GetType() == typeof(T)) as T;
+        }
+
         public void RunController(ControllerType controllerType)
         {
             // 해당 타입의 컨트롤러용 오브젝트를 생성

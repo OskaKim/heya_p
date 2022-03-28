@@ -11,7 +11,6 @@ public class FurnitureScrollViewController : BaseController
 
     protected override void Start()
     {
-        // todo : view를 생성하고 컨트롤러에서 수명 관리
         uiFurnitureScrollViewView = common.ViewManager.instance.CreateViewObject<UIFurnitureScrollViewView>();
 
         modelInfoHolder.AddModel(out installFurnitureModel);

@@ -15,9 +15,8 @@ public class CharacterController : BaseController
 
     protected override void Start()
     {
-        // todo : 다른 컨트롤러에서 어떠한 경로로 뷰를 참조하도록 하기
-        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
-        
+        var gridInstallController = common.ControllerManager.instance.GetManagedController<GridInstallController>();
+        gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
         characterAIStatusUIView = common.ViewManager.instance.CreateViewObject<CharacterAIStatusUIView>();
         characterView = common.ViewManager.instance.CreateViewObject<CharacterView>();
         

@@ -8,8 +8,22 @@ namespace grid
 {
     public class GridInstallController : BaseController
     {
+        // 다른 컨트롤러에 공유할 필요가 있는 데이터를 build data내부에 넣음
+        // 해당 인스턴스를 하나의 컨트롤러에만 가지게 하고 싶을때 사용
+        public class BuildData
+        {
+            public GridTilemapView gridTilemapView { get; private set; }
+
+            public BuildData(GridTilemapView gridTilemapView)
+            {
+                this.gridTilemapView = gridTilemapView;
+            }
+        };
+
+        public BuildData BuildDataHolder { get; private set; }
+
         private GridTilemapView gridTilemapView;
-        
+
         private FurniturePreviewDrawService furniturePreviewDrawService;
 
         private FurnitureManagerModel furnitureManagerModel;
@@ -26,6 +40,8 @@ namespace grid
 
             modelInfoHolder.AddModel(out furnitureManagerModel);
             modelInfoHolder.AddModel(out installFurnitureModel);
+
+            BuildDataHolder = new BuildData(gridTilemapView);
 
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
@@ -46,7 +62,7 @@ namespace grid
                 {
                     gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
                 }
-                
+
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
                 // note : 프리뷰 타일 그리기
@@ -68,7 +84,7 @@ namespace grid
 
                 // note : 이미 설치된 타일이 타일 설치 영역에 있음
                 if (furnitureManagerModel.IsInInstallRestrictArea(installRestrictAreasCache)) return false;
-                
+
                 return checkInput && isExistSelectedFurniture;
             })
             .Subscribe(_ =>
