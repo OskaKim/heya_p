@@ -19,7 +19,7 @@ namespace timeinfo
         private void Awake()
         {
             var roomUI = GameObject.Find("RoomUI");
-            transform.parent = roomUI.transform;
+            transform.SetParent(roomUI.transform);
 
             isPlaying = Definitions.DefaultInteravalTimeConfig;
         }

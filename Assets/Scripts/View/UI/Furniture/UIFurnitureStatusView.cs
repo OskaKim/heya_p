@@ -13,7 +13,7 @@ public class UIFurnitureStatusView : MonoBehaviour
         Hide();
 
         var roomUI = GameObject.Find("RoomUI");
-        transform.parent = roomUI.transform;
+        transform.SetParent(roomUI.transform);
     }
 
     public void Show(Vector3 position)

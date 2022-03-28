@@ -14,9 +14,9 @@ public class UIComplaintsStatusView : MonoBehaviour
     private void Awake()
     {
         var roomUI = GameObject.Find("RoomUI");
-        transform.parent = roomUI.transform;
+        transform.SetParent(roomUI.transform);
     }
-    
+
     public void Start()
     {
         UpdateUITexts();

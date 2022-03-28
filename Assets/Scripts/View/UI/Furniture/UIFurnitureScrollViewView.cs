@@ -36,7 +36,7 @@ public class UIFurnitureScrollViewView : MonoBehaviour
     private void Awake()
     {
         var roomUI = GameObject.Find("RoomUI");
-        transform.parent = roomUI.transform;
+        transform.SetParent(roomUI.transform);
     }
 
     public void StartView(Param _param)
