@@ -3,7 +3,7 @@ using UniRx;
 using grid;
 using timeinfo;
 using System.Linq;
-public class CharacterController : BaseController
+public class CharacterGridController : BaseController
 {
     private CharacterAIStatusUIView characterAIStatusUIView;
     private GridTilemapView gridTilemapView;
