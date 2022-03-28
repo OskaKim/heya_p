@@ -23,8 +23,8 @@ namespace grid
 
         protected override void Start()
         {
-            // todo : view를 생성하고 컨트롤러에서 수명 관리
-            gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+            gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
+            // todo : 삭제
             uiFurnitureInstallView = GameObject.FindObjectOfType<UIFurnitureInstallView>();
 
             modelInfoHolder.AddModel(out furnitureManagerModel);

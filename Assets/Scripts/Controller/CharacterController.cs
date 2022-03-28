@@ -15,10 +15,11 @@ public class CharacterController : BaseController
 
     protected override void Start()
     {
-        // todo : view를 생성하고 컨트롤러에서 수명 관리
+        // todo : 다른 컨트롤러에서 어떠한 경로로 뷰를 참조하도록 하기
         gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+        
         characterAIStatusUIView = common.ViewManager.instance.CreateViewObject<CharacterAIStatusUIView>();
-        characterView = GameObject.FindObjectOfType<CharacterView>();
+        characterView = common.ViewManager.instance.CreateViewObject<CharacterView>();
         
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);

@@ -13,7 +13,9 @@ namespace common
             {typeof(CharacterAIStatusUIView), "Prefabs/Views/CharacterAIStatusUiView"},
             {typeof(UIComplaintsStatusView), "Prefabs/Views/UIComplaintsStatusView"},
             {typeof(UIConditionStatusView), "Prefabs/Views/UIConditionStatusView"},
-            {typeof(UIFurnitureStatusView), "Prefabs/Views/UIFurnitureStatusView"}
+            {typeof(UIFurnitureStatusView), "Prefabs/Views/UIFurnitureStatusView"},
+            {typeof(grid.GridTilemapView), "Prefabs/Views/GridTilemapView"},
+            {typeof(CharacterView), "Prefabs/Views/Characterview"},
         };
 
         public T CreateViewObject<T>() where T : UnityEngine.Component
