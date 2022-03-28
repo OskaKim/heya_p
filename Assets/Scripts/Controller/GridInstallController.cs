@@ -6,13 +6,11 @@ using UnityEngine.Tilemaps;
 
 namespace grid
 {
-
     public class GridInstallController : BaseController
     {
         private GridTilemapView gridTilemapView;
         
-        // todo - 코드 정리. uiFurnitureInstallView는 내부에 이벤트 밖에 없기 때문에 View로써 불필요 할듯.
-        private UIFurnitureInstallView uiFurnitureInstallView;
+        private FurniturePreviewDrawService furniturePreviewDrawService;
 
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
@@ -24,8 +22,7 @@ namespace grid
         protected override void Start()
         {
             gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
-            // todo : 삭제
-            uiFurnitureInstallView = GameObject.FindObjectOfType<UIFurnitureInstallView>();
+            furniturePreviewDrawService = new FurniturePreviewDrawService();
 
             modelInfoHolder.AddModel(out furnitureManagerModel);
             modelInfoHolder.AddModel(out installFurnitureModel);
@@ -55,7 +52,7 @@ namespace grid
                 // note : 프리뷰 타일 그리기
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var selectedFurnitureInstallRestrictedAreas = installFurnitureModel.InstallRestrictedAreas;
-                uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
+                furniturePreviewDrawService.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
 
                 // note : 나중에 지우기 위해 캐시
                 installPosCache = pos;
@@ -92,17 +89,17 @@ namespace grid
                 installFurnitureModel.InstallFurniture();
             });
 
-            uiFurnitureInstallView.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
+            furniturePreviewDrawService.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
             {
                 gridTilemapView.SetColor(type, pos, color);
             };
 
-            uiFurnitureInstallView.OnChangeTiemapTile = (TileMapType type, Vector3Int pos, TileBase tile) =>
+            furniturePreviewDrawService.OnChangeTiemapTile = (TileMapType type, Vector3Int pos, TileBase tile) =>
             {
                 gridTilemapView.SetTile(type, pos, tile);
             };
 
-            uiFurnitureInstallView.IsTileExistFurnitureAlready = (Vector3Int pos) =>
+            furniturePreviewDrawService.IsTileExistFurnitureAlready = (Vector3Int pos) =>
             {
                 // note : 이미 설치된 타일이 타일 설치 영역에 있음
                 return furnitureManagerModel.IsInInstallRestrictArea(pos);

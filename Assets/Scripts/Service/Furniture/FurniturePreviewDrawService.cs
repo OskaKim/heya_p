@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
 
-public class UIFurnitureInstallView : MonoBehaviour
+public class FurniturePreviewDrawService
 {
     public Action<grid.TileMapType, Vector3Int, Color> OnChangeTilemapColor;
     public Action<grid.TileMapType, Vector3Int, TileBase> OnChangeTiemapTile;
