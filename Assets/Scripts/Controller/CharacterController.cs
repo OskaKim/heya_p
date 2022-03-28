@@ -12,16 +12,30 @@ public class CharacterController : BaseController
     private FurnitureManagerModel furnitureManagerModel;
     private TimeInfoModel timeInfoModel;
 
-    private void Awake()
+    protected override void OnInitialize()
     {
-        var gridInstallController = common.ControllerManager.instance.GetManagedController<GridInstallController>();
+        var controllerManager = common.ControllerManager.instance;
+        var viewManager = common.ViewManager.instance;
+
+        var gridInstallController = controllerManager.GetManagedController<GridInstallController>();
+        
         gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
-        characterAIStatusUIView = common.ViewManager.instance.CreateViewObject<CharacterAIStatusUIView>();
-        characterView = common.ViewManager.instance.CreateViewObject<CharacterView>();
+        characterAIStatusUIView = viewManager.CreateViewObject<CharacterAIStatusUIView>();
+        characterView = viewManager.CreateViewObject<CharacterView>();
 
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out timeInfoModel);
+        
+    }
+
+    protected override void OnFinalize()
+    {
+        // todo : view의 삭제(예약)
+        // HogeView.FinalizeView();
+        
+        // todo : model의 삭제(참조 카운트 -1)
+        // modelInfoHolder.RemoveModel(hogeModel)
     }
 
     private void Start()

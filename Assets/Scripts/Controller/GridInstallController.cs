@@ -33,7 +33,7 @@ namespace grid
         private Vector3Int installPosCache;
         private List<Vector3Int> installRestrictAreasCache = new List<Vector3Int>();
 
-        private void Awake()
+        protected override void OnInitialize()
         {
             gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
             furniturePreviewDrawService = new FurniturePreviewDrawService();
@@ -43,6 +43,16 @@ namespace grid
 
             BuildDataHolder = new BuildData(gridTilemapView);
         }
+
+        protected override void OnFinalize()
+        {
+            // todo : view의 삭제(예약)
+            // HogeView.FinalizeView();
+
+            // todo : model의 삭제(참조 카운트 -1)
+            // modelInfoHolder.RemoveModel(hogeModel)
+        }
+        
         private void OnEnable()
         {
             furnitureManagerModel.OnRotateFurniture += OnRotateFurniture;

@@ -9,12 +9,21 @@ public class FurnitureScrollViewController : BaseController
     private InstallFurnitureModel installFurnitureModel;
     private FurnitureManagerModel furnitureManagerModel;
 
-    private void Awake()
+    protected override void OnInitialize()
     {
         uiFurnitureScrollViewView = common.ViewManager.instance.CreateViewObject<UIFurnitureScrollViewView>();
 
         modelInfoHolder.AddModel(out installFurnitureModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
+    }
+
+    protected override void OnFinalize()
+    {
+        // todo : view의 삭제(예약)
+        // HogeView.FinalizeView();
+        
+        // todo : model의 삭제(참조 카운트 -1)
+        // modelInfoHolder.RemoveModel(hogeModel)
     }
 
     private void Start()

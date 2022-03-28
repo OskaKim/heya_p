@@ -15,7 +15,7 @@ public class FurnitureController : BaseController
 
     private int? selectFurnitureSerial;
 
-    private void Awake()
+    protected override void OnInitialize()
     {
         var gridInstallController = common.ControllerManager.instance.GetManagedController<GridInstallController>();
         gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
@@ -24,6 +24,16 @@ public class FurnitureController : BaseController
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
     }
+
+    protected override void OnFinalize()
+    {
+        // todo : view의 삭제(예약)
+        // HogeView.FinalizeView();
+        
+        // todo : model의 삭제(참조 카운트 -1)
+        // modelInfoHolder.RemoveModel(hogeModel)
+    }
+
     private void OnEnable()
     {
         furnitureManagerModel.OnClickFurniture += OnClickFurniture;
