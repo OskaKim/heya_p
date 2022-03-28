@@ -3,7 +3,7 @@ using UniRx;
 using grid;
 using timeinfo;
 using System.Linq;
-public class CharacterController : BaseController
+public class CharacterGridController : BaseController
 {
     private CharacterAIStatusUIView characterAIStatusUIView;
     private GridTilemapView gridTilemapView;
@@ -12,19 +12,34 @@ public class CharacterController : BaseController
     private FurnitureManagerModel furnitureManagerModel;
     private TimeInfoModel timeInfoModel;
 
-
-    protected override void Start()
+    protected override void OnInitialize()
     {
-        gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
+        var controllerManager = common.ControllerManager.instance;
+        var viewManager = common.ViewManager.instance;
 
-        // todo : view를 생성하고 컨트롤러에서 수명 관리
-        characterAIStatusUIView = GameObject.FindObjectOfType<CharacterAIStatusUIView>();
-        characterView = GameObject.FindObjectOfType<CharacterView>();
+        var gridInstallController = controllerManager.GetManagedController<GridInstallController>();
         
+        gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
+        characterAIStatusUIView = viewManager.CreateViewObject<CharacterAIStatusUIView>();
+        characterView = viewManager.CreateViewObject<CharacterView>();
+
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out timeInfoModel);
+        
+    }
 
+    protected override void OnFinalize()
+    {
+        // todo : view의 삭제(예약)
+        // HogeView.FinalizeView();
+        
+        // todo : model의 삭제(참조 카운트 -1)
+        // modelInfoHolder.RemoveModel(hogeModel)
+    }
+
+    private void Start()
+    {
         // todo : 임시로 상태 추가. 배고픔, 목마름
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Parched);

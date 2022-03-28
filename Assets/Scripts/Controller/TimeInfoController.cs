@@ -9,19 +9,34 @@ namespace timeinfo
         private UITimeView uiTimeView;
         private TimeInfoModel timeInfoModel;
         private bool isIntervalTime;
-        
-        // private void OnDisable()
-        // {
-        //     uiTimeView.OnPlayPauseButtonClicked -= OnUpdatePlayMode;
-        // }
 
-        protected override void Start()
+        protected override void OnInitialize()
         {
-            // todo : view를 생성하고 컨트롤러에서 수명 관리
-            uiTimeView = GameObject.FindObjectOfType<UITimeView>();
+            uiTimeView = common.ViewManager.instance.CreateViewObject<UITimeView>();
             modelInfoHolder.AddModel(out timeInfoModel);
+        }
 
+        protected override void OnFinalize()
+        {
+            // todo : view의 삭제(예약)
+            // HogeView.FinalizeView();
+
+            // todo : model의 삭제(참조 카운트 -1)
+            // modelInfoHolder.RemoveModel(hogeModel)
+        }
+
+        private void OnEnable()
+        {
             uiTimeView.OnPlayPauseButtonClicked += OnUpdatePlayMode;
+        }
+
+        private void OnDisable()
+        {
+            uiTimeView.OnPlayPauseButtonClicked -= OnUpdatePlayMode;
+        }
+
+        private void Start()
+        {
             isIntervalTime = Definitions.DefaultInteravalTimeConfig;
 
             Observable.Interval(TimeSpan.FromSeconds(1))

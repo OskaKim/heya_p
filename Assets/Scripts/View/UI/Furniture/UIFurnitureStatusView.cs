@@ -8,8 +8,12 @@ public class UIFurnitureStatusView : MonoBehaviour
     [SerializeField] private GameObject uiStatusTopObject;
     public event Action OnClickRotateButton;
     public event Action OnClickDecorateButton;
-    private void Awake() {
-        Hide();    
+    private void Awake()
+    {
+        Hide();
+
+        var roomUI = GameObject.Find("RoomUI");
+        transform.SetParent(roomUI.transform);
     }
 
     public void Show(Vector3 position)

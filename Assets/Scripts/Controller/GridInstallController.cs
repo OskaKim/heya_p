@@ -6,13 +6,25 @@ using UnityEngine.Tilemaps;
 
 namespace grid
 {
-
     public class GridInstallController : BaseController
     {
+        // 다른 컨트롤러에 공유할 필요가 있는 데이터를 build data내부에 넣음
+        // 해당 인스턴스를 하나의 컨트롤러에만 가지게 하고 싶을때 사용
+        public class BuildData
+        {
+            public GridTilemapView gridTilemapView { get; private set; }
+
+            public BuildData(GridTilemapView gridTilemapView)
+            {
+                this.gridTilemapView = gridTilemapView;
+            }
+        };
+
+        public BuildData BuildDataHolder { get; private set; }
+
         private GridTilemapView gridTilemapView;
-        
-        // todo - 코드 정리. uiFurnitureInstallView는 내부에 이벤트 밖에 없기 때문에 View로써 불필요 할듯.
-        private UIFurnitureInstallView uiFurnitureInstallView;
+
+        private FurniturePreviewDrawService furniturePreviewDrawService;
 
         private FurnitureManagerModel furnitureManagerModel;
         private InstallFurnitureModel installFurnitureModel;
@@ -21,14 +33,36 @@ namespace grid
         private Vector3Int installPosCache;
         private List<Vector3Int> installRestrictAreasCache = new List<Vector3Int>();
 
-        protected override void Start()
+        protected override void OnInitialize()
         {
-            // todo : view를 생성하고 컨트롤러에서 수명 관리
-            gridTilemapView = GameObject.FindObjectOfType<GridTilemapView>();
-            uiFurnitureInstallView = GameObject.FindObjectOfType<UIFurnitureInstallView>();
+            gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
+            furniturePreviewDrawService = new FurniturePreviewDrawService();
 
             modelInfoHolder.AddModel(out furnitureManagerModel);
             modelInfoHolder.AddModel(out installFurnitureModel);
+
+            BuildDataHolder = new BuildData(gridTilemapView);
+        }
+
+        protected override void OnFinalize()
+        {
+            // todo : view의 삭제(예약)
+            // HogeView.FinalizeView();
+
+            // todo : model의 삭제(참조 카운트 -1)
+            // modelInfoHolder.RemoveModel(hogeModel)
+        }
+        
+        private void OnEnable()
+        {
+            furnitureManagerModel.OnRotateFurniture += OnRotateFurniture;
+        }
+        private void OnDisable()
+        {
+            furnitureManagerModel.OnRotateFurniture -= OnRotateFurniture;
+        }
+        private void Start()
+        {
 
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
@@ -49,13 +83,13 @@ namespace grid
                 {
                     gridTilemapView.SetColor(grid.TileMapType.Floor, installRange, Color.white);
                 }
-                
+
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
                 // note : 프리뷰 타일 그리기
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var selectedFurnitureInstallRestrictedAreas = installFurnitureModel.InstallRestrictedAreas;
-                uiFurnitureInstallView.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
+                furniturePreviewDrawService.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
 
                 // note : 나중에 지우기 위해 캐시
                 installPosCache = pos;
@@ -71,7 +105,7 @@ namespace grid
 
                 // note : 이미 설치된 타일이 타일 설치 영역에 있음
                 if (furnitureManagerModel.IsInInstallRestrictArea(installRestrictAreasCache)) return false;
-                
+
                 return checkInput && isExistSelectedFurniture;
             })
             .Subscribe(_ =>
@@ -92,28 +126,29 @@ namespace grid
                 installFurnitureModel.InstallFurniture();
             });
 
-            uiFurnitureInstallView.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
+            furniturePreviewDrawService.OnChangeTilemapColor = (TileMapType type, Vector3Int pos, Color color) =>
             {
                 gridTilemapView.SetColor(type, pos, color);
             };
 
-            uiFurnitureInstallView.OnChangeTiemapTile = (TileMapType type, Vector3Int pos, TileBase tile) =>
+            furniturePreviewDrawService.OnChangeTiemapTile = (TileMapType type, Vector3Int pos, TileBase tile) =>
             {
                 gridTilemapView.SetTile(type, pos, tile);
             };
 
-            uiFurnitureInstallView.IsTileExistFurnitureAlready = (Vector3Int pos) =>
+            furniturePreviewDrawService.IsTileExistFurnitureAlready = (Vector3Int pos) =>
             {
                 // note : 이미 설치된 타일이 타일 설치 영역에 있음
                 return furnitureManagerModel.IsInInstallRestrictArea(pos);
             };
 
             furnitureManagerModel.Setup();
-            furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
-            {
-                gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
-                gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
-            };
+        }
+
+        private void OnRotateFurniture(Vector3Int pos, FurnitureDirectionType furnitureDirection)
+        {
+            gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+            gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용

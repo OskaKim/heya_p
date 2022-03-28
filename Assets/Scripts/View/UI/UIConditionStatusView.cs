@@ -9,6 +9,12 @@ public class UIConditionStatusView : MonoBehaviour
     [SerializeField] private int hp;
     [SerializeField] private int mp;
 
+    private void Awake()
+    {
+        var roomUI = GameObject.Find("RoomUI");
+        transform.SetParent(roomUI.transform);
+    }
+
     public void Start()
     {
         UpdateConditionValues();

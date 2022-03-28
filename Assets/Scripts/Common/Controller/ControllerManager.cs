@@ -8,7 +8,7 @@ namespace common
     // 컨트롤러를 추가할 시 ControllerType과 manageableControllers에 새로운 컨트롤러에 대한 정의를 추가할 필요가 있다.
     public enum ControllerType
     {
-        Character,
+        CharacterGrid,
         Furniture,
         FurnitureScroillView,
         GridInstall,
@@ -19,7 +19,7 @@ namespace common
     {
         // 관리가능한 컨트롤러 리스트.
         private Dictionary<ControllerType, Type> manageableControllers = new Dictionary<ControllerType, Type>(){
-            {ControllerType.Character, typeof(CharacterController)},
+            {ControllerType.CharacterGrid, typeof(CharacterGridController)},
             {ControllerType.Furniture, typeof(FurnitureController)},
             {ControllerType.FurnitureScroillView, typeof(FurnitureScrollViewController)},
             {ControllerType.GridInstall, typeof(grid.GridInstallController)},
@@ -34,6 +34,11 @@ namespace common
 
         protected sealed override void Awake()
         {
+        }
+
+        public T GetManagedController<T>() where T : BaseController
+        {
+            return managedControllers.Single(x => x.GetType() == typeof(T)) as T;
         }
 
         public void RunController(ControllerType controllerType)
