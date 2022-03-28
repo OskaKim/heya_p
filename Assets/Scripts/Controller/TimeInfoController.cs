@@ -9,18 +9,25 @@ namespace timeinfo
         private UITimeView uiTimeView;
         private TimeInfoModel timeInfoModel;
         private bool isIntervalTime;
-        
-        // private void OnDisable()
-        // {
-        //     uiTimeView.OnPlayPauseButtonClicked -= OnUpdatePlayMode;
-        // }
 
-        protected override void Start()
+        private void Awake()
         {
             uiTimeView = common.ViewManager.instance.CreateViewObject<UITimeView>();
             modelInfoHolder.AddModel(out timeInfoModel);
+        }
 
+        private void OnEnable()
+        {
             uiTimeView.OnPlayPauseButtonClicked += OnUpdatePlayMode;
+        }
+
+        private void OnDisable()
+        {
+            uiTimeView.OnPlayPauseButtonClicked -= OnUpdatePlayMode;
+        }
+
+        private void Start()
+        {
             isIntervalTime = Definitions.DefaultInteravalTimeConfig;
 
             Observable.Interval(TimeSpan.FromSeconds(1))

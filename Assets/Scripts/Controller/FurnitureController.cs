@@ -15,7 +15,7 @@ public class FurnitureController : BaseController
 
     private int? selectFurnitureSerial;
 
-    protected override void Start()
+    private void Awake()
     {
         var gridInstallController = common.ControllerManager.instance.GetManagedController<GridInstallController>();
         gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
@@ -23,31 +23,44 @@ public class FurnitureController : BaseController
 
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out furnitureDecorateModel);
+    }
+    private void OnEnable()
+    {
+        furnitureManagerModel.OnClickFurniture += OnClickFurniture;
+        uiFurnitureStatusView.OnClickRotateButton += OnClickRotateButton;
+        uiFurnitureStatusView.OnClickDecorateButton += OnClickDecorateButton;
+    }
+    private void OnDisable()
+    {
+        furnitureManagerModel.OnClickFurniture -= OnClickFurniture;
+        uiFurnitureStatusView.OnClickRotateButton -= OnClickRotateButton;
+        uiFurnitureStatusView.OnClickDecorateButton -= OnClickDecorateButton;
+    }
+    private void OnClickFurniture(FurnitureManagerObject furnitureManagerObject)
+    {
+        selectFurnitureSerial = furnitureManagerObject.Serial;
+        var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
+        uiFurnitureStatusView.Show(pos);
+    }
 
-        furnitureManagerModel.OnClickFurniture += (FurnitureManagerObject furnitureManagerObject) =>
+    private void OnClickRotateButton()
+    {
+        furnitureManagerModel.ReverseFurnitureDirection(selectFurnitureSerial.Value);
+    }
+
+    private void OnClickDecorateButton()
+    {
+        // todo : smallObjectId를 UI를 통해 입력받기
+        int furnitureId = furnitureManagerModel.GetIdFromSerial(selectFurnitureSerial.Value);
+        var decorateInfo = furnitureDecorateModel.GetDecorateInfo(furnitureId, smallObjectId);
+        if (decorateInfo.HasValue)
         {
-            selectFurnitureSerial = furnitureManagerObject.Serial;
-            var pos = furnitureManagerObject.FurnitureManagerGameObject.transform.position;
-            uiFurnitureStatusView.Show(pos);
-        };
-        uiFurnitureStatusView.OnClickRotateButton += () =>
+            gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), tileBase);
+            gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), decorateInfo.Value.offset);
+        }
+        else
         {
-            furnitureManagerModel.ReverseFurnitureDirection(selectFurnitureSerial.Value);
-        };
-        uiFurnitureStatusView.OnClickDecorateButton += () =>
-        {
-            // todo : smallObjectId를 UI를 통해 입력받기
-            int furnitureId = furnitureManagerModel.GetIdFromSerial(selectFurnitureSerial.Value);
-            var decorateInfo = furnitureDecorateModel.GetDecorateInfo(furnitureId, smallObjectId);
-            if (decorateInfo.HasValue)
-            {
-                gridTilemapView.SetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), tileBase);
-                gridTilemapView.OffsetTile(TileMapType.Decorate, furnitureManagerModel.GetInstallPosFromSerial(selectFurnitureSerial.Value), decorateInfo.Value.offset);
-            }
-            else
-            {
-                Debug.LogError($"furnitureId:{furnitureId}, smallObjectId:{smallObjectId}의 데코레이션 정보는 정의되지 않았습니다");
-            }
-        };
+            Debug.LogError($"furnitureId:{furnitureId}, smallObjectId:{smallObjectId}의 데코레이션 정보는 정의되지 않았습니다");
+        }
     }
 }

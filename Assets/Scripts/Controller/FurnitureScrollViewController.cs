@@ -9,13 +9,16 @@ public class FurnitureScrollViewController : BaseController
     private InstallFurnitureModel installFurnitureModel;
     private FurnitureManagerModel furnitureManagerModel;
 
-    protected override void Start()
+    private void Awake()
     {
         uiFurnitureScrollViewView = common.ViewManager.instance.CreateViewObject<UIFurnitureScrollViewView>();
 
         modelInfoHolder.AddModel(out installFurnitureModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
+    }
 
+    private void Start()
+    {
         UIFurnitureScrollViewView.Param param;
 
         param.furnitureScrollDataList = new List<UIFurnitureScrollViewView.Param.FurnitureScrollData>();

@@ -33,7 +33,7 @@ namespace grid
         private Vector3Int installPosCache;
         private List<Vector3Int> installRestrictAreasCache = new List<Vector3Int>();
 
-        protected override void Start()
+        private void Awake()
         {
             gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
             furniturePreviewDrawService = new FurniturePreviewDrawService();
@@ -42,6 +42,17 @@ namespace grid
             modelInfoHolder.AddModel(out installFurnitureModel);
 
             BuildDataHolder = new BuildData(gridTilemapView);
+        }
+        private void OnEnable()
+        {
+            furnitureManagerModel.OnRotateFurniture += OnRotateFurniture;
+        }
+        private void OnDisable()
+        {
+            furnitureManagerModel.OnRotateFurniture -= OnRotateFurniture;
+        }
+        private void Start()
+        {
 
             var installTileType = installFurnitureModel.GetInstallTilemapType();
 
@@ -122,11 +133,12 @@ namespace grid
             };
 
             furnitureManagerModel.Setup();
-            furnitureManagerModel.OnRotateFurniture += (Vector3Int pos, FurnitureDirectionType furnitureDirection) =>
-            {
-                gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
-                gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
-            };
+        }
+
+        private void OnRotateFurniture(Vector3Int pos, FurnitureDirectionType furnitureDirection)
+        {
+            gridTilemapView.RotateTile(grid.TileMapType.Furniture, pos, furnitureDirection);
+            gridTilemapView.RotateTile(grid.TileMapType.Decorate, pos, furnitureDirection);
         }
 
         // 생성한 가구 타일의 위치에 관리용 오브젝트를 생성. 가구 클릭 판정등에 사용

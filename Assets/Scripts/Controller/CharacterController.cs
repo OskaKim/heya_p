@@ -12,18 +12,20 @@ public class CharacterController : BaseController
     private FurnitureManagerModel furnitureManagerModel;
     private TimeInfoModel timeInfoModel;
 
-
-    protected override void Start()
+    private void Awake()
     {
         var gridInstallController = common.ControllerManager.instance.GetManagedController<GridInstallController>();
         gridTilemapView = gridInstallController.BuildDataHolder.gridTilemapView;
         characterAIStatusUIView = common.ViewManager.instance.CreateViewObject<CharacterAIStatusUIView>();
         characterView = common.ViewManager.instance.CreateViewObject<CharacterView>();
-        
+
         modelInfoHolder.AddModel(out characterAIModel);
         modelInfoHolder.AddModel(out furnitureManagerModel);
         modelInfoHolder.AddModel(out timeInfoModel);
+    }
 
+    private void Start()
+    {
         // todo : 임시로 상태 추가. 배고픔, 목마름
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Appetite);
         characterAIModel.AddEssentialComplaint(CharacterAIModel.EssentialComplaintType.Parched);
