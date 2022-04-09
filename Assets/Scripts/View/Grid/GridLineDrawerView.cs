@@ -8,6 +8,7 @@ namespace grid
     {
         [SerializeField] private GameObject GridLinePrefab;
         private List<GameObject> gridLineCaches = new List<GameObject>();
+        public System.Func<int, int, Vector3> GetTileWorldPos;
         public void DrawGridLine()
         {
             // note : 맵 크기 고정치
@@ -27,7 +28,7 @@ namespace grid
                 for (int i = 0; i < gridLineCount; ++i)
                 {
                     // note : 생성
-                    var gridLine = new GameObject($"GridLine{i}");
+                    var gridLine = Instantiate(GridLinePrefab);
                     gridLine.transform.SetParent(transform);
                     gridLineCaches.Add(gridLine);
                 }
@@ -41,7 +42,15 @@ namespace grid
                 }
             }
 
-            // todo : 해당하는 타일 위치에 그리드 라인을 그리기
+            // note : 해당하는 타일 위치에 그리드 라인을 그리기
+            for (int cnt = 0, y = TileMapDefinition.TileRange.Down; y < TileMapDefinition.TileRange.Up; ++y)
+            {
+                for (int x = TileMapDefinition.TileRange.Left; x < TileMapDefinition.TileRange.Right; ++x)
+                {
+                    var pos = GetTileWorldPos(x,y);
+                    gridLineCaches[cnt++].transform.position = new Vector3(pos.x, pos.y, 100);
+                }
+            }
         }
 
         public void HideGridLine()
