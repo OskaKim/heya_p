@@ -7,20 +7,24 @@ namespace grid
     public class GridLineDrawerView : MonoBehaviour
     {
         [SerializeField] private GameObject GridLinePrefab;
-
         private List<GameObject> gridLineCaches = new List<GameObject>();
-        public void DrawGridLine(List<Vector3> targetTilePositions)
+        public void DrawGridLine()
         {
-            if (gridLineCaches.Count < targetTilePositions.Count)
+            // note : 맵 크기 고정치
+            var rangeX = TileMapDefinition.TileRange.Right - TileMapDefinition.TileRange.Left;
+            var rangeY = TileMapDefinition.TileRange.Up - TileMapDefinition.TileRange.Down;
+            var gridLineCount = rangeX * rangeY;
+
+            if (gridLineCaches.Count < gridLineCount)
             {
-                // todo : 재활용 가능한 구조로 개수
+                // todo : 맵 크기가 가변일시 재활용 가능한 구조로 개수
                 foreach (var gridLineCache in gridLineCaches)
                 {
                     GameObject.DestroyImmediate(gridLineCache);
                 }
                 gridLineCaches.Clear();
-                gridLineCaches = new List<GameObject>(targetTilePositions.Count);
-                for (int i = 0; i < targetTilePositions.Count; ++i)
+                gridLineCaches = new List<GameObject>(gridLineCount);
+                for (int i = 0; i < gridLineCount; ++i)
                 {
                     // note : 생성
                     var gridLine = new GameObject($"GridLine{i}");
