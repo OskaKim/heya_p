@@ -23,6 +23,7 @@ namespace grid
         public BuildData BuildDataHolder { get; private set; }
 
         private GridTilemapView gridTilemapView;
+        private GridLineDrawerView gridLineDrawerView;
 
         private FurniturePreviewDrawService furniturePreviewDrawService;
 
@@ -36,6 +37,7 @@ namespace grid
         protected override void OnInitialize()
         {
             gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
+            gridLineDrawerView = common.ViewManager.instance.CreateViewObject<GridLineDrawerView>();
             furniturePreviewDrawService = new FurniturePreviewDrawService();
 
             modelInfoHolder.AddModel(out furnitureManagerModel);
