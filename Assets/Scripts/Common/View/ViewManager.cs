@@ -16,6 +16,7 @@ namespace common
             {typeof(UIFurnitureStatusView), "Prefabs/Views/UIFurnitureStatusView"},
             {typeof(grid.GridTilemapView), "Prefabs/Views/GridTilemapView"},
             {typeof(CharacterView), "Prefabs/Views/Characterview"},
+            {typeof(grid.GridLineDrawerView), "Prefabs/Views/GridLineDrawerView"},
         };
 
         public T CreateViewObject<T>() where T : UnityEngine.Component

@@ -23,6 +23,7 @@ namespace grid
         public BuildData BuildDataHolder { get; private set; }
 
         private GridTilemapView gridTilemapView;
+        private GridLineDrawerView gridLineDrawerView;
 
         private FurniturePreviewDrawService furniturePreviewDrawService;
 
@@ -36,6 +37,7 @@ namespace grid
         protected override void OnInitialize()
         {
             gridTilemapView = common.ViewManager.instance.CreateViewObject<GridTilemapView>();
+            gridLineDrawerView = common.ViewManager.instance.CreateViewObject<GridLineDrawerView>();
             furniturePreviewDrawService = new FurniturePreviewDrawService();
 
             modelInfoHolder.AddModel(out furnitureManagerModel);
@@ -52,14 +54,16 @@ namespace grid
             // todo : model의 삭제(참조 카운트 -1)
             // modelInfoHolder.RemoveModel(hogeModel)
         }
-        
+
         private void OnEnable()
         {
             furnitureManagerModel.OnRotateFurniture += OnRotateFurniture;
+            gridLineDrawerView.GetTileWorldPos += getTileWorldPos;
         }
         private void OnDisable()
         {
             furnitureManagerModel.OnRotateFurniture -= OnRotateFurniture;
+            gridLineDrawerView.GetTileWorldPos -= getTileWorldPos;
         }
         private void Start()
         {
@@ -78,6 +82,10 @@ namespace grid
             .ObserveEveryValueChanged(x => x.Value)
             .Subscribe(pos =>
             {
+                // note : 선택 가구가 존재하지 않을 경우 중지
+                var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
+                if(selectedFurniture == null) return;
+
                 // note : 이미 표시되고 있는 프리뷰 타일을 지우기
                 foreach (var installRange in installRestrictAreasCache)
                 {
@@ -87,13 +95,15 @@ namespace grid
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
                 // note : 프리뷰 타일 그리기
-                var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var selectedFurnitureInstallRestrictedAreas = installFurnitureModel.InstallRestrictedAreas;
                 furniturePreviewDrawService.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
 
                 // note : 나중에 지우기 위해 캐시
                 installPosCache = pos;
                 installRestrictAreasCache = new List<Vector3Int>(selectedFurnitureInstallRestrictedAreas);
+
+                // note : 그리드 라인 그리기
+                gridLineDrawerView.DrawGridLine();
             });
 
             // note : 선택된 타일이 있고, 입력이 있으면 설치
@@ -116,6 +126,9 @@ namespace grid
                     gridTilemapView.SetColor(grid.TileMapType.Floor, installRestrictArea, Color.white);
                 }
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
+
+                // note : 그리드 라인 지우기
+                gridLineDrawerView.HideGridLine();
 
                 // note : 타일 설치
                 var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
@@ -171,6 +184,11 @@ namespace grid
 
             var furnitureManagerObject = furnitureManagerModel.AddfurnitureManagerObjects(furnitureId, furnitureObject, FurnitureDirectionType.Left, installPos);
             furnitureObject.name = $"{furnitureManagerObject.Serial}";
+        }
+
+        private Vector3 getTileWorldPos(int x, int y)
+        {
+            return gridTilemapView.GetTileWorldPos(TileMapType.Floor, new Vector3Int(x, y, 0), false);
         }
     }
 }
