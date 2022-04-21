@@ -82,6 +82,10 @@ namespace grid
             .ObserveEveryValueChanged(x => x.Value)
             .Subscribe(pos =>
             {
+                // note : 선택 가구가 존재하지 않을 경우 중지
+                var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
+                if(selectedFurniture == null) return;
+
                 // note : 이미 표시되고 있는 프리뷰 타일을 지우기
                 foreach (var installRange in installRestrictAreasCache)
                 {
@@ -91,7 +95,6 @@ namespace grid
                 gridTilemapView.SetTile(grid.TileMapType.FurniturePreview, installPosCache, null);
 
                 // note : 프리뷰 타일 그리기
-                var selectedFurniture = installFurnitureModel.GetSelectedFurnitureTile();
                 var selectedFurnitureInstallRestrictedAreas = installFurnitureModel.InstallRestrictedAreas;
                 furniturePreviewDrawService.DrawPreview(pos, selectedFurnitureInstallRestrictedAreas, selectedFurniture);
 
