@@ -9,7 +9,7 @@ namespace timeinfo
         private UITimeView uiTimeView;
         private UIScheduleView uiScheduleView;
         private TimeInfoModel timeInfoModel;
-        private bool isIntervalTime;
+        private bool isShowSchedule;
 
         protected override void OnInitialize()
         {
@@ -39,12 +39,14 @@ namespace timeinfo
 
         private void Start()
         {
-            uiScheduleView.gameObject.SetActive(false);
+            isShowSchedule = false;
+            uiScheduleView.gameObject.SetActive(isShowSchedule);
         }
 
         private void OnClickedScheduleButton()
         {
-            uiScheduleView.gameObject.SetActive(true);
+            isShowSchedule = !isShowSchedule;
+            uiScheduleView.gameObject.SetActive(isShowSchedule);
         }
     }
 }
