@@ -14,6 +14,7 @@ namespace timeinfo
         [SerializeField] private Text playPauseButtonText;
 
         public event Action<bool> OnPlayPauseButtonClicked;
+        public event Action OnClickedScheduleButtonAction;
         private bool isPlaying;
 
         private void Awake()
@@ -36,6 +37,11 @@ namespace timeinfo
             isPlaying = !isPlaying;
             playPauseButtonText.text = isPlaying ? "Play" : "Pause";
             OnPlayPauseButtonClicked?.Invoke(isPlaying);
+        }
+
+        public void OnClickedScheduleButton()
+        {
+            OnClickedScheduleButtonAction?.Invoke();
         }
     }
 }
