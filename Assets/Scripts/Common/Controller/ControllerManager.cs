@@ -12,7 +12,8 @@ namespace common
         Furniture,
         FurnitureScroillView,
         GridInstall,
-        TimeInfo
+        TimeInfo,
+        Schedule,
     };
 
     public class ControllerManager : common.Singleton<ControllerManager>
@@ -24,6 +25,7 @@ namespace common
             {ControllerType.FurnitureScroillView, typeof(FurnitureScrollViewController)},
             {ControllerType.GridInstall, typeof(grid.GridInstallController)},
             {ControllerType.TimeInfo, typeof(timeinfo.TimeInfoController)},
+            {ControllerType.Schedule, typeof(timeinfo.ScheduleController)},
         };
 
         // 관리중인 컨트롤러 리스트

@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267e9421c4cd7cf4795a35ecdc525504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startControllers: 0400000003000000010000000000000002000000
+  startControllers: 040000000300000001000000000000000200000005000000
 --- !u!4 &1171720358 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7285065732344747020, guid: f4a8f12298fe6884e8c8d4009f104d27, type: 3}
