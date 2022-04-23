@@ -7,12 +7,14 @@ namespace timeinfo
     public class ScheduleController : BaseController
     {
         private UITimeView uiTimeView;
+        private UIScheduleView uiScheduleView;
         private TimeInfoModel timeInfoModel;
         private bool isIntervalTime;
 
         protected override void OnInitialize()
         {
             uiTimeView = common.ControllerManager.instance.GetManagedController<TimeInfoController>().getUITimeView();
+            uiScheduleView = common.ViewManager.instance.CreateViewObject<UIScheduleView>();
             modelInfoHolder.AddModel(out timeInfoModel);
         }
 
@@ -37,11 +39,12 @@ namespace timeinfo
 
         private void Start()
         {
+            uiScheduleView.gameObject.SetActive(false);
         }
 
         private void OnClickedScheduleButton()
         {
-
+            uiScheduleView.gameObject.SetActive(true);
         }
     }
 }

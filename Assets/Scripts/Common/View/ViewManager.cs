@@ -17,7 +17,7 @@ namespace common
             {typeof(grid.GridTilemapView), "Prefabs/Views/GridTilemapView"},
             {typeof(CharacterView), "Prefabs/Views/Characterview"},
             {typeof(grid.GridLineDrawerView), "Prefabs/Views/GridLineDrawerView"},
-            {typeof(timeinfo.UIScheduleView), "Prefabs/Views/ScheduleView"},
+            {typeof(timeinfo.UIScheduleView), "Prefabs/Views/UIScheduleView"},
         };
 
         public T CreateViewObject<T>() where T : UnityEngine.Component
