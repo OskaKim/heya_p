@@ -10,6 +10,11 @@ namespace timeinfo
         private TimeInfoModel timeInfoModel;
         private bool isIntervalTime;
 
+        public UITimeView getUITimeView()
+        {
+            return uiTimeView;
+        }
+
         protected override void OnInitialize()
         {
             uiTimeView = common.ViewManager.instance.CreateViewObject<UITimeView>();
