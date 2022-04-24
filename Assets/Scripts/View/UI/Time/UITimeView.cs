@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System;
 using System.Globalization;
 
@@ -8,10 +7,12 @@ namespace timeinfo
 {
     public class UITimeView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text dayText;
-        [SerializeField] private TMP_Text timeText;
+        [SerializeField] private Text dayText;
+        [SerializeField] private Text timeText;
         [SerializeField] private Button playPauseButton;
-        [SerializeField] private Text playPauseButtonText;
+        [SerializeField] private Image playPauseButtonImage;
+        [SerializeField] private Sprite playPauseButtonStartImageResource;
+        [SerializeField] private Sprite playPauseButtonPauseImageResource;
 
         public event Action<bool> OnPlayPauseButtonClicked;
         public event Action OnClickedScheduleButtonAction;
@@ -35,7 +36,7 @@ namespace timeinfo
         public void OnClickedButton()
         {
             isPlaying = !isPlaying;
-            playPauseButtonText.text = isPlaying ? "Play" : "Pause";
+            playPauseButtonImage.sprite = isPlaying ? playPauseButtonStartImageResource : playPauseButtonPauseImageResource;
             OnPlayPauseButtonClicked?.Invoke(isPlaying);
         }
 
