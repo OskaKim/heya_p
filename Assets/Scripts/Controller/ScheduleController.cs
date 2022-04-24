@@ -47,6 +47,7 @@ namespace timeinfo
         {
             isShowSchedule = !isShowSchedule;
             uiScheduleView.gameObject.SetActive(isShowSchedule);
+            uiScheduleView.OpenScheduleWindow(timeInfoModel.GetHour());
         }
     }
 }
